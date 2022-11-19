@@ -1,0 +1,10 @@
+﻿{
+	"name": "Nadako.TinkState.Tests",
+	"noEngineReferences": true,
+	"references": [
+		"Nadako.TinkState"
+	],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ]
+}

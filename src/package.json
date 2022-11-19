@@ -1,0 +1,18 @@
+{
+	"name": "me.nadako.tinkstate",
+	"version": "0.0.1",
+	"displayName": "TinkStateSharp for Unity",
+	"description": "Reactive State Handling",
+	"unity": "2021.3",
+	"author": {
+		"name": "Dan Korostelev",
+		"email": "nadako@gmail.com"
+	},
+	"license": "Unlicense",
+	"keywords": [
+		"react",
+		"reactive",
+		"observable",
+		"state"
+	]
+}

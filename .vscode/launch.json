@@ -1,0 +1,16 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": ".NET Core Launch (console)",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "build",
+			"program": "${workspaceFolder}/playground/bin/Debug/net6.0/Playground.dll",
+			"args": [],
+			"cwd": "${workspaceFolder}/playground",
+			"console": "internalConsole",
+			"stopAtEntry": false
+		}
+	]
+}

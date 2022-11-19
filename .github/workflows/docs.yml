@@ -1,0 +1,27 @@
+name: Build Docs
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
+      - name: Setup DocFX
+        run: choco install docfx -y
+      - name: Build docs API metadata
+        run: docfx metadata docs/docfx.json
+      - name: Build docs
+        run: docfx build docs/docfx.json
+      - name: Publish to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs/_site
