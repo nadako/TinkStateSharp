@@ -7,11 +7,11 @@ Here's an uncomplicated library for dealing with mutable state in a nice reactiv
 
 > It is a C# port of an excellent [Haxe](https://haxe.org/) library [tink_state](https://github.com/haxetink/tink_state) by Juraj Kirchheim ([@back2dos](https://github.com/back2dos)).
 
-[Generated API documentation](https://nadako.github.io/TinkStateSharp/api/TinkState.html) is here.
+[Generated API documentation](https://nadako.github.io/TinkStateSharp/api/TinkState.html) is here. Unity users might want to check out the [respective section](#unity).
 
 ## Status
 
-**ALPHA**. Pretty much work-in-progress. Still needs lots of polishing, naming review, some performance audit, implementing some collections and writing more tests. See also TODOs in the code.
+**BETA**. Everything seems to be working and test coverage makes sure of it, but the code could use some polishing, naming review, performance audit. See also TODOs in the code.
 
 ## Description
 
@@ -175,7 +175,7 @@ playerName.Bind(name => Console.WriteLine(name), scheduler: Scheduler.Direct);
 
 NOTE: The scheduling mechanism obviously depends on the run-time environment the library is used in. And per-frame-batching requires some kind of application main loop. You should implement the `Scheduler` interface and assign an instance of the implementation to `Observable.Scheduler` at start (before doing bindings), otherwise bindings will fall back to the direct scheduler and the callbacks will be invoked synchronously on value changes.
 
-The library currently provides a single batch scheduler implementation for the Unity engine.
+The library currently provides a single batch scheduler implementation for the Unity engine. See [Unity](#unity) section for more info.
 
 ## Auto-runs
 
@@ -377,3 +377,14 @@ As you can see, the sum auto-Observable gets automatically updated when we add a
 ## Thread-safety
 
 This library is NOT thread-safe. There's no synchronization code and it uses some static fields, so beware.
+
+## Unity
+
+While the base library itself is generic and does not have any dependencies, one of the main motivations for its creation was to assist Unity developers with handling their models (and most importantly view models). So this library also integrates with Unity out-of-the-box, meaning that:
+
+ - You can easily install it via Unity's Package Manager by specifying Git URL: `https://github.com/nadako/TinkStateSharp.git?path=src`
+ - It implements [batching `Scheduler`](#binding-batching) for bindings that hooks into Unity's player loop.
+
+> TODO: at some point it will also provide extensions to simplify bindings to Unity UI/UIElements as well as binding lifetime management bound to GameObject.
+
+FYI, Unity is also the reason the project sources structure is so... different from a normal C# solution. The `src` folder is supposed to only contain source files as well as some Unity-specific definition JSONs.

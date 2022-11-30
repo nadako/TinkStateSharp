@@ -1,6 +1,6 @@
 {
 	"name": "me.nadako.tinkstate",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"displayName": "TinkStateSharp for Unity",
 	"description": "Reactive State Handling",
 	"unity": "2021.3",
