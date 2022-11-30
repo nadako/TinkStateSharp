@@ -1,0 +1,606 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class Observable
+   | TinkState </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class Observable
+   | TinkState ">
+    <meta name="generator" content="docfx 2.59.4.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="TinkState.Observable">
+  
+  
+  <h1 id="TinkState_Observable" data-uid="TinkState.Observable" class="text-break">Class Observable
+  </h1>
+  <div class="markdown level0 summary">
+Static class containing <code>Observable</code> constructor methods and references to global utilities.
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">Observable</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="TinkState.html">TinkState</a></h6>
+  <h6><strong>Assembly</strong>: TinkState.dll</h6>
+  <h5 id="TinkState_Observable_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static class Observable</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  <h4 id="TinkState_Observable_Scheduler" data-uid="TinkState.Observable.Scheduler">Scheduler</h4>
+  <div class="markdown level1 summary">
+Default scheduler used for bindings.
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Scheduler Scheduler</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TinkState.Scheduler.html">Scheduler</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TinkState_Observable_Scheduler_remarks">Remarks</h5>
+  <div class="markdown level1 remarks">
+This should be set to an environment-specific implementation before doing any bindings.
+</div>
+  <h3 id="methods">Methods
+  </h3>
+  <a id="TinkState_Observable_Auto_" data-uid="TinkState.Observable.Auto*"></a>
+  <h4 id="TinkState_Observable_Auto__1_System_Func___0__System_Collections_Generic_IEqualityComparer___0__" data-uid="TinkState.Observable.Auto``1(System.Func{``0},System.Collections.Generic.IEqualityComparer{``0})">Auto&lt;T&gt;(Func&lt;T&gt;, IEqualityComparer&lt;T&gt;)</h4>
+  <div class="markdown level1 summary">
+<p>
+Create an observable containing data computed using given <code data-dev-comment-type="paramref" class="paramref">compute</code> function.
+</p>
+<p>
+Any access to <a class="xref" href="TinkState.Observable-1.html#TinkState_Observable_1_Value">Observable.Value</a> from within <code data-dev-comment-type="paramref" class="paramref">compute</code> calls
+will be automatically tracked by this observable to recompute its value and trigger its bindings.
+</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Observable&lt;T&gt; Auto&lt;T&gt;(Func&lt;T&gt; compute, IEqualityComparer&lt;T&gt; comparer = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Func</span>&lt;T&gt;</td>
+        <td><span class="parametername">compute</span></td>
+        <td>Computation function that returns a new value for this observable.</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEqualityComparer</span>&lt;T&gt;</td>
+        <td><span class="parametername">comparer</span></td>
+        <td>
+<p>Custom comparer that will be used to determine if the value has changed.</p>
+<p>Used for triggering bindings and propagating changes to further auto-observables.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TinkState.Observable-1.html">Observable</a>&lt;T&gt;</td>
+        <td>Auto-observable providing computed values.</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td>Type of the value being managed by this observable.</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="TinkState_Observable_Auto_" data-uid="TinkState.Observable.Auto*"></a>
+  <h4 id="TinkState_Observable_Auto__1_System_Func_TinkState_AsyncComputeTask___0___" data-uid="TinkState.Observable.Auto``1(System.Func{TinkState.AsyncComputeTask{``0}})">Auto&lt;T&gt;(Func&lt;AsyncComputeTask&lt;T&gt;&gt;)</h4>
+  <div class="markdown level1 summary">
+<p>
+Create an observable containing data computed using given <code data-dev-comment-type="paramref" class="paramref">compute</code> function.
+</p>
+<p>
+The difference with the <a class="xref" href="TinkState.Observable.html#TinkState_Observable_Auto__1_System_Func___0__System_Collections_Generic_IEqualityComparer___0__">Auto&lt;T&gt;(Func&lt;T&gt;, IEqualityComparer&lt;T&gt;)</a> constructor
+is that this one takes an <code>async</code> function that does the computation asynchronously and the actual observable
+   value will be of type <a class="xref" href="TinkState.AsyncComputeResult-1.html">AsyncComputeResult&lt;T&gt;</a> representing the current status of asynchronous computation.
+</p>
+<p>
+Any access to <a class="xref" href="TinkState.Observable-1.html#TinkState_Observable_1_Value">Observable.Value</a> from within <code data-dev-comment-type="paramref" class="paramref">compute</code> calls
+will be automatically tracked by this observable to recompute its value and trigger its bindings.
+</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Observable&lt;AsyncComputeResult&lt;T&gt;&gt; Auto&lt;T&gt;(Func&lt;AsyncComputeTask&lt;T&gt;&gt; compute)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Func</span>&lt;<a class="xref" href="TinkState.AsyncComputeTask-1.html">AsyncComputeTask</a>&lt;T&gt;&gt;</td>
+        <td><span class="parametername">compute</span></td>
+        <td>Computation function that asynchronously returns a new value for this observable.</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TinkState.Observable-1.html">Observable</a>&lt;<a class="xref" href="TinkState.AsyncComputeResult-1.html">AsyncComputeResult</a>&lt;T&gt;&gt;</td>
+        <td>Auto-observable providing current results of value computation.</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td>Type of the value being managed by this observable.</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="TinkState_Observable_AutoRun_" data-uid="TinkState.Observable.AutoRun*"></a>
+  <h4 id="TinkState_Observable_AutoRun_System_Action_TinkState_Scheduler_" data-uid="TinkState.Observable.AutoRun(System.Action,TinkState.Scheduler)">AutoRun(Action, Scheduler)</h4>
+  <div class="markdown level1 summary">
+Invoke given <code data-dev-comment-type="paramref" class="paramref">action</code> and track Observable access inside it, similarly to <a class="xref" href="TinkState.Observable.html#TinkState_Observable_Auto__1_System_Func___0__System_Collections_Generic_IEqualityComparer___0__">Auto&lt;T&gt;(Func&lt;T&gt;, IEqualityComparer&lt;T&gt;)</a>
+When any of the the tracked values changes, the action is scheduled for invocation again,
+in the same way as <a class="xref" href="TinkState.Observable-1.html#TinkState_Observable_1_Bind_System_Action__0__System_Collections_Generic_IEqualityComparer__0__TinkState_Scheduler_">Bind(Action&lt;T&gt;, IEqualityComparer&lt;T&gt;, Scheduler)</a> callbacks are.
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IDisposable AutoRun(Action action, Scheduler scheduler = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td><span class="parametername">action</span></td>
+        <td>Action to be invoked immediately as well as when any of the tracked value changes.</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TinkState.Scheduler.html">Scheduler</a></td>
+        <td><span class="parametername">scheduler</span></td>
+        <td>Custom scheduler that will manage invoking the action.</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.IDisposable</span></td>
+        <td>Disposable reference to the binding for cancelling further re-invocations.</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="TinkState_Observable_Const_" data-uid="TinkState.Observable.Const*"></a>
+  <h4 id="TinkState_Observable_Const__1___0_" data-uid="TinkState.Observable.Const``1(``0)">Const&lt;T&gt;(T)</h4>
+  <div class="markdown level1 summary">
+Create a lightweight constant observable holding a value that never changes.
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Observable&lt;T&gt; Const&lt;T&gt;(T value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">T</span></td>
+        <td><span class="parametername">value</span></td>
+        <td>Value for the observable to hold.</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TinkState.Observable-1.html">Observable</a>&lt;T&gt;</td>
+        <td>Constant observable object holding given <code data-dev-comment-type="paramref" class="paramref">value</code>.</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td>Type of the value being hold by this observable.</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="TinkState_Observable_Dictionary_" data-uid="TinkState.Observable.Dictionary*"></a>
+  <h4 id="TinkState_Observable_Dictionary__2" data-uid="TinkState.Observable.Dictionary``2">Dictionary&lt;TKey, TValue&gt;()</h4>
+  <div class="markdown level1 summary">
+Create an empty observable dictionary.
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static ObservableDictionary&lt;TKey, TValue&gt; Dictionary&lt;TKey, TValue&gt;()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TinkState.ObservableDictionary-2.html">ObservableDictionary</a>&lt;TKey, TValue&gt;</td>
+        <td>New observable dictionary instance.</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TKey</span></td>
+        <td>The type of keys in the dictionary.</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TValue</span></td>
+        <td>The type of values in the dictionary.</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="TinkState_Observable_List_" data-uid="TinkState.Observable.List*"></a>
+  <h4 id="TinkState_Observable_List__1" data-uid="TinkState.Observable.List``1">List&lt;T&gt;()</h4>
+  <div class="markdown level1 summary">
+Create an empty observable list.
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static ObservableList&lt;T&gt; List&lt;T&gt;()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TinkState.ObservableList-1.html">ObservableList</a>&lt;T&gt;</td>
+        <td>New observable list instance.</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td>The type of elements in the list.</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="TinkState_Observable_List_" data-uid="TinkState.Observable.List*"></a>
+  <h4 id="TinkState_Observable_List__1_System_Collections_Generic_IEnumerable___0__" data-uid="TinkState.Observable.List``1(System.Collections.Generic.IEnumerable{``0})">List&lt;T&gt;(IEnumerable&lt;T&gt;)</h4>
+  <div class="markdown level1 summary">
+Create an observable list initialized with items from given <code data-dev-comment-type="paramref" class="paramref">initial</code> collection.
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static ObservableList&lt;T&gt; List&lt;T&gt;(IEnumerable&lt;T&gt; initial)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;T&gt;</td>
+        <td><span class="parametername">initial</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TinkState.ObservableList-1.html">ObservableList</a>&lt;T&gt;</td>
+        <td>New observable list instance.</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td>The type of elements in the list.</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="TinkState_Observable_State_" data-uid="TinkState.Observable.State*"></a>
+  <h4 id="TinkState_Observable_State__1___0_System_Collections_Generic_IEqualityComparer___0__" data-uid="TinkState.Observable.State``1(``0,System.Collections.Generic.IEqualityComparer{``0})">State&lt;T&gt;(T, IEqualityComparer&lt;T&gt;)</h4>
+  <div class="markdown level1 summary">
+Create a mutable observable containing given <code data-dev-comment-type="paramref" class="paramref">initialValue</code>.
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static State&lt;T&gt; State&lt;T&gt;(T initialValue, IEqualityComparer&lt;T&gt; comparer = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">T</span></td>
+        <td><span class="parametername">initialValue</span></td>
+        <td>Initial value for this <code>State</code> to hold.</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEqualityComparer</span>&lt;T&gt;</td>
+        <td><span class="parametername">comparer</span></td>
+        <td>
+<p>Custom comparer that will be used to determine if the value has changed.</p>
+<p>Used for triggering bindings and propagating changes to auto-observables.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TinkState.State-1.html">State</a>&lt;T&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

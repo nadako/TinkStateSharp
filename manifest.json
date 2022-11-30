@@ -1,0 +1,194 @@
+{
+  "homepages": [],
+  "source_base_path": "D:/a/TinkStateSharp/TinkStateSharp/docs",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TinkState.AsyncComputeResult-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TinkState.AsyncComputeResult-1.html",
+          "hash": "pbRk5OVvUV3/lgN1v4Jqd7u/72tFzBZhAlFlOgWHdvY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TinkState.AsyncComputeStatus.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TinkState.AsyncComputeStatus.html",
+          "hash": "Nu8QMl21kA3+Pe5LbJvDPZ2DCavp5bTUUS40qdLiPbw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TinkState.AsyncComputeTask-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TinkState.AsyncComputeTask-1.html",
+          "hash": "4aLlzaGeHXOQ0y+QT0TjWhEu8DEXBONrTLh2OGNzEjE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TinkState.Observable-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TinkState.Observable-1.html",
+          "hash": "HCrsjaeUkO8HrzrE9wUZyXKgccyaIUSnkOkyb4Vln2I="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TinkState.Observable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TinkState.Observable.html",
+          "hash": "Xfd5cRLtjeaS+WcfruCUz9jiu7Oe9SfDw6pqzwJRk7E="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TinkState.ObservableDictionary-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TinkState.ObservableDictionary-2.html",
+          "hash": "prVM6iY/aWUR0v3QNqHPME81uJ7pCLZX9rOWWnGGOTQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TinkState.ObservableList-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TinkState.ObservableList-1.html",
+          "hash": "eLOuwVvTS/BXIUrdmifyaJEgD2eNoQ9rxnEH+hA4lY4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TinkState.Schedulable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TinkState.Schedulable.html",
+          "hash": "f9QvEcImqqJrIDQKmppZp5imgIaUhe0EHAno9P0Q1zY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TinkState.Scheduler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TinkState.Scheduler.html",
+          "hash": "Es0+Dd86h8YlgaW6dOoujkELeJpxeVO9F+RpE7NGghs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TinkState.State-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TinkState.State-1.html",
+          "hash": "zGFUA2ffRTlJVdHvKu9rKGmODsBtwWcfnV7Z6O5Opd8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TinkState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TinkState.html",
+          "hash": "t6e/2tm6tH3N+vgeopLEHJIFHQ6kwpyXEdPpiM5ReIM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "iw3vxqMur0wXKvfFhZg12ThlH+35w+Z8KpUPHhSObFY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot build incrementally because last build info is missing.",
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0,
+        "full_build_reason_code": "NoAvailableBuildCache"
+      },
+      "processors": {
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 11,
+          "skipped_file_count": 0
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: last post processor info is null.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

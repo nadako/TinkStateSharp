@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Interface ObservableDictionary&lt;TKey, TValue&gt;
+   | TinkState </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Interface ObservableDictionary&lt;TKey, TValue&gt;
+   | TinkState ">
+    <meta name="generator" content="docfx 2.59.4.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="TinkState.ObservableDictionary`2">
+  
+  
+  <h1 id="TinkState_ObservableDictionary_2" data-uid="TinkState.ObservableDictionary`2" class="text-break">Interface ObservableDictionary&lt;TKey, TValue&gt;
+  </h1>
+  <div class="markdown level0 summary">
+A observable collection of key/value pairs.
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Collections.Generic.IDictionary&lt;TKey, TValue&gt;.Add(TKey, TValue)</span>
+    </div>
+    <div>
+      <span class="xref">System.Collections.Generic.IDictionary&lt;TKey, TValue&gt;.ContainsKey(TKey)</span>
+    </div>
+    <div>
+      <span class="xref">System.Collections.Generic.IDictionary&lt;TKey, TValue&gt;.Remove(TKey)</span>
+    </div>
+    <div>
+      <span class="xref">System.Collections.Generic.IDictionary&lt;TKey, TValue&gt;.TryGetValue(TKey, TValue)</span>
+    </div>
+    <div>
+      <span class="xref">System.Collections.Generic.IDictionary&lt;TKey, TValue&gt;.Item[TKey]</span>
+    </div>
+    <div>
+      <span class="xref">System.Collections.Generic.IDictionary&lt;TKey, TValue&gt;.Keys</span>
+    </div>
+    <div>
+      <span class="xref">System.Collections.Generic.IDictionary&lt;TKey, TValue&gt;.Values</span>
+    </div>
+    <div>
+      <span class="xref">System.Collections.Generic.ICollection&lt;System.Collections.Generic.KeyValuePair&lt;TKey, TValue&gt;&gt;.Add(System.Collections.Generic.KeyValuePair&lt;TKey, TValue&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Collections.Generic.ICollection&lt;System.Collections.Generic.KeyValuePair&lt;TKey, TValue&gt;&gt;.Clear()</span>
+    </div>
+    <div>
+      <span class="xref">System.Collections.Generic.ICollection&lt;System.Collections.Generic.KeyValuePair&lt;TKey, TValue&gt;&gt;.Contains(System.Collections.Generic.KeyValuePair&lt;TKey, TValue&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Collections.Generic.ICollection&lt;System.Collections.Generic.KeyValuePair&lt;TKey, TValue&gt;&gt;.CopyTo(System.Collections.Generic.KeyValuePair&lt;TKey, TValue&gt;[], System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">System.Collections.Generic.ICollection&lt;System.Collections.Generic.KeyValuePair&lt;TKey, TValue&gt;&gt;.Remove(System.Collections.Generic.KeyValuePair&lt;TKey, TValue&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">System.Collections.Generic.ICollection&lt;System.Collections.Generic.KeyValuePair&lt;TKey, TValue&gt;&gt;.Count</span>
+    </div>
+    <div>
+      <span class="xref">System.Collections.Generic.ICollection&lt;System.Collections.Generic.KeyValuePair&lt;TKey, TValue&gt;&gt;.IsReadOnly</span>
+    </div>
+    <div>
+      <span class="xref">System.Collections.Generic.IEnumerable&lt;System.Collections.Generic.KeyValuePair&lt;TKey, TValue&gt;&gt;.GetEnumerator()</span>
+    </div>
+    <div>
+      <span class="xref">System.Collections.IEnumerable.GetEnumerator()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="TinkState.html">TinkState</a></h6>
+  <h6><strong>Assembly</strong>: TinkState.dll</h6>
+  <h5 id="TinkState_ObservableDictionary_2_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public interface ObservableDictionary&lt;TKey, TValue&gt; : IDictionary&lt;TKey, TValue&gt;, ICollection&lt;KeyValuePair&lt;TKey, TValue&gt;&gt;, IEnumerable&lt;KeyValuePair&lt;TKey, TValue&gt;&gt;, IEnumerable</code></pre>
+  </div>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TKey</span></td>
+        <td>The type of keys in the dictionary.</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TValue</span></td>
+        <td>The type of values in the dictionary.</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TinkState_ObservableDictionary_2_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks">
+This is an observable wrapper around <span class="xref">System.Collections.Generic.Dictionary`2</span> that lets auto-Observables track
+any changes to the collection.
+</div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
