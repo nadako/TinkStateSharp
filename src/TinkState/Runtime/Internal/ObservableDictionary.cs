@@ -124,11 +124,9 @@ namespace TinkState.Internal
 			return entries.TryGetValue(key, out value);
 		}
 
-		static readonly NeverEqualityComparer<ObservableDictionary<TKey, TValue>> Comparer = new NeverEqualityComparer<ObservableDictionary<TKey, TValue>>();
-
 		IEqualityComparer<ObservableDictionary<TKey, TValue>> ObservableImpl<ObservableDictionary<TKey, TValue>>.GetComparer()
 		{
-			return Comparer;
+			return NeverEqualityComparer<ObservableDictionary<TKey, TValue>>.Instance;
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()

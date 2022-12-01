@@ -127,11 +127,9 @@ namespace TinkState.Internal
 			return this;
 		}
 
-		static readonly NeverEqualityComparer<ObservableList<T>> Comparer = new NeverEqualityComparer<ObservableList<T>>();
-
 		IEqualityComparer<ObservableList<T>> ObservableImpl<ObservableList<T>>.GetComparer()
 		{
-			return Comparer;
+			return NeverEqualityComparer<ObservableList<T>>.Instance;
 		}
 
 		long ObservableImpl.GetRevision()

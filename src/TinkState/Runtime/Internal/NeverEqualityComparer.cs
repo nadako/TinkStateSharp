@@ -5,6 +5,12 @@ namespace TinkState.Internal
 {
 	class NeverEqualityComparer<T> : IEqualityComparer<T>
 	{
+		public static readonly NeverEqualityComparer<T> Instance = new NeverEqualityComparer<T>();
+
+		NeverEqualityComparer()
+		{
+		}
+
 		public bool Equals(T x, T y)
 		{
 			return false;
