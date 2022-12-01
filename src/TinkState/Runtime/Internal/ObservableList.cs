@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace TinkState.Internal
 {
-	class ObservableList<T> : Dispatcher, TinkState.ObservableList<T>, ObservableImpl<ObservableList<T>>
+	class ObservableList<T> : Dispatcher, TinkState.ObservableList<T>, ObservableImpl<ObservableList<T>>, Observable<IReadOnlyList<T>>, ObservableImpl<IReadOnlyList<T>>
 	{
 		readonly List<T> entries;
 		bool valid = false;
@@ -67,6 +68,12 @@ namespace TinkState.Internal
 			entries.CopyTo(array, arrayIndex);
 		}
 
+		public Observable<IReadOnlyList<T>> Observe()
+		{
+			Calculate(); // hm, do we want a full calculate with tracking?
+			return this;
+		}
+
 		public IEnumerator<T> GetEnumerator()
 		{
 			Calculate();
@@ -110,7 +117,7 @@ namespace TinkState.Internal
 		void Calculate()
 		{
 			valid = true;
-			AutoObservable.Track(this);
+			AutoObservable.Track((ObservableImpl<ObservableList<T>>)this);
 		}
 
 		void Invalidate()
@@ -135,6 +142,23 @@ namespace TinkState.Internal
 		long ObservableImpl.GetRevision()
 		{
 			return revision;
+		}
+
+		IReadOnlyList<T> Observable<IReadOnlyList<T>>.Value => AutoObservable.Track((ObservableImpl<IReadOnlyList<T>>)this);
+
+		IDisposable Observable<IReadOnlyList<T>>.Bind(Action<IReadOnlyList<T>> callback, IEqualityComparer<IReadOnlyList<T>> comparer, Scheduler scheduler)
+		{
+			return Binding<IReadOnlyList<T>>.Create(this, callback, comparer, scheduler);
+		}
+
+		IEqualityComparer<IReadOnlyList<T>> ObservableImpl<IReadOnlyList<T>>.GetComparer()
+		{
+			return NeverEqualityComparer<IReadOnlyList<T>>.Instance;
+		}
+
+		IReadOnlyList<T> ObservableImpl<IReadOnlyList<T>>.GetValueUntracked()
+		{
+			return entries;
 		}
 	}
 }

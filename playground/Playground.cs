@@ -1,35 +1,20 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using TinkState;
 
 class Playground
 {
-    static async Task Main()
+    static void Main()
     {
-        var stateA = Observable.State("hello");
-        var stateB = Observable.State("world");
+	    var list = Observable.List(new[] { "Dan", "John", "Alex" });
+	    var obs = list.Observe();
 
-        var o = Observable.Auto(async () =>
-        {
-            Console.WriteLine("computing");
-            var a = stateA.Value;
-            await Task.Delay(1000);
-            var b = stateB.Value;
-            return a + " " + b;
-        });
+	    Console.WriteLine("Value access: " + string.Join(", ", obs.Value));
 
-        o.Bind(result => Console.WriteLine(result.Status switch
-        {
-            AsyncComputeStatus.Loading => "Loading...",
-            AsyncComputeStatus.Done => "Done: " + result.Result,
-            AsyncComputeStatus.Failed => "Failed: " + result.Exception,
-        }));
-
-        await Task.Delay(1500);
-
-        stateB.Value = "Dan";
-
-        Process.GetCurrentProcess().WaitForExit();
+	    obs.Bind(values =>
+	    {
+		    Console.WriteLine("Binding: " + string.Join(", ", values));
+	    });
+	    Console.WriteLine("Adding item");
+	    list.Add("Vlad");
     }
 }
