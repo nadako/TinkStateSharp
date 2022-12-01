@@ -21,6 +21,7 @@ namespace TinkState.Internal
 		Status status;
 		T last;
 
+		// TODO: this method seems to only make sense for Auto-Observables, as all others can always fire, except for const that doesn't call this one
 		public static IDisposable Create<R>(ObservableImpl<R> data, Action<R> callback, IEqualityComparer<R> comparer, Scheduler scheduler)
 		{
 			if (data.CanFire())
