@@ -21,11 +21,15 @@ public class SampleWindow : MonoBehaviour
 			model.AddItem(addInput.text);
 			addInput.text = "";
 		});
+
 		this.DisposeOnDestroy(model.SearchString.Bind(searchInput.SetTextWithoutNotify));
 		searchInput.onSubmit.AddListener(model.Search);
 		searchInput.onDeselect.AddListener(_ => searchInput.SetTextWithoutNotify(model.SearchString.Value));
+
 		this.DisposeOnDestroy(model.DisplayedItems.Bind(list.DisplayItems));
+
 		pagination.Init(model.Pagination);
+
 		closeButton.onClick.AddListener(() => Destroy(gameObject));
 
 		gameObject.SetActive(true);
