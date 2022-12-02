@@ -38,8 +38,27 @@ namespace TinkState
 		/// <returns>Disposable reference to the binding object for later unbinding.</returns>
 		IDisposable Bind(Action<T> callback, IEqualityComparer<T> comparer = null, Scheduler scheduler = null);
 
+		/// <summary>
+		/// Create a new observable from this observable that maps the value using given <paramref name="transform"/> function.
+		/// </summary>
+		/// <remarks>
+		/// 	<para>
+		/// 	The same effect can be achieved with the <see cref="Observable.Auto{T}(System.Func{T},System.Collections.Generic.IEqualityComparer{T})"/> constructor,
+		/// 	however this method is more efficient as it doesn't require managing multiple subscriptions internally.
+		/// 	</para>
+		///		<para>NOTE: this also means that observable access are not tracked within <paramref name="transform"/> function.</para>
+		/// </remarks>
+		/// <param name="transform">Function to transform values of this observable to values of a new one.</param>
+		/// <param name="comparer">Custom comparer for the new observable to determine if bindings and derived auto-observables should be triggered.</param>
+		/// <typeparam name="TOut">Type of the values of the resulting observable.</typeparam>
+		/// <returns>The new observable with values mapped from this one.</returns>
+		Observable<TOut> Map<TOut>(Func<T, TOut> transform, IEqualityComparer<TOut> comparer = null);
+
+		// TODO: extension method to easily map async observables
+
 		// TODO: maybe provide some equivalent of `ObservableTools.bindWithInitial` from Forge to distinguish first binding
 		// from subsequent ones, because often we want initial value to be set right away, while changes should be animated
+		// could also be an extension method
 	}
 
 	/// <summary>

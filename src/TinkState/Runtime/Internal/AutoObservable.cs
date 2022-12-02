@@ -84,15 +84,12 @@ namespace TinkState.Internal
 
 		public IDisposable Bind(Action<T> callback, IEqualityComparer<T> comparer = null, Scheduler scheduler = null)
 		{
-			if (CanFire())
-			{
-				return new Binding<T>(this, callback, comparer, scheduler);
-			}
-			else
-			{
-				callback.Invoke(AutoObservable.Untracked(this));
-				return NoopDisposable.Instance;
-			}
+			return Binding<T>.Create(this, callback, comparer, scheduler);
+		}
+
+		public Observable<TOut> Map<TOut>(Func<T, TOut> transform, IEqualityComparer<TOut> comparer = null)
+		{
+			return TransformObservable.Create(this, transform, comparer);
 		}
 
 		public IEqualityComparer<T> GetComparer()
@@ -105,10 +102,10 @@ namespace TinkState.Internal
 
 		public T GetCurrentValue()
 		{
-			return GetValueUntracked(false);
+			return GetCurrentValue(false);
 		}
 
-		T GetValueUntracked(bool force)
+		T GetCurrentValue(bool force)
 		{
 			const int maxIterations = 100;
 
@@ -230,7 +227,7 @@ namespace TinkState.Internal
 					s.Connect();
 				}
 			}
-			GetValueUntracked(true);
+			GetCurrentValue(true);
 			GetRevision();
 		}
 

@@ -10,9 +10,8 @@ namespace TinkState.Internal
 		void Unsubscribe(Observer observer);
 	}
 
-	interface DispatchingObservable<T> : DispatchingObservable
+	interface DispatchingObservable<T> : DispatchingObservable, ValueProvider<T>
 	{
-		T GetCurrentValue();
 		IEqualityComparer<T> GetComparer();
 	}
 }

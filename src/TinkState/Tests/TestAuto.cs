@@ -325,5 +325,81 @@ namespace Test
 			s2.Value = 500;
 			Assert.That(actionCalls, Is.EqualTo(3));
 		}
+
+		[Test]
+		public void TestMapConst()
+		{
+			var c = Observable.Const(10);
+
+			var computeCalls = 0;
+			var o = Observable.Auto(() =>
+			{
+				computeCalls++;
+				return c.Value * 2;
+			});
+
+			// TODO: also test not accessing value before mapping, when TODO in CanFire is addressed
+			Assert.That(o.Value, Is.EqualTo(20));
+			Assert.That(computeCalls, Is.EqualTo(1));
+
+			var transformCalls = 0;
+			var m = o.Map(value =>
+			{
+				transformCalls++;
+				return (value * 2).ToString();
+			});
+
+			Assert.That(computeCalls, Is.EqualTo(1));
+			Assert.That(transformCalls, Is.Zero);
+
+			Assert.That(m.Value, Is.EqualTo("40"));
+			Assert.That(computeCalls, Is.EqualTo(1));
+			Assert.That(transformCalls, Is.EqualTo(1));
+
+			Assert.That(m.Value, Is.EqualTo("40"));
+			Assert.That(computeCalls, Is.EqualTo(1));
+			Assert.That(transformCalls, Is.EqualTo(1));
+
+			// TODO: test map from map and bind
+		}
+
+		[Test]
+		public void TestMapNonConst()
+		{
+			var s = Observable.State(10);
+
+			var computeCalls = 0;
+			var o = Observable.Auto(() =>
+			{
+				computeCalls++;
+				return s.Value * 2;
+			});
+
+			var transformCalls = 0;
+			var m = o.Map(value =>
+			{
+				transformCalls++;
+				return (value * 2).ToString();
+			});
+
+			Assert.That(computeCalls, Is.Zero);
+			Assert.That(transformCalls, Is.Zero);
+
+			Assert.That(m.Value, Is.EqualTo("40"));
+			Assert.That(computeCalls, Is.EqualTo(1));
+			Assert.That(transformCalls, Is.EqualTo(1));
+
+			Assert.That(m.Value, Is.EqualTo("40"));
+			Assert.That(computeCalls, Is.EqualTo(1));
+			Assert.That(transformCalls, Is.EqualTo(1));
+
+			s.Value = 20;
+
+			Assert.That(m.Value, Is.EqualTo("80"));
+			Assert.That(computeCalls, Is.EqualTo(2));
+			Assert.That(transformCalls, Is.EqualTo(2));
+
+			// TODO: test map from map and bind
+		}
 	}
 }

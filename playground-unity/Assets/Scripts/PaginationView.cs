@@ -36,7 +36,7 @@ public class PaginationModel
 	{
 		currentPageIndex = Observable.State(0);
 		NumPages = numPages;
-		HasPrevious = Observable.Auto(() => currentPageIndex.Value > 0);
+		HasPrevious = currentPageIndex.Map(value => value > 0);
 		HasNext = Observable.Auto(() => currentPageIndex.Value < numPages.Value - 1);
 	}
 

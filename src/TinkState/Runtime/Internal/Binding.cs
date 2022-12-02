@@ -21,6 +21,19 @@ namespace TinkState.Internal
 		Status status;
 		T last;
 
+		public static IDisposable Create(DispatchingObservable<T> observable, Action<T> callback, IEqualityComparer<T> comparer, Scheduler scheduler)
+		{
+			if (observable.CanFire())
+			{
+				return new Binding<T>(observable, callback, comparer, scheduler);
+			}
+			else
+			{
+				callback.Invoke(AutoObservable.Untracked(observable));
+				return NoopDisposable.Instance;
+			}
+		}
+
 		internal Binding(DispatchingObservable<T> data, Action<T> callback, IEqualityComparer<T> comparer, Scheduler scheduler)
 		{
 			this.data = data;

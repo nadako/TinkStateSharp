@@ -122,7 +122,7 @@ namespace TinkState.Internal
 			}
 		}
 
-		ObservableList<T> DispatchingObservable<ObservableList<T>>.GetCurrentValue()
+		public ObservableList<T> GetCurrentValue()
 		{
 			return this;
 		}
