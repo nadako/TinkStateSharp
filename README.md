@@ -389,4 +389,4 @@ While the base library itself is generic and does not have any dependencies, one
 
 FYI, Unity is also the reason the project sources structure is so... different from a normal C# solution. The `src` folder is supposed to only contain source files as well as some Unity-specific definition JSONs and meta files.
 
-This repo also contains the `unity-playground` folder with the Unity project that contains some usage examples as well as run all tests in the Unity environment.
+This repo also contains the `playground-unity` folder with the Unity project that contains some usage examples as well as run all tests in the Unity environment.
