@@ -4,14 +4,14 @@ using System.Linq;
 using TinkState;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Pool;
 using UnityEngine.UI;
 
 public class SampleWindow : MonoBehaviour
 {
 	[SerializeField] TMP_InputField searchInput;
 	[SerializeField] TMP_InputField addInput;
-	[SerializeField] RectTransform list;
-	[SerializeField] GameObject itemPrefab;
+	[SerializeField] SampleItemList list;
 	[SerializeField] PaginationView pagination;
 	[SerializeField] Button closeButton;
 
@@ -24,23 +24,11 @@ public class SampleWindow : MonoBehaviour
 		this.DisposeOnDestroy(model.SearchString.Bind(searchInput.SetTextWithoutNotify));
 		searchInput.onSubmit.AddListener(model.Search);
 		searchInput.onDeselect.AddListener(_ => searchInput.SetTextWithoutNotify(model.SearchString.Value));
-		this.DisposeOnDestroy(model.DisplayedItems.Bind(DisplayItems));
+		this.DisposeOnDestroy(model.DisplayedItems.Bind(list.DisplayItems));
 		pagination.Init(model.Pagination);
 		closeButton.onClick.AddListener(() => Destroy(gameObject));
 
 		gameObject.SetActive(true);
-	}
-
-	void DisplayItems(IEnumerable<string> items)
-	{
-		// obviously this should recycle renderers, but for the sake of simplicity let's not
-		while (list.childCount > 0) DestroyImmediate(list.GetChild(0).gameObject);
-
-		foreach (var item in items)
-		{
-			var itemView = Instantiate(itemPrefab, list).GetComponent<SampleItem>();
-			itemView.Init(item);
-		}
 	}
 }
 

@@ -5,9 +5,8 @@ public class SampleItem : MonoBehaviour
 {
 	[SerializeField] TMP_Text text;
 
-    public void Init(string data)
+	public void Init(string data)
     {
 		text.text = data;
-		gameObject.SetActive(true);
     }
 }
