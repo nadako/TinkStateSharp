@@ -27,7 +27,7 @@ If you're into MVVM, this library can cover both M and VM parts for you :-)
 
 ### Observable
 
-The core interface representing observable data is called `Observable` and is pretty straghtforward (some minor details omitted for brevity):
+The core interface representing observable data is called `Observable` and is pretty straightforward (some minor details omitted for brevity):
 
 ```cs
 interface Observable<T>
@@ -313,7 +313,7 @@ entry.Value = new Entry { Name = "John", Age = 31 };
 // triggered as the value is different according to EntryComparer
 ```
 
-You can also specify a comparer for a single binding, in which case it will be used together with observable's comparer as an additional check for skipping binding callback invokation. Here's an example:
+You can also specify a comparer for a single binding, in which case it will be used together with observable's comparer as an additional check for skipping binding callback invocation. Here's an example:
 
 ```cs
 using TinkState;
@@ -387,4 +387,6 @@ While the base library itself is generic and does not have any dependencies, one
 
 > TODO: at some point it will also provide extensions to simplify bindings to Unity UI/UIElements as well as binding lifetime management bound to GameObject.
 
-FYI, Unity is also the reason the project sources structure is so... different from a normal C# solution. The `src` folder is supposed to only contain source files as well as some Unity-specific definition JSONs.
+FYI, Unity is also the reason the project sources structure is so... different from a normal C# solution. The `src` folder is supposed to only contain source files as well as some Unity-specific definition JSONs and meta files.
+
+This repo also contains the `unity-playground` folder with the Unity project that contains some usage examples as well as run all tests in the Unity environment.
