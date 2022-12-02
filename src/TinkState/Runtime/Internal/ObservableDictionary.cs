@@ -140,7 +140,7 @@ namespace TinkState.Internal
 			return revision;
 		}
 
-		ObservableDictionary<TKey, TValue> DispatchingObservable<ObservableDictionary<TKey, TValue>>.GetCurrentValue()
+		public ObservableDictionary<TKey, TValue> GetCurrentValue()
 		{
 			return this;
 		}

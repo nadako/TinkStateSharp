@@ -70,7 +70,7 @@ public class SampleWindowModel
 
 		const int itemsPerPage = 3;
 
-		var numPages = Observable.Auto(() => Math.Max(1, (int)Math.Ceiling(filteredItems.Value.Count / (float)itemsPerPage)));
+		var numPages = filteredItems.Map(items => Math.Max(1, (int)Math.Ceiling(items.Count / (float)itemsPerPage)));
 
 		Pagination = new PaginationModel(numPages);
 

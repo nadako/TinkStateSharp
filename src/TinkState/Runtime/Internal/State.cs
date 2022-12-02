@@ -35,7 +35,12 @@ namespace TinkState.Internal
 			return new Binding<T>(this, callback, comparer, scheduler);
 		}
 
-		T DispatchingObservable<T>.GetCurrentValue()
+		public Observable<TOut> Map<TOut>(Func<T, TOut> transform, IEqualityComparer<TOut> comparer = null)
+		{
+			return new TransformObservable<T, TOut>(this, transform, comparer);
+		}
+
+		public T GetCurrentValue()
 		{
 			return value;
 		}

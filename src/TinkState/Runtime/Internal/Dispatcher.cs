@@ -20,6 +20,7 @@ namespace TinkState.Internal
 
 		public bool CanFire()
 		{
+			// TODO: in AutoObservable try computing before the check so we dispose if there's no dispatching subscriptions
 			return observers != null;
 		}
 
