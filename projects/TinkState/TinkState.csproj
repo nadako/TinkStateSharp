@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="../../src/TinkState/Runtime/**/*.cs"/>
+    <Compile Include="../../src/TinkState/Runtime/**/*.cs" />
   </ItemGroup>
 
 </Project>
