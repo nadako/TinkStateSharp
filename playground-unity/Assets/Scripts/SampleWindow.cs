@@ -38,10 +38,8 @@ public class SampleWindow : MonoBehaviour
 
 		foreach (var item in items)
 		{
-			var go = Instantiate(itemPrefab);
-			go.transform.SetParent(list);
-			go.SetActive(true);
-			go.GetComponent<UISampleItem>().Init(item);
+			var itemView = Instantiate(itemPrefab, list).GetComponent<SampleItem>();
+			itemView.Init(item);
 		}
 	}
 }
