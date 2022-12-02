@@ -223,6 +223,24 @@ references:
   fullName.vb: TinkState.Observable(Of T).Bind
   nameWithType: Observable<T>.Bind
   nameWithType.vb: Observable(Of T).Bind
+- uid: TinkState.Observable`1.Map*
+  name: Map
+  href: api/TinkState.Observable-1.html#TinkState_Observable_1_Map_
+  commentId: Overload:TinkState.Observable`1.Map
+  isSpec: "True"
+  fullName: TinkState.Observable<T>.Map
+  fullName.vb: TinkState.Observable(Of T).Map
+  nameWithType: Observable<T>.Map
+  nameWithType.vb: Observable(Of T).Map
+- uid: TinkState.Observable`1.Map``1(System.Func{`0,``0},System.Collections.Generic.IEqualityComparer{``0})
+  name: Map<TOut>(Func<T, TOut>, IEqualityComparer<TOut>)
+  href: api/TinkState.Observable-1.html#TinkState_Observable_1_Map__1_System_Func__0___0__System_Collections_Generic_IEqualityComparer___0__
+  commentId: M:TinkState.Observable`1.Map``1(System.Func{`0,``0},System.Collections.Generic.IEqualityComparer{``0})
+  name.vb: Map(Of TOut)(Func(Of T, TOut), IEqualityComparer(Of TOut))
+  fullName: TinkState.Observable<T>.Map<TOut>(System.Func<T, TOut>, System.Collections.Generic.IEqualityComparer<TOut>)
+  fullName.vb: TinkState.Observable(Of T).Map(Of TOut)(System.Func(Of T, TOut), System.Collections.Generic.IEqualityComparer(Of TOut))
+  nameWithType: Observable<T>.Map<TOut>(Func<T, TOut>, IEqualityComparer<TOut>)
+  nameWithType.vb: Observable(Of T).Map(Of TOut)(Func(Of T, TOut), IEqualityComparer(Of TOut))
 - uid: TinkState.Observable`1.Value
   name: Value
   href: api/TinkState.Observable-1.html#TinkState_Observable_1_Value
