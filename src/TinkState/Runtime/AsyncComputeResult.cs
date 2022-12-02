@@ -57,6 +57,14 @@ namespace TinkState
 			Exception = exception;
 		}
 
+		/// <summary>
+		/// Transform the successful result value to another type using given <paramref name="transform"/> function.
+		/// If current <see cref="Status"/> is not <see cref="AsyncComputeStatus.Done"/>, then simply create an instance
+		/// with the same status (and possibly Exception) as this one.
+		/// </summary>
+		/// <param name="transform">Value transformation function.</param>
+		/// <typeparam name="TOut">Type of the transformed value.</typeparam>
+		/// <returns>New AsyncComputeResult instance for given value output type.</returns>
 		public AsyncComputeResult<TOut> Map<TOut>(Func<T, TOut> transform)
 		{
 			return Status switch
@@ -67,16 +75,25 @@ namespace TinkState
 			};
 		}
 
+		/// <summary>
+		/// Return a new instance with the Loading status.
+		/// </summary>
 		public static AsyncComputeResult<T> CreateLoading()
 		{
 			return new AsyncComputeResult<T>(AsyncComputeStatus.Loading, default, null);
 		}
 
+		/// <summary>
+		/// Return a new instance with the Done status and given <paramref name="result"/> value.
+		/// </summary>
 		public static AsyncComputeResult<T> CreateDone(T result)
 		{
 			return new AsyncComputeResult<T>(AsyncComputeStatus.Done, result, null);
 		}
 
+		/// <summary>
+		/// Return a new instance with the Failed status and given <paramref name="exception"/>.
+		/// </summary>
 		public static AsyncComputeResult<T> CreateFailed(Exception exception)
 		{
 			return new AsyncComputeResult<T>(AsyncComputeStatus.Failed, default, exception);
