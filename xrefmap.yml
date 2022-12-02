@@ -16,6 +16,57 @@ references:
   fullName.vb: TinkState.AsyncComputeResult(Of T)
   nameWithType: AsyncComputeResult<T>
   nameWithType.vb: AsyncComputeResult(Of T)
+- uid: TinkState.AsyncComputeResult`1.CreateDone(`0)
+  name: CreateDone(T)
+  href: api/TinkState.AsyncComputeResult-1.html#TinkState_AsyncComputeResult_1_CreateDone__0_
+  commentId: M:TinkState.AsyncComputeResult`1.CreateDone(`0)
+  fullName: TinkState.AsyncComputeResult<T>.CreateDone(T)
+  fullName.vb: TinkState.AsyncComputeResult(Of T).CreateDone(T)
+  nameWithType: AsyncComputeResult<T>.CreateDone(T)
+  nameWithType.vb: AsyncComputeResult(Of T).CreateDone(T)
+- uid: TinkState.AsyncComputeResult`1.CreateDone*
+  name: CreateDone
+  href: api/TinkState.AsyncComputeResult-1.html#TinkState_AsyncComputeResult_1_CreateDone_
+  commentId: Overload:TinkState.AsyncComputeResult`1.CreateDone
+  isSpec: "True"
+  fullName: TinkState.AsyncComputeResult<T>.CreateDone
+  fullName.vb: TinkState.AsyncComputeResult(Of T).CreateDone
+  nameWithType: AsyncComputeResult<T>.CreateDone
+  nameWithType.vb: AsyncComputeResult(Of T).CreateDone
+- uid: TinkState.AsyncComputeResult`1.CreateFailed(System.Exception)
+  name: CreateFailed(Exception)
+  href: api/TinkState.AsyncComputeResult-1.html#TinkState_AsyncComputeResult_1_CreateFailed_System_Exception_
+  commentId: M:TinkState.AsyncComputeResult`1.CreateFailed(System.Exception)
+  fullName: TinkState.AsyncComputeResult<T>.CreateFailed(System.Exception)
+  fullName.vb: TinkState.AsyncComputeResult(Of T).CreateFailed(System.Exception)
+  nameWithType: AsyncComputeResult<T>.CreateFailed(Exception)
+  nameWithType.vb: AsyncComputeResult(Of T).CreateFailed(Exception)
+- uid: TinkState.AsyncComputeResult`1.CreateFailed*
+  name: CreateFailed
+  href: api/TinkState.AsyncComputeResult-1.html#TinkState_AsyncComputeResult_1_CreateFailed_
+  commentId: Overload:TinkState.AsyncComputeResult`1.CreateFailed
+  isSpec: "True"
+  fullName: TinkState.AsyncComputeResult<T>.CreateFailed
+  fullName.vb: TinkState.AsyncComputeResult(Of T).CreateFailed
+  nameWithType: AsyncComputeResult<T>.CreateFailed
+  nameWithType.vb: AsyncComputeResult(Of T).CreateFailed
+- uid: TinkState.AsyncComputeResult`1.CreateLoading
+  name: CreateLoading()
+  href: api/TinkState.AsyncComputeResult-1.html#TinkState_AsyncComputeResult_1_CreateLoading
+  commentId: M:TinkState.AsyncComputeResult`1.CreateLoading
+  fullName: TinkState.AsyncComputeResult<T>.CreateLoading()
+  fullName.vb: TinkState.AsyncComputeResult(Of T).CreateLoading()
+  nameWithType: AsyncComputeResult<T>.CreateLoading()
+  nameWithType.vb: AsyncComputeResult(Of T).CreateLoading()
+- uid: TinkState.AsyncComputeResult`1.CreateLoading*
+  name: CreateLoading
+  href: api/TinkState.AsyncComputeResult-1.html#TinkState_AsyncComputeResult_1_CreateLoading_
+  commentId: Overload:TinkState.AsyncComputeResult`1.CreateLoading
+  isSpec: "True"
+  fullName: TinkState.AsyncComputeResult<T>.CreateLoading
+  fullName.vb: TinkState.AsyncComputeResult(Of T).CreateLoading
+  nameWithType: AsyncComputeResult<T>.CreateLoading
+  nameWithType.vb: AsyncComputeResult(Of T).CreateLoading
 - uid: TinkState.AsyncComputeResult`1.Exception
   name: Exception
   href: api/TinkState.AsyncComputeResult-1.html#TinkState_AsyncComputeResult_1_Exception
@@ -24,6 +75,24 @@ references:
   fullName.vb: TinkState.AsyncComputeResult(Of T).Exception
   nameWithType: AsyncComputeResult<T>.Exception
   nameWithType.vb: AsyncComputeResult(Of T).Exception
+- uid: TinkState.AsyncComputeResult`1.Map*
+  name: Map
+  href: api/TinkState.AsyncComputeResult-1.html#TinkState_AsyncComputeResult_1_Map_
+  commentId: Overload:TinkState.AsyncComputeResult`1.Map
+  isSpec: "True"
+  fullName: TinkState.AsyncComputeResult<T>.Map
+  fullName.vb: TinkState.AsyncComputeResult(Of T).Map
+  nameWithType: AsyncComputeResult<T>.Map
+  nameWithType.vb: AsyncComputeResult(Of T).Map
+- uid: TinkState.AsyncComputeResult`1.Map``1(System.Func{`0,``0})
+  name: Map<TOut>(Func<T, TOut>)
+  href: api/TinkState.AsyncComputeResult-1.html#TinkState_AsyncComputeResult_1_Map__1_System_Func__0___0__
+  commentId: M:TinkState.AsyncComputeResult`1.Map``1(System.Func{`0,``0})
+  name.vb: Map(Of TOut)(Func(Of T, TOut))
+  fullName: TinkState.AsyncComputeResult<T>.Map<TOut>(System.Func<T, TOut>)
+  fullName.vb: TinkState.AsyncComputeResult(Of T).Map(Of TOut)(System.Func(Of T, TOut))
+  nameWithType: AsyncComputeResult<T>.Map<TOut>(Func<T, TOut>)
+  nameWithType.vb: AsyncComputeResult(Of T).Map(Of TOut)(Func(Of T, TOut))
 - uid: TinkState.AsyncComputeResult`1.Result
   name: Result
   href: api/TinkState.AsyncComputeResult-1.html#TinkState_AsyncComputeResult_1_Result
