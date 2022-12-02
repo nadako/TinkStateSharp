@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TinkState.Internal
 {
-	class ObservableDictionary<TKey, TValue> : Dispatcher, TinkState.ObservableDictionary<TKey, TValue>, ObservableImpl<ObservableDictionary<TKey, TValue>>
+	class ObservableDictionary<TKey, TValue> : Dispatcher, TinkState.ObservableDictionary<TKey, TValue>, DispatchingObservable<ObservableDictionary<TKey, TValue>>
 	{
 		readonly Dictionary<TKey, TValue> entries;
 		bool valid;
@@ -124,7 +124,7 @@ namespace TinkState.Internal
 			return entries.TryGetValue(key, out value);
 		}
 
-		IEqualityComparer<ObservableDictionary<TKey, TValue>> ObservableImpl<ObservableDictionary<TKey, TValue>>.GetComparer()
+		IEqualityComparer<ObservableDictionary<TKey, TValue>> DispatchingObservable<ObservableDictionary<TKey, TValue>>.GetComparer()
 		{
 			return NeverEqualityComparer<ObservableDictionary<TKey, TValue>>.Instance;
 		}
@@ -135,12 +135,12 @@ namespace TinkState.Internal
 			return entries.GetEnumerator();
 		}
 
-		long ObservableImpl.GetRevision()
+		long DispatchingObservable.GetRevision()
 		{
 			return revision;
 		}
 
-		ObservableDictionary<TKey, TValue> ObservableImpl<ObservableDictionary<TKey, TValue>>.GetValueUntracked()
+		ObservableDictionary<TKey, TValue> DispatchingObservable<ObservableDictionary<TKey, TValue>>.GetCurrentValue()
 		{
 			return this;
 		}

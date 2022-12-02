@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace TinkState.Internal
 {
-	class State<T> : Dispatcher, TinkState.State<T>, ObservableImpl<T>
+	class State<T> : Dispatcher, TinkState.State<T>, DispatchingObservable<T>
 	{
 		readonly IEqualityComparer<T> comparer;
 		T value;
@@ -35,17 +35,17 @@ namespace TinkState.Internal
 			return new Binding<T>(this, callback, comparer, scheduler);
 		}
 
-		T ObservableImpl<T>.GetValueUntracked()
+		T DispatchingObservable<T>.GetCurrentValue()
 		{
 			return value;
 		}
 
-		IEqualityComparer<T> ObservableImpl<T>.GetComparer()
+		IEqualityComparer<T> DispatchingObservable<T>.GetComparer()
 		{
 			return comparer;
 		}
 
-		long ObservableImpl.GetRevision()
+		long DispatchingObservable.GetRevision()
 		{
 			return revision;
 		}

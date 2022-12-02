@@ -10,14 +10,14 @@ namespace TinkState.Internal
 {
 	interface Derived
 	{
-		R SubscribeTo<R>(ObservableImpl<R> source);
+		T SubscribeTo<T>(DispatchingObservable<T> source);
 	}
 
 	static class AutoObservable
 	{
 		public static Derived Current;
 
-		public static T Track<T>(ObservableImpl<T> o)
+		public static T Track<T>(DispatchingObservable<T> o)
 		{
 			if (Current != null && o.CanFire())
 			{
@@ -25,15 +25,15 @@ namespace TinkState.Internal
 			}
 			else
 			{
-				return o.GetValueUntracked();
+				return o.GetCurrentValue();
 			}
 		}
 
-		public static R Untracked<R>(ObservableImpl<R> o)
+		public static R Untracked<R>(DispatchingObservable<R> o)
 		{
 			var before = Current;
 			Current = null;
-			var ret = o.GetValueUntracked();
+			var ret = o.GetCurrentValue();
 			Current = before;
 			return ret;
 		}
@@ -57,7 +57,7 @@ namespace TinkState.Internal
 
 	}
 
-	class AutoObservable<T> : Dispatcher, Observable<T>, Derived, Observer, ObservableImpl<T>
+	class AutoObservable<T> : Dispatcher, Observable<T>, Derived, Observer, DispatchingObservable<T>
 	{
 		enum Status
 		{
@@ -71,7 +71,7 @@ namespace TinkState.Internal
 		readonly Computation<T> computation;
 		bool isSubscribedTo;
 		List<Subscription> subscriptions;
-		readonly Dictionary<ObservableImpl, Subscription> dependencies = new Dictionary<ObservableImpl, Subscription>();
+		readonly Dictionary<DispatchingObservable, Subscription> dependencies = new Dictionary<DispatchingObservable, Subscription>();
 		Status status;
 		T last;
 
@@ -103,7 +103,7 @@ namespace TinkState.Internal
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public T Value => AutoObservable.Track(this);
 
-		public T GetValueUntracked()
+		public T GetCurrentValue()
 		{
 			return GetValueUntracked(false);
 		}
@@ -245,7 +245,7 @@ namespace TinkState.Internal
 			if (subscriptions == null)
 			{
 				// it's the first ever call, calculate value which will also initialize subscriptions
-				GetValueUntracked();
+				GetCurrentValue();
 			}
 			// if our revision is smaller than any of source revisions, update our revision
 			foreach (var s in subscriptions)
@@ -271,7 +271,7 @@ namespace TinkState.Internal
 			}
 		}
 
-		public R SubscribeTo<R>(ObservableImpl<R> source)
+		public R SubscribeTo<R>(DispatchingObservable<R> source)
 		{
 			if (!dependencies.TryGetValue(source, out var v))
 			{
@@ -296,7 +296,7 @@ namespace TinkState.Internal
 				{
 					// tracked and used, nothing to do subscription-wise, simply return a value
 					// TODO: we can probably simply return sub.last here
-					return source.GetValueUntracked();
+					return source.GetCurrentValue();
 				}
 			}
 		}
@@ -329,7 +329,7 @@ namespace TinkState.Internal
 
 	interface Subscription
 	{
-		ObservableImpl Source { get; }
+		DispatchingObservable Source { get; }
 		bool Used { get; set; }
 		bool IsValid();
 		bool HasChanged();
@@ -339,21 +339,21 @@ namespace TinkState.Internal
 
 	class Subscription<T> : Subscription
 	{
-		public ObservableImpl Source => source;
+		public DispatchingObservable Source => source;
 		public bool Used { get; set; }
 		public T Last;
 
 		readonly Observer owner;
-		readonly ObservableImpl<T> source;
+		readonly DispatchingObservable<T> source;
 		long lastRevision;
 
-		public Subscription(ObservableImpl<T> source, bool needsConnecting, Observer owner)
+		public Subscription(DispatchingObservable<T> source, bool needsConnecting, Observer owner)
 		{
 			this.source = source;
 			lastRevision = source.GetRevision();
 			this.owner = owner;
 			if (needsConnecting) Connect();
-			Last = source.GetValueUntracked();
+			Last = source.GetCurrentValue();
 		}
 
 		public bool IsValid()
@@ -367,7 +367,7 @@ namespace TinkState.Internal
 			if (nextRevision == lastRevision) return false;
 			lastRevision = nextRevision;
 			var before = Last;
-			Last = source.GetValueUntracked();
+			Last = source.GetCurrentValue();
 			return !source.GetComparer().Equals(Last, before);
 		}
 
@@ -384,7 +384,7 @@ namespace TinkState.Internal
 		public void Reuse()
 		{
 			Used = true;
-			Last = source.GetValueUntracked();
+			Last = source.GetCurrentValue();
 			lastRevision = source.GetRevision();
 		}
 	}

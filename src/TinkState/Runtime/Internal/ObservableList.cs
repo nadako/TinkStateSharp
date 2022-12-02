@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TinkState.Internal
 {
-	class ObservableList<T> : Dispatcher, TinkState.ObservableList<T>, ObservableImpl<ObservableList<T>>
+	class ObservableList<T> : Dispatcher, TinkState.ObservableList<T>, DispatchingObservable<ObservableList<T>>
 	{
 		readonly List<T> entries;
 		bool valid = false;
@@ -122,17 +122,17 @@ namespace TinkState.Internal
 			}
 		}
 
-		ObservableList<T> ObservableImpl<ObservableList<T>>.GetValueUntracked()
+		ObservableList<T> DispatchingObservable<ObservableList<T>>.GetCurrentValue()
 		{
 			return this;
 		}
 
-		IEqualityComparer<ObservableList<T>> ObservableImpl<ObservableList<T>>.GetComparer()
+		IEqualityComparer<ObservableList<T>> DispatchingObservable<ObservableList<T>>.GetComparer()
 		{
 			return NeverEqualityComparer<ObservableList<T>>.Instance;
 		}
 
-		long ObservableImpl.GetRevision()
+		long DispatchingObservable.GetRevision()
 		{
 			return revision;
 		}

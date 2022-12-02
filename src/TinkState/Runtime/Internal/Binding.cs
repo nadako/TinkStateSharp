@@ -13,7 +13,7 @@ namespace TinkState.Internal
 			Disposed,
 		}
 
-		ObservableImpl<T> data;
+		DispatchingObservable<T> data;
 		Action<T> callback;
 		IEqualityComparer<T> comparer;
 		readonly Scheduler scheduler;
@@ -21,7 +21,7 @@ namespace TinkState.Internal
 		Status status;
 		T last;
 
-		internal Binding(ObservableImpl<T> data, Action<T> callback, IEqualityComparer<T> comparer, Scheduler scheduler)
+		internal Binding(DispatchingObservable<T> data, Action<T> callback, IEqualityComparer<T> comparer, Scheduler scheduler)
 		{
 			this.data = data;
 			this.callback = callback;
@@ -64,7 +64,7 @@ namespace TinkState.Internal
 					status = Status.Valid;
 
 					var prev = last;
-					var next = last = data.GetValueUntracked();
+					var next = last = data.GetCurrentValue();
 
 					var canFire = data.CanFire();
 

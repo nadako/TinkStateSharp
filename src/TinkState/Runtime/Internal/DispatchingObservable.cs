@@ -2,7 +2,7 @@
 
 namespace TinkState.Internal
 {
-	interface ObservableImpl
+	interface DispatchingObservable
 	{
 		long GetRevision();
 		bool CanFire();
@@ -10,9 +10,9 @@ namespace TinkState.Internal
 		void Unsubscribe(Observer observer);
 	}
 
-	interface ObservableImpl<T> : ObservableImpl
+	interface DispatchingObservable<T> : DispatchingObservable
 	{
-		T GetValueUntracked(); // TODO: rename this to just GetValue or something
+		T GetCurrentValue();
 		IEqualityComparer<T> GetComparer();
 	}
 }
