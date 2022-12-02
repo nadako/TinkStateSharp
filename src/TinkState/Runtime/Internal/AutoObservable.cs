@@ -84,7 +84,15 @@ namespace TinkState.Internal
 
 		public IDisposable Bind(Action<T> callback, IEqualityComparer<T> comparer = null, Scheduler scheduler = null)
 		{
-			return Binding<T>.Create(this, callback, comparer, scheduler);
+			if (CanFire())
+			{
+				return new Binding<T>(this, callback, comparer, scheduler);
+			}
+			else
+			{
+				callback.Invoke(AutoObservable.Untracked(this));
+				return NoopDisposable.Instance;
+			}
 		}
 
 		public IEqualityComparer<T> GetComparer()

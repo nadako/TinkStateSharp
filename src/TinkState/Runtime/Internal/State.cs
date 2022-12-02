@@ -32,7 +32,7 @@ namespace TinkState.Internal
 
 		public IDisposable Bind(Action<T> callback, IEqualityComparer<T> comparer = null, Scheduler scheduler = null)
 		{
-			return Binding<T>.Create(this, callback, comparer, scheduler);
+			return new Binding<T>(this, callback, comparer, scheduler);
 		}
 
 		T ObservableImpl<T>.GetValueUntracked()

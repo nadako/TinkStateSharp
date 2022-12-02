@@ -21,24 +21,7 @@ namespace TinkState.Internal
 		Status status;
 		T last;
 
-		// TODO: this method seems to only make sense for Auto-Observables, as all others can always fire, except for const that doesn't call this one
-		public static IDisposable Create<R>(ObservableImpl<R> data, Action<R> callback, IEqualityComparer<R> comparer, Scheduler scheduler)
-		{
-			if (data.CanFire())
-			{
-				// we only create a binding object if the observable can actually fire,
-				// which is false for const observables and auto-observables that didn't subscribe to anything
-				return new Binding<R>(data, callback, comparer, scheduler);
-			}
-			else
-			{
-				// otherwise we simply invoke the callback once and return a noop disposable to avoid some extra work and allocation
-				callback.Invoke(AutoObservable.Untracked(data));
-				return NoopDisposable.Instance;
-			}
-		}
-
-		Binding(ObservableImpl<T> data, Action<T> callback, IEqualityComparer<T> comparer, Scheduler scheduler)
+		internal Binding(ObservableImpl<T> data, Action<T> callback, IEqualityComparer<T> comparer, Scheduler scheduler)
 		{
 			this.data = data;
 			this.callback = callback;

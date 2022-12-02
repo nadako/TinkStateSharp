@@ -7,15 +7,8 @@ namespace TinkState.Internal
 		void Notify();
 	}
 
-	class Dispatcher : Dispatcher.Interface
+	class Dispatcher
 	{
-		internal interface Interface
-		{
-			bool CanFire();
-			void Subscribe(Observer observer);
-			void Unsubscribe(Observer observer);
-		}
-
 		protected long revision;
 		List<Observer> observers; // TODO: better structure?
 
@@ -25,12 +18,12 @@ namespace TinkState.Internal
 			observers = new List<Observer>();
 		}
 
-		bool Interface.CanFire()
+		public bool CanFire()
 		{
 			return observers != null;
 		}
 
-		void Interface.Subscribe(Observer observer)
+		public void Subscribe(Observer observer)
 		{
 			if (observers.Contains(observer)) return;
 			var wasEmpty = observers.Count == 0;
@@ -38,7 +31,7 @@ namespace TinkState.Internal
 			if (wasEmpty) OnStatusChange(true);
 		}
 
-		void Interface.Unsubscribe(Observer observer)
+		public void Unsubscribe(Observer observer)
 		{
 			if (observers == null) return; // a binding can try to unsubscribe when an observable becomes disposed, do nothing in this case
 
