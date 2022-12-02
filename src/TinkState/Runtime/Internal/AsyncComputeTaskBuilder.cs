@@ -45,13 +45,13 @@ namespace TinkState.Internal
 
 		public void SetResult(T result)
 		{
-			this.result = new AsyncComputeResult<T>(AsyncComputeStatus.Done, result, null);
+			this.result = AsyncComputeResult<T>.CreateDone(result);
 			if (callback != null) callback();
 		}
 
 		public void SetException(Exception exception)
 		{
-			this.result = new AsyncComputeResult<T>(AsyncComputeStatus.Failed, default, exception);
+			this.result = AsyncComputeResult<T>.CreateFailed(exception);
 			if (callback != null) callback();
 		}
 

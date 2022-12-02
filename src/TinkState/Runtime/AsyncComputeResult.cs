@@ -50,11 +50,36 @@ namespace TinkState
 		/// </summary>
 		public readonly Exception Exception;
 
-		internal AsyncComputeResult(AsyncComputeStatus status, T result, Exception exception)
+		AsyncComputeResult(AsyncComputeStatus status, T result, Exception exception)
 		{
 			Status = status;
 			Result = result;
 			Exception = exception;
+		}
+
+		public AsyncComputeResult<TOut> Map<TOut>(Func<T, TOut> transform)
+		{
+			return Status switch
+			{
+				AsyncComputeStatus.Done => AsyncComputeResult<TOut>.CreateDone(transform(Result)),
+				AsyncComputeStatus.Failed => AsyncComputeResult<TOut>.CreateFailed(Exception),
+				_ => new AsyncComputeResult<TOut>(Status, default, null),
+			};
+		}
+
+		public static AsyncComputeResult<T> CreateLoading()
+		{
+			return new AsyncComputeResult<T>(AsyncComputeStatus.Loading, default, null);
+		}
+
+		public static AsyncComputeResult<T> CreateDone(T result)
+		{
+			return new AsyncComputeResult<T>(AsyncComputeStatus.Done, result, null);
+		}
+
+		public static AsyncComputeResult<T> CreateFailed(Exception exception)
+		{
+			return new AsyncComputeResult<T>(AsyncComputeStatus.Failed, default, exception);
 		}
 	}
 }

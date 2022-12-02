@@ -32,12 +32,12 @@ namespace TinkState
 
 		internal static AsyncComputeTask<T> FromException(Exception exception)
 		{
-			return new AsyncComputeTask<T>(new AsyncComputeResult<T>(AsyncComputeStatus.Failed, default, exception));
+			return new AsyncComputeTask<T>(AsyncComputeResult<T>.CreateFailed(exception));
 		}
 
 		internal static AsyncComputeTask<T> FromResult(T result)
 		{
-			return new AsyncComputeTask<T>(new AsyncComputeResult<T>(AsyncComputeStatus.Done, result, null));
+			return new AsyncComputeTask<T>(AsyncComputeResult<T>.CreateDone(result));
 		}
 
 		internal AsyncComputeResult<T> GetResult()
