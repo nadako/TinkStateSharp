@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace TinkState.Internal
 {
@@ -10,7 +11,9 @@ namespace TinkState.Internal
 	class Dispatcher
 	{
 		protected long revision;
-		List<Observer> observers; // TODO: better structure?
+		List<Observer> observers;
+		bool firing;
+		List<(Observer, bool remove)> modifications;
 
 		protected Dispatcher()
 		{
@@ -26,19 +29,37 @@ namespace TinkState.Internal
 
 		public void Subscribe(Observer observer)
 		{
-			if (observers.Contains(observer)) return;
-			var wasEmpty = observers.Count == 0;
-			observers.Add(observer);
-			if (wasEmpty) OnStatusChange(true);
+			if (firing)
+			{
+				modifications ??= new List<(Observer, bool remove)>(1);
+				modifications.Add((observer, false));
+			}
+			else
+			{
+				if (AddObserver(observer) && observers.Count == 1)
+				{
+					OnStatusChange(true);
+				}
+			}
 		}
 
 		public void Unsubscribe(Observer observer)
 		{
 			if (observers == null) return; // a binding can try to unsubscribe when an observable becomes disposed, do nothing in this case
 
-			var wasNotEmpty = observers.Count > 0;
-			observers.Remove(observer);
-			if (wasNotEmpty && observers.Count == 0) OnStatusChange(false);
+			if (firing)
+			{
+				modifications ??= new List<(Observer, bool remove)>(1);
+				modifications.Add((observer, true));
+			}
+			else
+			{
+				var wasEmpty = observers.Count == 0;
+				if (!wasEmpty && RemoveObserver(observer))
+				{
+					if (observers.Count == 0) OnStatusChange(false);
+				}
+			}
 		}
 
 		protected virtual void OnStatusChange(bool active) { }
@@ -46,15 +67,48 @@ namespace TinkState.Internal
 		protected void Fire()
 		{
 			revision = Revision.New();
-			foreach (var observer in observers.ToArray()) // TODO: get rid of this copying and deal with remove-synchronously-while-iterating somehow
+
+			if (observers.Count == 0) return;
+
+			firing = true;
+			foreach (var observer in observers)
 			{
 				observer.Notify();
 			}
+			firing = false;
+
+			if (modifications != null)
+			{
+				foreach (var (observer, remove) in modifications)
+				{
+					if (remove) RemoveObserver(observer);
+					else AddObserver(observer);
+				}
+				modifications = null;
+				var isNowEmpty = observers.Count == 0;
+				if (isNowEmpty) OnStatusChange(false);
+			}
+		}
+
+		bool AddObserver(Observer observer)
+		{
+			if (!observers.Contains(observer))
+			{
+				observers.Add(observer);
+				return true;
+			}
+			return false; // we should probably throw here
+		}
+
+		bool RemoveObserver(Observer observer)
+		{
+			return observers.Remove(observer); // we should probably throw on false
 		}
 
 		protected void Dispose()
 		{
 			observers = null;
+			modifications = null;
 		}
 	}
 }
