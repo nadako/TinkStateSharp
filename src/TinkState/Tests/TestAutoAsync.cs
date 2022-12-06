@@ -509,5 +509,99 @@ namespace Test
 			s.Value++;
 			Assert.That(bindingCalls, Is.EqualTo(2));
 		}
+
+		[Test]
+		public async Task TestChangingSourceWhileComputing()
+		{
+			var s = Observable.State(1);
+			var computeCalls = 0;
+			var o = Observable.Auto(async () =>
+			{
+				computeCalls++;
+				var v = s.Value;
+				await Task.Delay(50);
+				return v * 2;
+			});
+
+			Assert.That(computeCalls, Is.Zero);
+			Assert.That(o.Value.Status, Is.EqualTo(AsyncComputeStatus.Loading));
+			Assert.That(computeCalls, Is.EqualTo(1));
+
+			await Task.Delay(10);
+
+			// still computing
+			Assert.That(computeCalls, Is.EqualTo(1));
+			Assert.That(o.Value.Status, Is.EqualTo(AsyncComputeStatus.Loading));
+			Assert.That(computeCalls, Is.EqualTo(1));
+
+			s.Value++;
+
+			// new computation triggered
+			Assert.That(computeCalls, Is.EqualTo(1));
+			Assert.That(o.Value.Status, Is.EqualTo(AsyncComputeStatus.Loading));
+			Assert.That(computeCalls, Is.EqualTo(2));
+
+			await Task.Delay(100);
+
+			Assert.That(computeCalls, Is.EqualTo(2));
+			Assert.That(o.Value.Status, Is.EqualTo(AsyncComputeStatus.Done));
+			Assert.That(o.Value.Result, Is.EqualTo(4));
+			Assert.That(computeCalls, Is.EqualTo(2));
+		}
+
+		[Test]
+		public async Task TestMapAsync()
+		{
+			var s = Observable.State(1);
+			var o = Observable.Auto(async () =>
+			{
+				var v = s.Value;
+				await Task.Delay(10);
+				if (v == 5) throw new Exception("Fail");
+				return v * 2;
+			});
+			var transformCalls = 0;
+			var o2 = o.Map(result =>
+			{
+				transformCalls++;
+				return result.Map(v => "foo_" + v);
+			});
+
+			Assert.That(transformCalls, Is.Zero);
+			Assert.That(o2.Value.Status, Is.EqualTo(AsyncComputeStatus.Loading));
+			Assert.That(transformCalls, Is.EqualTo(1));
+
+			await Task.Delay(50);
+			Assert.That(transformCalls, Is.EqualTo(1));
+			Assert.That(o2.Value.Status, Is.EqualTo(AsyncComputeStatus.Done));
+			Assert.That(o2.Value.Result, Is.EqualTo("foo_2"));
+			Assert.That(transformCalls, Is.EqualTo(2));
+
+			s.Value++;
+			Assert.That(transformCalls, Is.EqualTo(2));
+			Assert.That(o2.Value.Status, Is.EqualTo(AsyncComputeStatus.Loading));
+			Assert.That(transformCalls, Is.EqualTo(3));
+
+			await Task.Delay(50);
+
+			Assert.That(transformCalls, Is.EqualTo(3));
+			Assert.That(o2.Value.Status, Is.EqualTo(AsyncComputeStatus.Done));
+			Assert.That(o2.Value.Result, Is.EqualTo("foo_4"));
+			Assert.That(transformCalls, Is.EqualTo(4));
+
+			s.Value = 5;
+
+			Assert.That(transformCalls, Is.EqualTo(4));
+			Assert.That(o2.Value.Status, Is.EqualTo(AsyncComputeStatus.Loading));
+			Assert.That(transformCalls, Is.EqualTo(5));
+
+			await Task.Delay(50);
+
+			Assert.That(transformCalls, Is.EqualTo(5));
+			Assert.That(o2.Value.Status, Is.EqualTo(AsyncComputeStatus.Failed));
+			Assert.That(o2.Value.Exception, Is.Not.Null);
+			Assert.That(o2.Value.Exception.Message, Is.EqualTo("Fail"));
+			Assert.That(transformCalls, Is.EqualTo(6));
+		}
 	}
 }
