@@ -80,7 +80,7 @@ namespace TinkState
 		/// </summary>
 		public static AsyncComputeResult<T> CreateLoading()
 		{
-			return new AsyncComputeResult<T>(AsyncComputeStatus.Loading, default, null);
+			return default;
 		}
 
 		/// <summary>
