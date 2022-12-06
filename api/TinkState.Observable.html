@@ -192,6 +192,70 @@ will be automatically tracked by this observable to recompute its value and trig
     </tbody>
   </table>
   <a id="TinkState_Observable_Auto_" data-uid="TinkState.Observable.Auto*"></a>
+  <h4 id="TinkState_Observable_Auto__1_System_Func_System_Threading_CancellationToken_TinkState_AsyncComputeTask___0___" data-uid="TinkState.Observable.Auto``1(System.Func{System.Threading.CancellationToken,TinkState.AsyncComputeTask{``0}})">Auto&lt;T&gt;(Func&lt;CancellationToken, AsyncComputeTask&lt;T&gt;&gt;)</h4>
+  <div class="markdown level1 summary">
+Create an observable containing data computed using given <code data-dev-comment-type="paramref" class="paramref">compute</code> function,
+similarly to <a class="xref" href="TinkState.Observable.html#TinkState_Observable_Auto__1_System_Func_TinkState_AsyncComputeTask___0___">Auto&lt;T&gt;(Func&lt;AsyncComputeTask&lt;T&gt;&gt;)</a> but with support for cancelling
+computations.
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Observable&lt;AsyncComputeResult&lt;T&gt;&gt; Auto&lt;T&gt;(Func&lt;CancellationToken, AsyncComputeTask&lt;T&gt;&gt; compute)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Func</span>&lt;<span class="xref">System.Threading.CancellationToken</span>, <a class="xref" href="TinkState.AsyncComputeTask-1.html">AsyncComputeTask</a>&lt;T&gt;&gt;</td>
+        <td><span class="parametername">compute</span></td>
+        <td>Cancelable computation function that asynchronously returns a new value for this observable.</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TinkState.Observable-1.html">Observable</a>&lt;<a class="xref" href="TinkState.AsyncComputeResult-1.html">AsyncComputeResult</a>&lt;T&gt;&gt;</td>
+        <td>Auto-observable providing current results of value computation.</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td>Type of the value being managed by this observable.</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TinkState_Observable_Auto__1_System_Func_System_Threading_CancellationToken_TinkState_AsyncComputeTask___0____remarks">Remarks</h5>
+  <div class="markdown level1 remarks">
+The <code data-dev-comment-type="paramref" class="paramref">compute</code> function receives a <span class="xref">System.Threading.CancellationToken</span> instance that will be automatically
+canceled if the auto-observable triggers a new computation (e.g. if one of its dependencies changes and we need to calculate a new value).
+</div>
+  <a id="TinkState_Observable_Auto_" data-uid="TinkState.Observable.Auto*"></a>
   <h4 id="TinkState_Observable_Auto__1_System_Func_TinkState_AsyncComputeTask___0___" data-uid="TinkState.Observable.Auto``1(System.Func{TinkState.AsyncComputeTask{``0}})">Auto&lt;T&gt;(Func&lt;AsyncComputeTask&lt;T&gt;&gt;)</h4>
   <div class="markdown level1 summary">
 <p>

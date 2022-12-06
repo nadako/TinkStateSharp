@@ -164,6 +164,15 @@ references:
   fullName.vb: TinkState.Observable.Auto(Of T)(System.Func(Of T), System.Collections.Generic.IEqualityComparer(Of T))
   nameWithType: Observable.Auto<T>(Func<T>, IEqualityComparer<T>)
   nameWithType.vb: Observable.Auto(Of T)(Func(Of T), IEqualityComparer(Of T))
+- uid: TinkState.Observable.Auto``1(System.Func{System.Threading.CancellationToken,TinkState.AsyncComputeTask{``0}})
+  name: Auto<T>(Func<CancellationToken, AsyncComputeTask<T>>)
+  href: api/TinkState.Observable.html#TinkState_Observable_Auto__1_System_Func_System_Threading_CancellationToken_TinkState_AsyncComputeTask___0___
+  commentId: M:TinkState.Observable.Auto``1(System.Func{System.Threading.CancellationToken,TinkState.AsyncComputeTask{``0}})
+  name.vb: Auto(Of T)(Func(Of CancellationToken, AsyncComputeTask(Of T)))
+  fullName: TinkState.Observable.Auto<T>(System.Func<System.Threading.CancellationToken, TinkState.AsyncComputeTask<T>>)
+  fullName.vb: TinkState.Observable.Auto(Of T)(System.Func(Of System.Threading.CancellationToken, TinkState.AsyncComputeTask(Of T)))
+  nameWithType: Observable.Auto<T>(Func<CancellationToken, AsyncComputeTask<T>>)
+  nameWithType.vb: Observable.Auto(Of T)(Func(Of CancellationToken, AsyncComputeTask(Of T)))
 - uid: TinkState.Observable.Auto``1(System.Func{TinkState.AsyncComputeTask{``0}})
   name: Auto<T>(Func<AsyncComputeTask<T>>)
   href: api/TinkState.Observable.html#TinkState_Observable_Auto__1_System_Func_TinkState_AsyncComputeTask___0___
