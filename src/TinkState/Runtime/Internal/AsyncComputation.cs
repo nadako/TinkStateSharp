@@ -1,18 +1,13 @@
 ﻿using System;
+using System.Threading;
 
 namespace TinkState.Internal
 {
-	class AsyncComputation<T> : Computation<AsyncComputeResult<T>>
+	abstract class AsyncComputationBase<T> : Computation<AsyncComputeResult<T>>
 	{
 		AutoObservable<AsyncComputeResult<T>> owner;
-		readonly Func<AsyncComputeTask<T>> compute;
 
 		AsyncComputeTask<T> task;
-
-		public AsyncComputation(Func<AsyncComputeTask<T>> compute)
-		{
-			this.compute = compute;
-		}
 
 		public void Init(AutoObservable<AsyncComputeResult<T>> owner)
 		{
@@ -22,11 +17,17 @@ namespace TinkState.Internal
 		public AsyncComputeResult<T> GetNext()
 		{
 			task.CancelOnComplete();
-			task = compute();
+			task = StartComputation();
 			var result = task.GetResult();
 			if (result.Status == AsyncComputeStatus.Loading)
 			{
+				// task is actually asynchronously loading
 				task.OnComplete(TriggerOwner);
+			}
+			else
+			{
+				// task completed synchronously
+				CleanupCompletedComputation();
 			}
 			return result;
 		}
@@ -43,7 +44,61 @@ namespace TinkState.Internal
 
 		void TriggerOwner()
 		{
+			CleanupCompletedComputation();
 			owner.TriggerAsync(task.GetResult());
+		}
+
+		protected abstract AsyncComputeTask<T> StartComputation();
+		protected abstract void CleanupCompletedComputation();
+	}
+
+	class AsyncComputation<T> : AsyncComputationBase<T>
+	{
+		readonly Func<AsyncComputeTask<T>> compute;
+
+		public AsyncComputation(Func<AsyncComputeTask<T>> compute)
+		{
+			this.compute = compute;
+		}
+
+		protected override AsyncComputeTask<T> StartComputation()
+		{
+			return compute();
+		}
+
+		protected override void CleanupCompletedComputation()
+		{
+			// nothing to clean up
+		}
+	}
+
+	class AsyncCancelableComputation<T> : AsyncComputationBase<T>
+	{
+		readonly Func<CancellationToken, AsyncComputeTask<T>> compute;
+
+		CancellationTokenSource cancellation;
+
+		public AsyncCancelableComputation(Func<CancellationToken, AsyncComputeTask<T>> compute)
+		{
+			this.compute = compute;
+		}
+
+		protected override AsyncComputeTask<T> StartComputation()
+		{
+			// trigger cancellation token for any previous computations
+			if (cancellation != null)
+			{
+				cancellation.Cancel();
+				cancellation.Dispose();
+			}
+			cancellation = new CancellationTokenSource();
+			return compute(cancellation.Token);
+		}
+
+		protected override void CleanupCompletedComputation()
+		{
+			cancellation.Dispose();
+			cancellation = null;
 		}
 	}
 }
