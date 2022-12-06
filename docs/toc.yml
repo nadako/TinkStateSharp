@@ -1,0 +1,9 @@
+- name: Documentation
+  href: articles/
+
+- name: API
+  href: api/
+  homepage: api/TinkState.yml
+
+- name: Repository
+  href: https://github.com/nadako/TinkStateSharp

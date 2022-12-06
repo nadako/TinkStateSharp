@@ -15,15 +15,23 @@
     "content": [
       {
         "files": [
-          "api/*.yml"
+          "api/*.yml",
+		  "api/index.md"
         ]
-      }
+      },
+	  {
+		"files": [
+		  "articles/**.md",
+		  "articles/**/toc.yml",
+		  "*.md",
+		  "toc.yml"
+		]
+	  }
     ],
     "dest": "_site",
     "globalMetadata": {
       "_appTitle": "TinkState",
-      "_disableContribution": true,
-      "_disableNavbar": true
+      "_disableContribution": true
     }
   }
 }

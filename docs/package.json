@@ -1,0 +1,21 @@
+{
+  "scripts": {
+	"watch": "npm-watch build",
+	"build": "docfx build --serve"
+  },
+  "watch": {
+	"build": {
+	  "patterns": [
+		"api",
+		"articles",
+		"toc",
+		"index"
+	  ],
+	  "extensions": "md,yml",
+	  "quiet": false
+	}
+  },
+  "devDependencies": {
+	"npm-watch": "^0.11.0"
+  }
+}
