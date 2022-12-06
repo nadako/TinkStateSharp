@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Custom Comparers | TinkState </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Custom Comparers | TinkState ">
+    <meta name="generator" content="docfx 2.59.4.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h2 id="custom-comparers">Custom Comparers</h2>
+
+<p>Observables are smart enough not to trigger bindings and recalculations when the value hasn&#39;t actually changed. This is handled on two levels:</p>
+<ul>
+<li>Observable objects only dispatch updates when the new value is actually different.</li>
+<li>Binding only invoke callbacks when the new value is different from the previous one.</li>
+</ul>
+<p>You can control how the old vs new comparison is made by providing an <code>IEqualityComparer&lt;T&gt;</code> implementation to an observable or a binding or both.</p>
+<p>It&#39;s done by passing an optional <code>comparer</code> argument to observable creation methods or the <code>Bind</code> method. If not provided, the the standard <code>EqualityComparer&lt;T&gt;.Default</code> comparer will be used.</p>
+<h2 id="example-custom-comparer-for-state">Example: Custom Comparer for State</h2>
+<p>Say we want to work with the following <code>Entry</code> class and implement a comparer that considers objects equal if their names are equal:</p>
+<pre><code class="lang-cs">class Entry
+{
+    public string Name;
+    public int Age;
+}
+
+class EntryComparer : IEqualityComparer&lt;Entry&gt;
+{
+    public static readonly EntryComparer Instance = new EntryComparer();
+
+    EntryComparer() {}
+
+    public bool Equals(Entry x, Entry y)
+    {
+        if (x == null &amp;&amp; y == null) return true;
+        if (x == null || y == null) return false;
+        return x.Name == y.Name &amp;&amp; x.Age == y.Age;
+    }
+
+    public int GetHashCode(Entry obj)
+    {
+        return HashCode.Combine(obj.Name, obj.Age); // not used by TinkState#
+    }
+}
+</code></pre><p>Now we can simply pass the comparer to the <code>State</code> constructor and see how the binding is not being triggered if the field values stay the same even if the actual value object is new:</p>
+<pre><code class="lang-cs">var state = Observable.State(new Entry { Name = &quot;John&quot;, Age = 30 }, EntryComparer.Instance);
+
+state.Bind(entry =&gt; Console.WriteLine(entry.Name + &quot; &quot; + entry.Age));
+// triggered normally on bind
+
+state.Value = new Entry { Name = &quot;John&quot;, Age = 30 };
+// not triggered as the value is the same according to EntryComparer
+
+state.Value = new Entry { Name = &quot;John&quot;, Age = 31 };
+// triggered as the value is different according to EntryComparer
+</code></pre><h2 id="example-custom-comparer-for-binding">Example: Custom Comparer for Binding</h2>
+<p>We can also specify a comparer for a single binding, in which case it will work together with the observable&#39;s comparer as an additional check for skipping binding callback invocation.</p>
+<p>Let&#39;s say we don&#39;t want our binding callback to a string observable to be invoked when just the case is changed. For that we implement a custom comparer that compares strings while ignoring their case:</p>
+<pre><code class="lang-cs">class CaseInsensitiveComparer : IEqualityComparer&lt;string&gt;
+{
+    public static readonly CaseInsensitiveComparer Instance = new CaseInsensitiveComparer();
+
+    CaseInsensitiveComparer() {}
+
+    public bool Equals(string x, string y)
+    {
+        if (x == null &amp;&amp; y == null) return true;
+        if (x == null || y == null) return false;
+        return string.Equals(x, y, StringComparison.CurrentCultureIgnoreCase);
+    }
+
+    public int GetHashCode(string obj)
+    {
+        return obj.ToLower().GetHashCode(); // not used by TinkState#
+    }
+}
+</code></pre><p>Now if we pass our custom comparer to the <code>Bind</code> method, the binding callback won&#39;t be invoked for the updates that only change letter case:</p>
+<pre><code class="lang-cs">var name = Observable.State(&quot;Dan&quot;);
+
+name.Bind(value =&gt; Console.WriteLine($&quot;Name: {value}&quot;), CaseInsensitiveComparer.Instance);
+// the callback is invoked normally on bind: `Name: Dan`
+
+name.Value = &quot;DAN&quot;;
+// the callback is NOT invoked, since the custom comparer considers old and new values the same
+
+Console.WriteLine(name.Value); // DAN
+// the actual State has the new value though, because we only specified comparer for a binding
+
+name.Value = &quot;John&quot;;
+// the callback is invoked: `Name: John`
+</code></pre></article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

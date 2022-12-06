@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Auto-Observable | TinkState </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Auto-Observable | TinkState ">
+    <meta name="generator" content="docfx 2.59.4.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h2 id="auto-observable">Auto-Observable</h2>
+
+<p>Auto-observables are the main way to derive observable data from a number of <em>source</em> observables by providing a <em>computation</em> function.</p>
+<p>The resulting observable will automatically subscribe (and unsubscribe) to changes of its source data, update its value and trigger its bindings.</p>
+<p>Like the others, it is created by a static function in the <a class="xref" href="../api/TinkState.Observable.html"><code>Observable</code></a> helper class:</p>
+<pre><code class="lang-cs">static class Observable
+{
+    static Observable&lt;T&gt; Auto&lt;T&gt;(Func&lt;T&gt; compute);
+}
+</code></pre><h2 id="examples">Examples</h2>
+<p>Here&#39;s a very basic example. We define one mutable <a href="state.html"><code>State</code></a> that we can change manually and derive an auto-observable that will automatically update itself.</p>
+<pre><code class="lang-cs">var userName = Observable.State(&quot;Dan&quot;);
+var greeting = Observable.Auto(() =&gt; $&quot;Hello, {userName.Value}!&quot;);
+
+Console.WriteLine(userName.Value); // Dan
+Console.WriteLine(greeting.Value); // Hello, Dan!
+userName.Value = &quot;World&quot;;
+Console.WriteLine(greeting.Value); // Hello, World!
+</code></pre><p>Note how <code>greeting</code> automatically tracks changes to <code>userName</code> simply because <code>userName.Value</code> is used in the computation function we pass to its constructor.</p>
+<hr>
+<p>Auto-observable can track any kind of observable, including other auto-observables, which allows for creating nice hierarchical structure for the data and letting TinkState# manage update propagation for you. Let&#39;s make our example more interesting to illustrate that:</p>
+<pre><code class="lang-cs">var userName = Observable.State(&quot;Dan&quot;);
+var hourOfDay = Observable.State(13);
+
+var partOfDay = Observable.Auto(() =&gt;
+{
+    var hour = hourOfDay.Value;
+    if (hour &lt; 7) return &quot;night&quot;;
+    if (hour &lt; 12) return &quot;morning&quot;;
+    if (hour &lt; 18) return &quot;day&quot;;
+    if (hour &lt; 23) return &quot;evening&quot;;
+    return &quot;night&quot;;
+});
+
+var greeting = Observable.Auto(() =&gt; $&quot;Good {partOfDay.Value}, {userName.Value}!&quot;);
+
+Console.WriteLine(greeting.Value); // Good day, Dan!
+
+userName.Value = &quot;World&quot;;
+hourOfDay.Value = 19;
+Console.WriteLine(greeting.Value); // Good evening, World!
+</code></pre><p>Here we create an auto-observable to calculate the part of day from the hour value, and then create another auto-observable to construct a greeting that uses both user name and part of day. Note how changes to the source <code>State</code>s are automatically propagated through auto-observables.</p>
+<h2 id="computations-caching-and-performance">Computations, caching and performance.</h2>
+<p>Auto-observables make an effort to minimize redundant work by doing some tracking and caching internally.</p>
+<p>They are <em>lazy</em>, meaning they only call computations when someone is interested in their values (i.e. <code>Value</code> property access or a <code>Bind</code>).</p>
+<p>They also cache the computation result and only call computation again if any of the tracked <em>source</em> observables are changed.</p>
+<p>And they also make sure to only track those observables that are accessed by the current computation, subscribing to and unsubscribing from source observables accordingly. This can make a difference in case of branching within computation function, like in the following example:</p>
+<pre><code class="lang-cs">var stateA = Observable.State(&quot;a&quot;);
+var stateB = Observable.State(&quot;b&quot;);
+
+var condition = Observable.State(true);
+
+var auto = Observable.Auto(() =&gt;
+{
+    if (condition.Value)
+    {
+        return stateA.Value; // tracked only when condition is true
+    }
+    else
+    {
+        return stateB.Value; // tracked only when condition is false
+    }
+});
+
+Console.WriteLine(auto.Value); // a
+condition.Value = false;
+Console.WriteLine(auto.Value); // b
+</code></pre><p>As you can see, while auto-observables are the most complex observables internally, they do their best to be as efficient as possible, so you shouldn&#39;t hesitate to use them for any kind of derived computed data.</p>
+<p>With that in mind, of course one has to be careful with unnecessary invalidations and heavy recomputations.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

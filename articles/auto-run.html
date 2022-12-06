@@ -5,11 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Namespace TinkState
-   | TinkState </title>
+    <title>Auto-Runs | TinkState </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Namespace TinkState
-   | TinkState ">
+    <meta name="title" content="Auto-Runs | TinkState ">
     <meta name="generator" content="docfx 2.59.4.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
@@ -68,64 +66,33 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="TinkState">
-  
-  <h1 id="TinkState" data-uid="TinkState" class="text-break">Namespace TinkState
-  </h1>
-  <div class="markdown level0 summary"></div>
-  <div class="markdown level0 conceptual"></div>
-  <div class="markdown level0 remarks"></div>
-    <h3 id="classes">Classes
-  </h3>
-      <h4><a class="xref" href="TinkState.Observable.html">Observable</a></h4>
-      <section>
-Static class containing <code>Observable</code> constructor methods and references to global utilities.
-</section>
-    <h3 id="structs">Structs
-  </h3>
-      <h4><a class="xref" href="TinkState.AsyncComputeResult-1.html">AsyncComputeResult&lt;T&gt;</a></h4>
-      <section>
-Structure representing the result of an <a class="xref" href="TinkState.Observable.html#TinkState_Observable_Auto__1_System_Func_TinkState_AsyncComputeTask___0___">asynchronous auto-observable</a> computation.
-</section>
-      <h4><a class="xref" href="TinkState.AsyncComputeTask-1.html">AsyncComputeTask&lt;T&gt;</a></h4>
-      <section>
-Task-like type representing <a class="xref" href="TinkState.Observable.html#TinkState_Observable_Auto__1_System_Func_TinkState_AsyncComputeTask___0___">asynchronous auto-observable computations</a>.
-</section>
-    <h3 id="interfaces">Interfaces
-  </h3>
-      <h4><a class="xref" href="TinkState.Observable-1.html">Observable&lt;T&gt;</a></h4>
-      <section>
-Piece of observable data holding value of type <code data-dev-comment-type="typeparamref" class="typeparamref">T</code> with means to read the value and bind to its updates.
-</section>
-      <h4><a class="xref" href="TinkState.ObservableDictionary-2.html">ObservableDictionary&lt;TKey, TValue&gt;</a></h4>
-      <section>
-A observable collection of key/value pairs.
-</section>
-      <h4><a class="xref" href="TinkState.ObservableList-1.html">ObservableList&lt;T&gt;</a></h4>
-      <section>
-A observable collection of values that can be individually accessed by index.
-</section>
-      <h4><a class="xref" href="TinkState.Schedulable.html">Schedulable</a></h4>
-      <section>
-Interface for objects schedulable for invocation by <a class="xref" href="TinkState.Scheduler.html">Scheduler</a>.
-The most common implementors of this interface are observable bindings that needs to be scheduled to run in batches.
-</section>
-      <h4><a class="xref" href="TinkState.Scheduler.html">Scheduler</a></h4>
-      <section>
-Mechanism for scheduling binding invocations. Must be implemented for the target run-time to provide efficient batching.
-<a class="xref" href="TinkState.Observable.html#TinkState_Observable_Scheduler">Scheduler</a>
-</section>
-      <h4><a class="xref" href="TinkState.State-1.html">State&lt;T&gt;</a></h4>
-      <section>
-Piece of mutable observable data holding a value of type <code data-dev-comment-type="typeparamref" class="typeparamref">T</code> with an ability to set a new value.
-</section>
-    <h3 id="enums">Enums
-  </h3>
-      <h4><a class="xref" href="TinkState.AsyncComputeStatus.html">AsyncComputeStatus</a></h4>
-      <section>
-Enumeration of possible <a class="xref" href="TinkState.AsyncComputeResult-1.html#TinkState_AsyncComputeResult_1_Status">Status</a> values in <a class="xref" href="TinkState.AsyncComputeResult-1.html">AsyncComputeResult&lt;T&gt;</a>
-</section>
-</article>
+            <article class="content wrap" id="_content" data-uid="">
+<h2 id="auto-runs">Auto-Runs</h2>
+
+<p>Sometimes we simply want to run some code that depends on observable values and have it automatically re-invoked in case any of the used values is changed. We could use an <a href="auto.html">auto-observable</a> with some dummy value for that, however if there&#39;s no need for an actual value it can get a bit awkward.</p>
+<p>For cases like this there&#39;s <a class="xref" href="../api/TinkState.Observable.html#TinkState_Observable_AutoRun_System_Action_TinkState_Scheduler_"><code>Observable.AutoRun</code></a>, a handy helper that provides a way to run some code while tracking observable access and re-run it when any of their values change, just like with auto-observable computation functions.</p>
+<h2 id="example">Example</h2>
+<pre><code class="lang-cs">var amount = Observable.State(1);
+var fruit = Observable.State(&quot;apple&quot;);
+
+var binding = Observable.AutoRun(() =&gt;
+{
+    Console.WriteLine($&quot;I want {amount.Value} of {fruit.Value}&quot;);
+});
+// immediately prints: I want 1 of apple
+
+fruit.Value = &quot;banana&quot;;
+// prints: I want 1 of banana
+
+amount.Value = 100;
+// prints: I want 100 of banana
+
+binding.Dispose();
+
+amount.Value = 5;
+fruit.Value = &quot;orange&quot;;
+// nothing is printed as the auto-run binding was disposed
+</code></pre></article>
           </div>
           
           <div class="hidden-sm col-md-2" role="complementary">

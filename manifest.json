@@ -9,7 +9,7 @@
       "output": {
         ".html": {
           "relative_path": "api/TinkState.AsyncComputeResult-1.html",
-          "hash": "0g/F0pO/NyY4jSqZ6rWdR4N8IKacdHsGiTpIRFN6XtA="
+          "hash": "VGtINSntOBRNMUMIpJvcI0Slt7WK4c+h/xyDM1u30yw="
         }
       },
       "is_incremental": false,
@@ -21,7 +21,7 @@
       "output": {
         ".html": {
           "relative_path": "api/TinkState.AsyncComputeStatus.html",
-          "hash": "Nu8QMl21kA3+Pe5LbJvDPZ2DCavp5bTUUS40qdLiPbw="
+          "hash": "mfVu+F6z10KDWIfPS8dYNbN78Fj2VwdBo7imChzIZ0A="
         }
       },
       "is_incremental": false,
@@ -33,7 +33,7 @@
       "output": {
         ".html": {
           "relative_path": "api/TinkState.AsyncComputeTask-1.html",
-          "hash": "4aLlzaGeHXOQ0y+QT0TjWhEu8DEXBONrTLh2OGNzEjE="
+          "hash": "ssXhXHt5yKuA5FTX6j7qNcnRm2lCOUjN51tdeSuQxrY="
         }
       },
       "is_incremental": false,
@@ -45,7 +45,7 @@
       "output": {
         ".html": {
           "relative_path": "api/TinkState.Observable-1.html",
-          "hash": "1AosDhhkOp5Zlv6ghcYfkzEId4w7goaQmyVh7lbKyeY="
+          "hash": "JLi8wo/mxRaYtL4XHH5K69XDSj6ht6qEwK04FFWU+cM="
         }
       },
       "is_incremental": false,
@@ -57,7 +57,7 @@
       "output": {
         ".html": {
           "relative_path": "api/TinkState.Observable.html",
-          "hash": "lI0oyItx6XpNn38dQ6PP3uBNzEsGgbOzmJG3+ovbFGo="
+          "hash": "kTone4kdmYNpGYJoLbPuTkgu8BtwVFg2xx2gNvf9L/g="
         }
       },
       "is_incremental": false,
@@ -69,7 +69,7 @@
       "output": {
         ".html": {
           "relative_path": "api/TinkState.ObservableDictionary-2.html",
-          "hash": "prVM6iY/aWUR0v3QNqHPME81uJ7pCLZX9rOWWnGGOTQ="
+          "hash": "0QUWoIg8CAY6Q9F1SuUuB8slWHPFRMOpk9OjBgj98Ak="
         }
       },
       "is_incremental": false,
@@ -81,7 +81,7 @@
       "output": {
         ".html": {
           "relative_path": "api/TinkState.ObservableList-1.html",
-          "hash": "eLOuwVvTS/BXIUrdmifyaJEgD2eNoQ9rxnEH+hA4lY4="
+          "hash": "1TSddN/bSsYVijRRJkW6HqsgnNv26IwpFgVmvy3Vjx4="
         }
       },
       "is_incremental": false,
@@ -93,7 +93,7 @@
       "output": {
         ".html": {
           "relative_path": "api/TinkState.Schedulable.html",
-          "hash": "f9QvEcImqqJrIDQKmppZp5imgIaUhe0EHAno9P0Q1zY="
+          "hash": "nf57cM8yTCloEP4iPdkdVU0SPixJrG82xjR7+tHBY8g="
         }
       },
       "is_incremental": false,
@@ -105,7 +105,7 @@
       "output": {
         ".html": {
           "relative_path": "api/TinkState.Scheduler.html",
-          "hash": "Es0+Dd86h8YlgaW6dOoujkELeJpxeVO9F+RpE7NGghs="
+          "hash": "4ptErUZK/vm4zilUl57/2JLkgkOrTrorRGtZJoF/E9Q="
         }
       },
       "is_incremental": false,
@@ -117,7 +117,7 @@
       "output": {
         ".html": {
           "relative_path": "api/TinkState.State-1.html",
-          "hash": "hiJuqYZ/cG9SQ+f/Jd5v8gDt63uPv0fd/yO28LeSp4I="
+          "hash": "XxcaoXvdRj6UVC1jjkW/LSSoeUOfQpM1bRpSKe4RcsY="
         }
       },
       "is_incremental": false,
@@ -129,7 +129,19 @@
       "output": {
         ".html": {
           "relative_path": "api/TinkState.html",
-          "hash": "t6e/2tm6tH3N+vgeopLEHJIFHQ6kwpyXEdPpiM5ReIM="
+          "hash": "uA7lbCHT10np7mRyJvomd47qR1Qc63CqTyvqX5owfOM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "jHBfGpnLlbG2KPro7rjMxYE3XZt8aBdbpMjPW1+NiV4="
         }
       },
       "is_incremental": false,
@@ -142,6 +154,222 @@
         ".html": {
           "relative_path": "api/toc.html",
           "hash": "iw3vxqMur0wXKvfFhZg12ThlH+35w+Z8KpUPHhSObFY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/auto-async.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/auto-async.html",
+          "hash": "Yz4qjg4SnFZl7/M78RDskfRjeguhObAGxxWsrXZQD8Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/auto-run.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/auto-run.html",
+          "hash": "kTlL+U+1GpSw1Dkt/gEaO85oDzEV1p09VpdoP/OhH00="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/auto.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/auto.html",
+          "hash": "z0ghLbkM4AyjeJLcE8Xd3RS8wbPeqt78g1KskSQTisM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/best-practices.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/best-practices.html",
+          "hash": "ZhMLnYHgk15uA+KvQLH/MNy3xWeFzGB9SEEx/JEMffQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/binding-batching.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/binding-batching.html",
+          "hash": "iQEC4lqas2q8xVK2pMyew1kaSnyYoT1ghNuyKnxUaTM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/binding.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/binding.html",
+          "hash": "IuVf1Zl9//+6/m+BLGx/4z3uiZIgRU/2pxPBlv8CCJw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/collections-dict.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/collections-dict.html",
+          "hash": "4hsSSfMeFEO4RH07JdOj8vx8VaVqEmxAWov1p6kkYk4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/collections-list.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/collections-list.html",
+          "hash": "sbONluEOmZ6L8IDqRKDTipFwGz+JtB+RQfTH/+1p8pA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/collections.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/collections.html",
+          "hash": "6KjJtG6vz/88/TbgJ+fssvG4j+h9LHGCFQhRhd9wQiE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/comparers.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/comparers.html",
+          "hash": "2c5fVGoEl3gKYJ8U3LWFG6FjBmAm6zyH1efBA5Vatvc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/const.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/const.html",
+          "hash": "VbhStWzXhaJsST9EGFG7bBs7FwMA/ezDSRP1FmGpPLo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro.html",
+          "hash": "h8BhgxePBY1FLMCNwP0hyFy6C22AoIgznaTT3/r31nA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/observable.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/observable.html",
+          "hash": "BfSC9gDgmnfeOHjUa3gujc+Uh25w57Wnb26zcN5p3xw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/state.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/state.html",
+          "hash": "vlzIqUcunjN42JckF4TnLlX5YnbXlFZuMXOYKLsofhU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html",
+          "hash": "4QwB1qcgFTUxv4lGjzB2cwImuWyujellAtxaohnWvIU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/unity.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/unity.html",
+          "hash": "LAW5JCaTrhgzlU7bZD095dTvw6L+ixwdc7xx4rOvEes="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "uhdeOozQ7x8RpAcxXpoiGcxyL5fgjyQt6Q6m7L+jN6k="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "tC7jFi7xX9Rlj45H5TKVe+YDlOa9dJLThw6EJGTRj+g="
         }
       },
       "is_incremental": false,
@@ -159,6 +387,12 @@
         "full_build_reason_code": "NoAvailableBuildCache"
       },
       "processors": {
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 17,
+          "skipped_file_count": 0
+        },
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
