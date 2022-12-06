@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using TinkState;
@@ -547,6 +548,98 @@ namespace Test
 			Assert.That(o.Value.Status, Is.EqualTo(AsyncComputeStatus.Done));
 			Assert.That(o.Value.Result, Is.EqualTo(4));
 			Assert.That(computeCalls, Is.EqualTo(2));
+		}
+
+		[Test]
+		public async Task TestCancellation()
+		{
+			var s = Observable.State(1);
+			var computeCalls = 0;
+			var cancelledValues = new List<int>();
+			var o = Observable.Auto(async ct =>
+			{
+				computeCalls++;
+				var v = s.Value;
+				await Task.Delay(50);
+				if (ct.IsCancellationRequested) cancelledValues.Add(v);
+				return v * 2;
+			});
+
+			Assert.That(computeCalls, Is.Zero);
+			Assert.That(cancelledValues.Count, Is.Zero);
+			Assert.That(o.Value.Status, Is.EqualTo(AsyncComputeStatus.Loading));
+			Assert.That(computeCalls, Is.EqualTo(1));
+
+			await Task.Delay(10);
+
+			// still computing
+			Assert.That(cancelledValues.Count, Is.Zero);
+			Assert.That(computeCalls, Is.EqualTo(1));
+			Assert.That(o.Value.Status, Is.EqualTo(AsyncComputeStatus.Loading));
+			Assert.That(computeCalls, Is.EqualTo(1));
+			Assert.That(cancelledValues.Count, Is.Zero);
+
+			s.Value++;
+
+			// new computation triggered
+			Assert.That(computeCalls, Is.EqualTo(1));
+			Assert.That(o.Value.Status, Is.EqualTo(AsyncComputeStatus.Loading));
+			Assert.That(computeCalls, Is.EqualTo(2));
+			Assert.That(cancelledValues.Count, Is.Zero); // still zero because the previous task is still running
+
+			await Task.Delay(100);
+
+			// previous task was cancelled at this point
+			Assert.That(cancelledValues.Count, Is.EqualTo(1));
+			Assert.That(cancelledValues[0], Is.EqualTo(1));
+
+			Assert.That(computeCalls, Is.EqualTo(2));
+			Assert.That(o.Value.Status, Is.EqualTo(AsyncComputeStatus.Done));
+			Assert.That(o.Value.Result, Is.EqualTo(4));
+			Assert.That(computeCalls, Is.EqualTo(2));
+		}
+
+		[Test]
+		public async Task TestCancellationTokenPropagation()
+		{
+			var s = Observable.State(1);
+			var computeStarts = 0;
+			var computeFinishes = 0;
+			var o = Observable.Auto(async ct =>
+			{
+				computeStarts++;
+				var v = s.Value;
+				await Task.Delay(50, ct); // this propagates cancellation
+				computeFinishes++;
+				return v * 2;
+			});
+
+			Assert.That(o.Value.Status, Is.EqualTo(AsyncComputeStatus.Loading));
+			Assert.That(computeStarts, Is.EqualTo(1));
+			Assert.That(computeFinishes, Is.Zero);
+
+			await Task.Delay(100);
+			Assert.That(o.Value.Status, Is.EqualTo(AsyncComputeStatus.Done));
+			Assert.That(o.Value.Result, Is.EqualTo(2));
+			Assert.That(computeStarts, Is.EqualTo(1));
+			Assert.That(computeFinishes, Is.EqualTo(1));
+
+			// ok it works, now let's cancel
+
+			s.Value++;
+			Assert.That(o.Value.Status, Is.EqualTo(AsyncComputeStatus.Loading));
+			Assert.That(computeStarts, Is.EqualTo(2));
+			Assert.That(computeFinishes, Is.EqualTo(1));
+
+			await Task.Delay(10);
+			s.Value++;
+			Assert.That(o.Value.Status, Is.EqualTo(AsyncComputeStatus.Loading));
+			Assert.That(computeStarts, Is.EqualTo(3));
+			Assert.That(computeFinishes, Is.EqualTo(1));
+
+			await Task.Delay(100);
+			Assert.That(computeStarts, Is.EqualTo(3));
+			Assert.That(computeFinishes, Is.EqualTo(2));
 		}
 
 		[Test]

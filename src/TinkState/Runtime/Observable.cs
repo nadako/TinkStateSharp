@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using TinkState.Internal;
 
 namespace TinkState
@@ -119,6 +120,27 @@ namespace TinkState
 		{
 			// TODO: cancellable computations
 			var computation = new AsyncComputation<T>(compute);
+			var observable = new AutoObservable<AsyncComputeResult<T>>(computation, null);
+			computation.Init(observable);
+			return observable;
+		}
+
+		/// <summary>
+		/// Create an observable containing data computed using given <paramref name="compute"/> function,
+		/// similarly to <see cref="Auto{T}(System.Func{AsyncComputeTask{T}})"/> but with support for cancelling
+		/// computations.
+		/// </summary>
+		/// <remarks>
+		/// The <paramref name="compute"/> function receives a <see cref="CancellationToken"/> instance that will be automatically
+		/// canceled if the auto-observable triggers a new computation (e.g. if one of its dependencies changes and we need to calculate a new value).
+		/// </remarks>
+		/// <param name="compute">Cancelable computation function that asynchronously returns a new value for this observable.</param>
+		/// <typeparam name="T">Type of the value being managed by this observable.</typeparam>
+		/// <returns>Auto-observable providing current results of value computation.</returns>
+		public static Observable<AsyncComputeResult<T>> Auto<T>(Func<CancellationToken, AsyncComputeTask<T>> compute)
+		{
+			// TODO: some flag for also cancelling task when last binding is disposed?
+			var computation = new AsyncCancelableComputation<T>(compute);
 			var observable = new AutoObservable<AsyncComputeResult<T>>(computation, null);
 			computation.Init(observable);
 			return observable;
