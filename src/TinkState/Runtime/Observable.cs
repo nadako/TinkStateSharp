@@ -118,7 +118,6 @@ namespace TinkState
 		/// <returns>Auto-observable providing current results of value computation.</returns>
 		public static Observable<AsyncComputeResult<T>> Auto<T>(Func<AsyncComputeTask<T>> compute)
 		{
-			// TODO: cancellable computations
 			var computation = new AsyncComputation<T>(compute);
 			var observable = new AutoObservable<AsyncComputeResult<T>>(computation, null);
 			computation.Init(observable);
