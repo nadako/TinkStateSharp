@@ -63,13 +63,15 @@ namespace TinkState.Model
 		{
 			var resolver = new DefaultAssemblyResolver();
 			resolver.AddSearchDirectory(Path.GetDirectoryName(assemblyPath));
-			var module = ModuleDefinition.ReadModule(assemblyPath, new ReaderParameters {ReadWrite = true, ReadSymbols = true, AssemblyResolver = resolver});
+			var module = ModuleDefinition.ReadModule(assemblyPath,
+				new ReaderParameters {ReadWrite = true, ReadSymbols = true, AssemblyResolver = resolver});
 			Debug.Log($"Weaving {assemblyPath}");
 			var success = Weaver.Weave(module);
 			if (success)
 			{
-				module.Write();
+				module.Write(new WriterParameters {WriteSymbols = true});
 			}
+
 			return success;
 		}
 	}
