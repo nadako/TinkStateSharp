@@ -1,6 +1,21 @@
 using TinkState;
+using TinkState.Model;
 using TMPro;
 using UnityEngine;
+
+[Model]
+class Player
+{
+	[Observable] public string Name { get; set; }
+}
+
+[Model]
+class GreetingViewModel
+{
+	[Observable] public Player Player { get; set; }
+
+	[Observable] public string Greeting => $"Hello, {Player.Name}!";
+}
 
 public class HelloWorld : MonoBehaviour
 {
@@ -9,17 +24,15 @@ public class HelloWorld : MonoBehaviour
 
 	void Start()
 	{
-		// define piece of mutable observable state
-		var name = Observable.State("World");
+		var player = new Player {Name = "Dan"};
+		var greetingViewModel = new GreetingViewModel {Player = player};
 
-		// bind the state two-ways to an input field
+		var greeting = Observable.Auto(() => greetingViewModel.Greeting);
+		var name = Observable.Auto(() => player.Name);
+
 		name.Bind(nameInput.SetTextWithoutNotify);
-		nameInput.onValueChanged.AddListener(newValue => name.Value = newValue);
+		nameInput.onValueChanged.AddListener(newValue => player.Name = newValue);
 
-		// derive automatically updated observable value from it
-		var greeting = Observable.Auto(() => $"Hello, {name.Value}!");
-
-		// bind the auto-observable to a text field
 		greeting.Bind(text => greetingLabel.text = text);
 	}
 }
