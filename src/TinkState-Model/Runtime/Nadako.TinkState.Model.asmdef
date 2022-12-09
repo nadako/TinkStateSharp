@@ -1,0 +1,7 @@
+﻿{
+  "name": "Nadako.TinkState.Model",
+  "references": [
+	"Nadako.TinkState"
+  ],
+  "noEngineReferences": true
+}
