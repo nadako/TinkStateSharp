@@ -14,19 +14,26 @@ namespace TinkState.Model
 		{
 			var tinkStateRef = module.AssemblyReferences.First(r => r.Name == "Nadako.TinkState");
 			var tinkStateAssembly = module.AssemblyResolver.Resolve(tinkStateRef);
+
+			var tinkStateModelRef = module.AssemblyReferences.First(r => r.Name == "Nadako.TinkState.Model");
+			var tinkStateModelAssembly = module.AssemblyResolver.Resolve(tinkStateModelRef);
+			var modelInternalType = tinkStateModelAssembly.MainModule.Types.First(t => t.FullName == "TinkState.Model.ModelInternal");
+
 			var observableType = tinkStateAssembly.MainModule.Types.First(t => t.FullName == "TinkState.Observable`1");
 			var stateType = tinkStateAssembly.MainModule.Types.First(t => t.FullName == "TinkState.State`1");
 			var observableClass = tinkStateAssembly.MainModule.Types.First(t => t.FullName == "TinkState.Observable");
-			const string ModelAttributeName = "TinkState.Model.ModelAttribute";
 			const string ObservableAttributeName = "TinkState.Model.ObservableAttribute";
 			const string CompilerGeneratedAttributeName = "System.Runtime.CompilerServices.CompilerGeneratedAttribute";
 
 			foreach (var type in module.Types)
 			{
-				if (!type.HasCustomAttribute(ModelAttributeName)) continue;
+				if (!type.IsClass) continue;
+				if (!type.HasInterfaces ||
+				    !type.Interfaces.Any(i => i.InterfaceType.FullName == "TinkState.Model.Model")) continue;
 
 				Debug.Log("Weaving " + type.FullName);
 				var inits = new List<Instruction[]>();
+				var obsfields = new List<(string name, FieldReference field)>();
 				foreach (var prop in type.Properties)
 				{
 					if (!prop.HasCustomAttribute(ObservableAttributeName)) continue;
@@ -37,15 +44,15 @@ namespace TinkState.Model
 					{
 						if (prop.GetMethod.HasCustomAttribute(CompilerGeneratedAttributeName)) throw new Exception("Read-only Observable properties must have a non-automatic get method");
 
-						var originalGetMethod = prop.GetMethod;
-						var newGetMethod = new MethodDefinition(originalGetMethod.Name, originalGetMethod.Attributes, originalGetMethod.ReturnType);
+						var getMethod = prop.GetMethod;
 
-						originalGetMethod.Name = "<" + prop.Name + ">Tink_Getter";
+						var hoistedGetMethod = new MethodDefinition("<" + prop.Name + ">Tink_Getter",
+							MethodAttributes.Private, getMethod.ReturnType);
+						hoistedGetMethod.Body = new MethodBody(hoistedGetMethod);
+						foreach (var i in getMethod.Body.Instructions)
+							hoistedGetMethod.Body.Instructions.Add(i);
+						type.Methods.Add(hoistedGetMethod);
 
-						newGetMethod.Body = new MethodBody(newGetMethod);
-
-						prop.GetMethod = newGetMethod;
-						type.Methods.Add(newGetMethod);
 
 						var backingFieldType = module.ImportReference(observableType).MakeGenericInstanceType(prop.PropertyType);
 						var backingField =
@@ -56,7 +63,8 @@ namespace TinkState.Model
 						var getValue = new MethodReference("get_Value", observableGetValue.ReturnType, backingFieldType)
 							{HasThis = true};
 
-						var il = newGetMethod.Body.GetILProcessor();
+						var il = getMethod.Body.GetILProcessor();
+						il.Clear();
 						il.Emit(OpCodes.Ldarg_0);
 						il.Emit(OpCodes.Ldfld, backingField);
 						il.Emit(OpCodes.Callvirt, getValue);
@@ -75,7 +83,7 @@ namespace TinkState.Model
 							Instruction.Create(OpCodes.Ldarg_0),
 
 							Instruction.Create(OpCodes.Ldarg_0),
-							Instruction.Create(OpCodes.Ldftn, originalGetMethod), // TODO: add caching for non-closures like roslyn does?
+							Instruction.Create(OpCodes.Ldftn, hoistedGetMethod), // TODO: add caching for non-closures like roslyn does?
 							Instruction.Create(OpCodes.Newobj, funcCtor.MakeHostInstanceGeneric(module, funcType)),
 
 							Instruction.Create(OpCodes.Ldnull), // comparer
@@ -84,6 +92,7 @@ namespace TinkState.Model
 
 							Instruction.Create(OpCodes.Stfld, backingField),
 						});
+						obsfields.Add((prop.Name, backingField));
 					}
 					else // state
 					{
@@ -135,13 +144,15 @@ namespace TinkState.Model
 							Instruction.Create(OpCodes.Call, stateCtorMethodInstance),
 							Instruction.Create(OpCodes.Stfld, backingField),
 						});
+						obsfields.Add((prop.Name, backingField));
 					}
 
-					Debug.Log(" - " + prop.FullName);
+					// Debug.Log(" - " + prop.FullName);
 				}
 
 				if (inits.Count > 0)
 				{
+					// TODO: hoist that into a method if there's more than 1 ctor?
 					var hasCtor = false;
 					foreach (var ctor in type.GetConstructors())
 					{
@@ -158,6 +169,43 @@ namespace TinkState.Model
 
 					if (!hasCtor) throw new Exception("No constructor O_o");
 				}
+
+				type.Interfaces.Add(new InterfaceImplementation(module.ImportReference(modelInternalType)));
+
+				var interfaceGetObservableMethod = module.ImportReference(modelInternalType.Methods.First(m => m.Name == "GetObservable"));
+
+				var returnType = module.ImportReference(observableType);
+				var getObservableMethod = new MethodDefinition("TinkState.Model.ModelInternal.GetObservable",
+					MethodAttributes.Private | MethodAttributes.Final | MethodAttributes.NewSlot | MethodAttributes.HideBySig | MethodAttributes.Virtual, returnType);
+				var p = new GenericParameter("T", getObservableMethod);
+				getObservableMethod.GenericParameters.Add(p);
+				getObservableMethod.MethodReturnType.ReturnType =
+					module.ImportReference(observableType).MakeGenericInstanceType(p);
+				getObservableMethod.Body = new MethodBody(getObservableMethod);
+				getObservableMethod.Body.InitLocals = true;
+				{
+					var stringEq = module.ImportReference(typeof(string).GetMethod("op_Equality"));
+
+					var il = getObservableMethod.Body.GetILProcessor();
+					foreach (var (fieldName, fieldRef) in obsfields)
+					{
+						il.Emit(OpCodes.Ldarg_1);
+						il.Emit(OpCodes.Ldstr, fieldName);
+						il.Emit(OpCodes.Call, stringEq);
+						var elseEntryPoint = Instruction.Create(OpCodes.Nop);
+						il.Emit(OpCodes.Brfalse, elseEntryPoint);
+						il.Emit(OpCodes.Ldarg_0);
+						il.Emit(OpCodes.Ldfld, fieldRef);
+						il.Emit(OpCodes.Ret);
+						il.Append(elseEntryPoint);
+					}
+					il.Emit(OpCodes.Ldnull);
+					il.Emit(OpCodes.Ret);
+				}
+				getObservableMethod.Overrides.Add(interfaceGetObservableMethod);
+				getObservableMethod.Parameters.Add(new ParameterDefinition("field", ParameterAttributes.None, module.TypeSystem.String));
+
+				type.Methods.Add(getObservableMethod);
 			}
 
 			return true;

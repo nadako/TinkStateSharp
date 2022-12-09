@@ -1,16 +1,13 @@
-using TinkState;
 using TinkState.Model;
 using TMPro;
 using UnityEngine;
 
-[Model]
-class Player
+class Player : Model
 {
 	[Observable] public string Name { get; set; }
 }
 
-[Model]
-class GreetingViewModel
+class GreetingViewModel : Model
 {
 	[Observable] public Player Player { get; set; }
 
@@ -27,8 +24,8 @@ public class HelloWorld : MonoBehaviour
 		var player = new Player {Name = "Dan"};
 		var greetingViewModel = new GreetingViewModel {Player = player};
 
-		var greeting = Observable.Auto(() => greetingViewModel.Greeting);
-		var name = Observable.Auto(() => player.Name);
+		var greeting = greetingViewModel.GetObservable(m => m.Greeting);
+		var name = player.GetObservable(p => p.Name);
 
 		name.Bind(nameInput.SetTextWithoutNotify);
 		nameInput.onValueChanged.AddListener(newValue => player.Name = newValue);
