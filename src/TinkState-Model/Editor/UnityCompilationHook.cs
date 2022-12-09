@@ -47,6 +47,8 @@ namespace TinkState.Model
 				return;
 			}
 
+			if (assemblyPath.Contains("Nadako.TinkState")) return;
+
 			if (assemblyPath.Contains("-Editor") || assemblyPath.Contains(".Editor"))
 			{
 				return;
