@@ -24,12 +24,8 @@ namespace TinkState.Model.Weaver
 				Column = column;
 			}
 
-			public ModelWeaverException(string message, SequencePoint sequencePoint) : base(message)
-			{
-				File = sequencePoint.Document.Url;
-				Line = sequencePoint.StartLine;
-				Column = sequencePoint.StartColumn;
-			}
+			public ModelWeaverException(string message, SequencePoint sequencePoint)
+				: this(message, sequencePoint.Document.Url, sequencePoint.StartLine, sequencePoint.StartColumn) { }
 
 			public ModelWeaverException(string message, MethodDefinition method) : this(message, GetMethodSequencePoint(method)) { }
 
