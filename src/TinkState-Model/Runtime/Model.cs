@@ -12,9 +12,6 @@ namespace TinkState.Model
 
 	public static class ModelExtensions
 	{
-		// TODO: check if aggressive inlining helps with avoiding allocations and type casts in the release-mode code
-
-		// [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Observable<T> GetObservable<M, T>(this M model, Expression<Func<M, T>> expr) where M : Model
 		{
 			var memberExpr = expr.Body as MemberExpression;
@@ -24,7 +21,6 @@ namespace TinkState.Model
 			return GetObservable<T>(model, fieldName);
 		}
 
-		// [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Observable<T> GetObservable<T>(this Model model, string field)
 		{
 			return ((ModelInternal)model).GetObservable<T>(field);
