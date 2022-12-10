@@ -35,6 +35,9 @@ namespace TinkState.Model.Weaver
 			}
 		}
 
+		const string TinkStateAssemblyName = "Nadako.TinkState";
+		const string TinkStateModelAssemblyName = "Nadako.TinkState.Model";
+
 		public static bool Weave(ModuleDefinition module, Logger logger, out bool modified)
 		{
 			modified = false;
@@ -72,7 +75,7 @@ namespace TinkState.Model.Weaver
 
 		static bool IsUsingModels(ModuleDefinition module)
 		{
-			return module.HasAssemblyReferences && module.AssemblyReferences.Any(r => r.Name == "Nadako.TinkState.Model");
+			return module.HasAssemblyReferences && module.AssemblyReferences.Any(r => r.Name == TinkStateModelAssemblyName);
 		}
 
 		static bool IsModelClass(TypeDefinition type)
@@ -103,7 +106,7 @@ namespace TinkState.Model.Weaver
 			this.module = module;
 			this.logger = logger;
 
-			var tinkStateRef = module.AssemblyReferences.First(r => r.Name == "Nadako.TinkState");
+			var tinkStateRef = module.AssemblyReferences.First(r => r.Name == TinkStateAssemblyName);
 			var tinkStateAssembly = module.AssemblyResolver.Resolve(tinkStateRef);
 			observableType = tinkStateAssembly.MainModule.Types.First(t => t.FullName == "TinkState.Observable`1");
 			observableGetValueMethod = observableType.Methods.First(m => m.Name == "get_Value");
@@ -115,7 +118,7 @@ namespace TinkState.Model.Weaver
 			stateCtorMethod = observableClass.Methods.First(m => m.Name == "State");
 			autoCtorMethod = observableClass.Methods.First(m => m.Name == "Auto");
 
-			var modelAssemblyRef = module.AssemblyReferences.First(r => r.Name == "Nadako.TinkState.Model");
+			var modelAssemblyRef = module.AssemblyReferences.First(r => r.Name == TinkStateModelAssemblyName);
 			var modelAssembly = module.AssemblyResolver.Resolve(modelAssemblyRef);
 			modelInternalType = modelAssembly.MainModule.Types.First(t => t.FullName == "TinkState.Model.ModelInternal");
 			modelInternalGetObservableMethod = modelInternalType.Methods.First(m => m.Name == "GetObservable");
