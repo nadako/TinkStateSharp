@@ -12,4 +12,8 @@
 		<Compile Include="../../src/TinkState-Model/Runtime/**/*.cs"/>
 	</ItemGroup>
 
+	<ItemGroup>
+		<ProjectReference Include="../TinkState/TinkState.csproj"/>
+	</ItemGroup>
+
 </Project>
