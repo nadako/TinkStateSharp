@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace TinkState.Model
 {
+	// TODO: use ILPostProcessor when it's available
 	public static class UnityCompilationHook
 	{
 		[InitializeOnLoadMethod]
