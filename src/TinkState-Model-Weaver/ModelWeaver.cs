@@ -128,7 +128,7 @@ namespace TinkState.Model.Weaver
 		{
 			public string PropertyName;
 			public FieldReference BackingField;
-			public Instruction[] InitCode;
+			public Func<MethodBody, Instruction[]> InitCode;
 		}
 
 		void WeaveModelClass(TypeDefinition type)
@@ -199,7 +199,7 @@ namespace TinkState.Model.Weaver
 			{
 				PropertyName = prop.Name,
 				BackingField = backingField,
-				InitCode = new[]
+				InitCode = _ => new[]
 				{
 					Instruction.Create(OpCodes.Ldarg_0),
 
@@ -255,13 +255,28 @@ namespace TinkState.Model.Weaver
 			{
 				PropertyName = prop.Name,
 				BackingField = backingField,
-				InitCode = new[]
+				InitCode = body =>
 				{
 					// TODO: find initial value in ctor (assignment to the original backing field) and push it instead of default
-					Instruction.Create(OpCodes.Ldnull), // initial value (TODO: default)
-					Instruction.Create(OpCodes.Ldnull), // comparer
-					Instruction.Create(OpCodes.Call, stateCtorMethodInstance),
-				}
+					var initInstructions = new List<Instruction>();
+					if (prop.PropertyType.IsValueType)
+					{
+						// TODO: use built-in instructions for numbers (ldc.i4.0, ldc.i8, etc.)
+						var tempVar = new VariableDefinition(prop.PropertyType);
+						body.Variables.Add(tempVar);
+						body.InitLocals = true;
+						initInstructions.Add(Instruction.Create(OpCodes.Ldloca_S, tempVar));
+						initInstructions.Add(Instruction.Create(OpCodes.Initobj, prop.PropertyType));
+						initInstructions.Add(Instruction.Create(OpCodes.Ldloc, tempVar));
+					}
+					else
+					{
+						initInstructions.Add(Instruction.Create(OpCodes.Ldnull));
+					}
+					initInstructions.Add(Instruction.Create(OpCodes.Ldnull)); // comparer
+					initInstructions.Add(Instruction.Create(OpCodes.Call, stateCtorMethodInstance));
+					return initInstructions.ToArray();
+				},
 			});
 		}
 
@@ -319,10 +334,11 @@ namespace TinkState.Model.Weaver
 					var field = fields[i];
 
 					ctor.Body.Instructions.Insert(0, Instruction.Create(OpCodes.Stfld, field.BackingField));
+					var initCode = field.InitCode(ctor.Body);
 
-					for (var j = field.InitCode.Length - 1; j >= 0; j--)
+					for (var j = initCode.Length - 1; j >= 0; j--)
 					{
-						ctor.Body.Instructions.Insert(0, field.InitCode[j]);
+						ctor.Body.Instructions.Insert(0, initCode[j]);
 					}
 
 					ctor.Body.Instructions.Insert(0, Instruction.Create(OpCodes.Ldarg_0));
