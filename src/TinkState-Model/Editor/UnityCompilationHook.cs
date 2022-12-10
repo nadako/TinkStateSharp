@@ -14,17 +14,36 @@ namespace TinkState.Model
 		public static void OnInitializeOnLoad()
 		{
 			CompilationPipeline.assemblyCompilationFinished += OnCompilationFinished;
+			EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
 
 			if (!SessionState.GetBool("TINK_STATE_MODEL_WEAVED", false))
 			{
 				SessionState.SetBool("TINK_STATE_MODEL_WEAVED", true);
-				SessionState.SetBool("TINK_STATE_MODEL_WEAVE_SUCCESS", true);
 				WeaveExistingAssemblies();
+			}
+		}
+
+		static void OnPlayModeStateChanged(PlayModeStateChange state)
+		{
+			if (state == PlayModeStateChange.ExitingEditMode)
+			{
+				if (!SessionState.GetBool("TINK_STATE_MODEL_WEAVE_SUCCESS", false))
+				{
+					WeaveExistingAssemblies();
+
+					if (!SessionState.GetBool("TINK_STATE_MODEL_WEAVE_SUCCESS", false))
+					{
+						Debug.LogError("Can't enter play mode until weaver issues are resolved.");
+						EditorApplication.isPlaying = false;
+					}
+				}
 			}
 		}
 
 		static void WeaveExistingAssemblies()
 		{
+			SessionState.SetBool("TINK_STATE_MODEL_WEAVE_SUCCESS", true);
+
 			foreach (var assembly in CompilationPipeline.GetAssemblies())
 			{
 				if (File.Exists(assembly.outputPath))
@@ -36,27 +55,37 @@ namespace TinkState.Model
 			EditorUtility.RequestScriptReload();
 		}
 
-		static bool CompilerMessagesContainError(CompilerMessage[] messages) =>
-			messages.Any(msg => msg.type == CompilerMessageType.Error);
-
 		static void OnCompilationFinished(string assemblyPath, CompilerMessage[] messages)
 		{
-			if (CompilerMessagesContainError(messages))
+			if (messages.Any(msg => msg.type == CompilerMessageType.Error))
 			{
 				Debug.Log("TinkState.Model: Did not weave because of compilation errors");
 				return;
 			}
-
-			if (assemblyPath.Contains("Nadako.TinkState")) return;
 
 			if (assemblyPath.Contains("-Editor") || assemblyPath.Contains(".Editor"))
 			{
 				return;
 			}
 
+			var tinkStateModelAssembly = CompilationPipeline.GetAssemblies().FirstOrDefault(assembly => assembly.name == "Nadako.TinkState.Model");
+			if (tinkStateModelAssembly == null)
+			{
+				Debug.LogError("Failed to find TinkState# Model runtime assembly");
+				return;
+			}
+
+			var tinkStateModelDll = tinkStateModelAssembly.outputPath;
+			if (!File.Exists(tinkStateModelDll))
+			{
+				// model assembly is not yet build, meaning that the current assembly doesn't need weaving since it doesn't depend on model,
+				// otherwise it would be processed after model assembly
+				return;
+			}
+
 			if (!WeaveFile(assemblyPath))
 			{
-				SessionState.SetBool("MIRROR_WEAVE_SUCCESS", false);
+				SessionState.SetBool("TINK_STATE_MODEL_WEAVE_SUCCESS", false);
 				Debug.LogError($"Weaving failed for {assemblyPath}");
 			}
 		}
@@ -65,16 +94,18 @@ namespace TinkState.Model
 		{
 			var resolver = new DefaultAssemblyResolver();
 			resolver.AddSearchDirectory(Path.GetDirectoryName(assemblyPath));
-			var module = ModuleDefinition.ReadModule(assemblyPath,
-				new ReaderParameters {ReadWrite = true, ReadSymbols = true, AssemblyResolver = resolver});
+			var module = ModuleDefinition.ReadModule(assemblyPath, new ReaderParameters {ReadWrite = true, ReadSymbols = true, AssemblyResolver = resolver});
 			Debug.Log($"Weaving {assemblyPath}");
-			var success = Weaver.Weave(module);
-			if (success)
+			if (Weaver.Weave(module, out var modified))
 			{
-				module.Write(new WriterParameters {WriteSymbols = true});
-			}
+				if (modified)
+				{
+					module.Write(new WriterParameters {WriteSymbols = true});
+				}
 
-			return success;
+				return true;
+			}
+			return false;
 		}
 	}
 }

@@ -1,6 +1,3 @@
 ﻿{
-	"name": "Nadako.TinkState.Model.Editor",
-	"references": [
-		"Nadako.TinkState.Model"
-	]
+	"name": "Nadako.TinkState.Model.Editor"
 }
