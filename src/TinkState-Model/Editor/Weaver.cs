@@ -16,6 +16,8 @@ namespace TinkState.Model
 
 			if (!IsUsingModels(module)) return true;
 
+			Debug.Log($"Weaving {module.Assembly.FullName}");
+
 			Weaver weaver = null;
 			foreach (var type in module.Types)
 			{

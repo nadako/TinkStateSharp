@@ -95,7 +95,6 @@ namespace TinkState.Model
 			var resolver = new DefaultAssemblyResolver();
 			resolver.AddSearchDirectory(Path.GetDirectoryName(assemblyPath));
 			var module = ModuleDefinition.ReadModule(assemblyPath, new ReaderParameters {ReadWrite = true, ReadSymbols = true, AssemblyResolver = resolver});
-			Debug.Log($"Weaving {assemblyPath}");
 			if (Weaver.Weave(module, out var modified))
 			{
 				if (modified)
