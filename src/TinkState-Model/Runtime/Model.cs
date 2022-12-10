@@ -1,6 +1,5 @@
 using System;
 using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
 
 namespace TinkState.Model
 {
@@ -9,20 +8,6 @@ namespace TinkState.Model
 	interface ModelInternal
 	{
 		Observable<T> GetObservable<T>(string field);
-	}
-
-	class C : ModelInternal
-	{
-		Observable<T> ModelInternal.GetObservable<T>(string field)
-		{
-			switch (field)
-			{
-				case "a": return null;
-				case "b": return null;
-				case "c": return null;
-			}
-			return null;
-		}
 	}
 
 	public static class ModelExtensions
