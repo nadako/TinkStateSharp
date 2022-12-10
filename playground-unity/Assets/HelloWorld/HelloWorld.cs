@@ -5,7 +5,7 @@ using UnityEngine;
 class Player : Model
 {
 	[Observable] public string Name { get; set; }
-	[Observable] public string Nickname { get; set; }
+	[Observable] public int Age { get; set; }
 }
 
 class GreetingViewModel : Model
