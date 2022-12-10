@@ -4,29 +4,36 @@ using System.Linq;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Mono.Cecil.Rocks;
-using UnityEngine;
 
-namespace TinkState.Model
+namespace TinkState.Model.Weaver
 {
-	class Weaver
+	public class ModelWeaver
 	{
-		public static bool Weave(ModuleDefinition module, out bool modified)
+		public static bool Weave(ModuleDefinition module, Logger logger, out bool modified)
 		{
 			modified = false;
 
-			if (!IsUsingModels(module)) return true;
-
-			Debug.Log($"Weaving {module.Assembly.FullName}");
-
-			Weaver weaver = null;
-			foreach (var type in module.Types)
+			try
 			{
-				if (IsModelClass(type))
+				if (!IsUsingModels(module)) return true;
+
+				logger.Log($"Weaving {module.Assembly.FullName}");
+
+				ModelWeaver weaver = null;
+				foreach (var type in module.Types)
 				{
-					weaver ??= new Weaver(module);
-					weaver.WeaveModelClass(type);
-					modified = true;
+					if (IsModelClass(type))
+					{
+						weaver ??= new ModelWeaver(module, logger);
+						weaver.WeaveModelClass(type);
+						modified = true;
+					}
 				}
+			}
+			catch (Exception e)
+			{
+				logger.Error(e.ToString());
+				return false;
 			}
 
 			return true;
@@ -45,22 +52,25 @@ namespace TinkState.Model
 		const string ObservableAttributeName = "TinkState.Model.ObservableAttribute";
 		const string CompilerGeneratedAttributeName = "System.Runtime.CompilerServices.CompilerGeneratedAttribute";
 
-		ModuleDefinition module;
-		TypeDefinition observableType;
-		TypeDefinition stateType;
-		TypeDefinition modelInternalType;
-		MethodReference modelInternalGetObservableMethod;
-		MethodReference stateCtorMethod;
-		MethodReference autoCtorMethod;
-		MethodReference observableGetValueMethod;
-		MethodReference stateGetValueMethod;
-		MethodReference stateSetValueMethod;
-		System.Reflection.MethodBase stringEqualsMethod;
-		Type funcType;
+		readonly ModuleDefinition module;
+		readonly Logger logger;
 
-		Weaver(ModuleDefinition module)
+		readonly TypeDefinition observableType;
+		readonly TypeDefinition stateType;
+		readonly TypeDefinition modelInternalType;
+		readonly MethodReference modelInternalGetObservableMethod;
+		readonly MethodReference stateCtorMethod;
+		readonly MethodReference autoCtorMethod;
+		readonly MethodReference observableGetValueMethod;
+		readonly MethodReference stateGetValueMethod;
+		readonly MethodReference stateSetValueMethod;
+		readonly MethodReference stringEqualsMethod;
+		readonly TypeReference funcType;
+
+		ModelWeaver(ModuleDefinition module, Logger logger)
 		{
 			this.module = module;
+			this.logger = logger;
 
 			var tinkStateRef = module.AssemblyReferences.First(r => r.Name == "Nadako.TinkState");
 			var tinkStateAssembly = module.AssemblyResolver.Resolve(tinkStateRef);
@@ -79,8 +89,8 @@ namespace TinkState.Model
 			modelInternalType = modelAssembly.MainModule.Types.First(t => t.FullName == "TinkState.Model.ModelInternal");
 			modelInternalGetObservableMethod = modelInternalType.Methods.First(m => m.Name == "GetObservable");
 
-			stringEqualsMethod = typeof(string).GetMethod("op_Equality");
-			funcType = typeof(Func<>);
+			stringEqualsMethod = module.TypeSystem.String.Resolve().Methods.First(m => m.Name == "op_Equality");
+			funcType = module.ImportReference(typeof(Func<>));
 		}
 
 		struct FieldData
@@ -92,7 +102,7 @@ namespace TinkState.Model
 
 		void WeaveModelClass(TypeDefinition type)
 		{
-			Debug.Log("Weaving " + type.FullName);
+			logger.Log("Weaving " + type.FullName);
 
 			var backingFields = new List<FieldData>();
 
@@ -121,6 +131,7 @@ namespace TinkState.Model
 			if (prop.GetMethod.HasCustomAttribute(CompilerGeneratedAttributeName))
 			{
 				// auto-observables require actual computation code
+				logger.Log(prop.GetMethod.DebugInformation.SequencePoints[0].StartLine.ToString());
 				throw new Exception("Read-only Observable properties must have a non-automatic get method");
 			}
 

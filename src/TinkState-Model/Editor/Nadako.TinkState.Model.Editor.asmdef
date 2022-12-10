@@ -1,8 +1,0 @@
-﻿{
-	"name": "Nadako.TinkState.Model.Editor",
-	"overrideReferences": true,
-	"precompiledReferences": [
-		"Mono.Cecil.dll",
-		"Mono.Cecil.Rocks.dll"
-	]
-}
