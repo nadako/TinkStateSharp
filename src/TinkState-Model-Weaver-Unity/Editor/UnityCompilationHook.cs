@@ -17,7 +17,7 @@ namespace TinkState.Model
 		{
 			public readonly List<DiagnosticMessage> Messages = new List<DiagnosticMessage>();
 
-			public void Log(string message)
+			public void Debug(string message)
 			{
 				Messages.Add(new DiagnosticMessage
 				{
@@ -26,12 +26,15 @@ namespace TinkState.Model
 				});
 			}
 
-			public void Error(string message)
+			public void Error(string message, string file, int line, int column)
 			{
 				Messages.Add(new DiagnosticMessage
 				{
 					DiagnosticType = DiagnosticType.Error,
 					MessageData = message,
+					File = file,
+					Line = line,
+					Column = column
 				});
 			}
 		}
@@ -46,7 +49,7 @@ namespace TinkState.Model
 		public override ILPostProcessResult Process(ICompiledAssembly compiledAssembly)
 		{
 			var logger = new UnityDebugLogger();
-			logger.Log("Processing " + compiledAssembly.Name);
+			logger.Debug("Processing " + compiledAssembly.Name);
 
 			using (var stream = new MemoryStream(compiledAssembly.InMemoryAssembly.PeData))
 			using (var symbols = new MemoryStream(compiledAssembly.InMemoryAssembly.PdbData))
