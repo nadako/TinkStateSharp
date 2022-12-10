@@ -11,6 +11,34 @@ namespace TinkState.Model.Weaver
 {
 	public class ModelWeaver
 	{
+		class ModelWeaverException : Exception
+		{
+			public readonly string File;
+			public readonly int Line;
+			public readonly int Column;
+
+			public ModelWeaverException(string message, string file, int line, int column) : base(message)
+			{
+				File = file;
+				Line = line;
+				Column = column;
+			}
+
+			public ModelWeaverException(string message, SequencePoint sequencePoint) : base(message)
+			{
+				File = sequencePoint.Document.Url;
+				Line = sequencePoint.StartLine;
+				Column = sequencePoint.StartColumn;
+			}
+
+			public ModelWeaverException(string message, MethodDefinition method) : this(message, GetMethodSequencePoint(method)) { }
+
+			static SequencePoint GetMethodSequencePoint(MethodDefinition method)
+			{
+				return method.DebugInformation.SequencePoints[0];
+			}
+		}
+
 		public static bool Weave(ModuleDefinition module, Logger logger, out bool modified)
 		{
 			modified = false;
@@ -19,7 +47,7 @@ namespace TinkState.Model.Weaver
 			{
 				if (!IsUsingModels(module)) return true;
 
-				logger.Log($"Weaving {module.Assembly.FullName}");
+				logger.Debug($"Weaving {module.Assembly.FullName}");
 
 				ModelWeaver weaver = null;
 				foreach (var type in module.Types)
@@ -32,9 +60,14 @@ namespace TinkState.Model.Weaver
 					}
 				}
 			}
+			catch (ModelWeaverException e)
+			{
+				logger.Error(e.Message, e.File, e.Line, e.Column);
+				return false;
+			}
 			catch (Exception e)
 			{
-				logger.Error(e.ToString());
+				logger.Error(e.ToString(), null, 0, 0);
 				return false;
 			}
 
@@ -104,7 +137,7 @@ namespace TinkState.Model.Weaver
 
 		void WeaveModelClass(TypeDefinition type)
 		{
-			logger.Log("Weaving " + type.FullName);
+			logger.Debug("Weaving " + type.FullName);
 
 			var backingFields = new List<FieldData>();
 
@@ -133,8 +166,7 @@ namespace TinkState.Model.Weaver
 			if (prop.GetMethod.HasCustomAttribute(CompilerGeneratedAttributeName))
 			{
 				// auto-observables require actual computation code
-				logger.Log(prop.GetMethod.DebugInformation.SequencePoints[0].StartLine.ToString());
-				throw new Exception("Read-only Observable properties must have a non-automatic get method");
+				throw new ModelWeaverException("Read-only Observable properties must have a non-automatic get method", prop.GetMethod);
 			}
 
 			var getMethod = prop.GetMethod;
@@ -188,9 +220,9 @@ namespace TinkState.Model.Weaver
 		void CreateState(TypeDefinition type, PropertyDefinition prop, List<FieldData> backingFields)
 		{
 			if (!prop.GetMethod.CheckAndRemoveCustomAttribute(CompilerGeneratedAttributeName))
-				throw new Exception("Observable state properties must have an automatic get method");
+				throw new ModelWeaverException("Observable state properties must have an automatic get method", prop.GetMethod);
 			if (!prop.SetMethod.CheckAndRemoveCustomAttribute(CompilerGeneratedAttributeName))
-				throw new Exception("Observable state properties must have an automatic set method");
+				throw new ModelWeaverException("Observable state properties must have an automatic set method", prop.SetMethod);
 
 			var originalBackingField = prop.GetBackingField();
 			type.Fields.Remove(originalBackingField);
@@ -343,6 +375,7 @@ namespace TinkState.Model.Weaver
 					i++;
 				}
 			}
+
 			return removed;
 		}
 
