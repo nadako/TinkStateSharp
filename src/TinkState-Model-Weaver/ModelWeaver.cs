@@ -5,6 +5,8 @@ using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Mono.Cecil.Rocks;
 
+// TODO: this code here is highly experimental and subject to large changes and cleanups
+
 namespace TinkState.Model.Weaver
 {
 	public class ModelWeaver
