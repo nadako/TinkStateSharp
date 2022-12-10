@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Linq.Expressions;
 
 namespace TinkState.Model
@@ -8,7 +9,8 @@ namespace TinkState.Model
 	/// </summary>
 	public interface Model { }
 
-	interface ModelInternal
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public interface ModelInternal
 	{
 		Observable<T> GetObservable<T>(string field);
 	}

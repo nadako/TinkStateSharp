@@ -1,35 +1,17 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using TinkState;
+using TinkState.Model;
+
+class MyModel : Model
+{
+	[Observable] public string Name { get; set; }
+}
 
 class Playground
 {
-    static async Task Main()
+    static void Main()
     {
-        var stateA = Observable.State("hello");
-        var stateB = Observable.State("world");
-
-        var o = Observable.Auto(async () =>
-        {
-            Console.WriteLine("computing");
-            var a = stateA.Value;
-            await Task.Delay(1000);
-            var b = stateB.Value;
-            return a + " " + b;
-        });
-
-        o.Bind(result => Console.WriteLine(result.Status switch
-        {
-            AsyncComputeStatus.Loading => "Loading...",
-            AsyncComputeStatus.Done => "Done: " + result.Result,
-            AsyncComputeStatus.Failed => "Failed: " + result.Exception,
-        }));
-
-        await Task.Delay(1500);
-
-        stateB.Value = "Dan";
-
-        Process.GetCurrentProcess().WaitForExit();
+	    var model = new MyModel {Name = "Dan"};
+	    var obs = model.GetObservable(_ => _.Name);
+	    obs.Bind(name => Console.WriteLine("Name is: " + name));
     }
 }

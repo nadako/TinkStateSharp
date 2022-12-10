@@ -6,7 +6,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="../projects/TinkState/TinkState.csproj" />
+		<ProjectReference Include="../projects/TinkState/TinkState.csproj"/>
+		<ProjectReference Include="../projects/TinkState-Model/TinkState-Model.csproj"/>
 	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="$(MSBuildThisFileDirectory)/../projects/TinkState-Model-Weaver-Tool/bin/$(ConfigurationName)/net6.0/TinkState-Model-Weaver-Tool.exe $(TargetPath)"/>
+		<Error Condition="$(ExitCode) == 1"/>
+	</Target>
 
 </Project>
