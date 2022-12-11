@@ -3,7 +3,9 @@
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<LangVersion>9.0</LangVersion>
+		<AssemblyName>Nadako.TinkState.Model.Weaver</AssemblyName>
 	</PropertyGroup>
+
 	<PropertyGroup>
 		<EnableDefaultItems>false</EnableDefaultItems>
 	</PropertyGroup>
