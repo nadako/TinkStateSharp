@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<LangVersion>9.0</LangVersion>
+		<AssemblyName>Unity.TinkState.Model.CodeGen</AssemblyName>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<EnableDefaultItems>false</EnableDefaultItems>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="../../src/TinkState-Model-Weaver-Unity/Editor/**/*.cs"/>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="Unity.CompilationPipeline.Common">
+			<HintPath>../../unity-dlls/Unity.CompilationPipeline.Common.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<ProjectReference Include="../TinkState-Model-Weaver/TinkState-Model-Weaver.csproj"/>
+	</ItemGroup>
+
+</Project>

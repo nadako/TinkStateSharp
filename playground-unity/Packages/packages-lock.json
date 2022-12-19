@@ -32,6 +32,13 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.unity.nuget.mono-cecil": {
+      "version": "1.11.4",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.test-framework": {
       "version": "2.0.1-exp.2",
       "depth": 0,
@@ -65,7 +72,9 @@
       "version": "file:../../src",
       "depth": 0,
       "source": "local",
-      "dependencies": {}
+      "dependencies": {
+        "com.unity.nuget.mono-cecil": "1.11.4"
+      }
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",

@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<LangVersion>9.0</LangVersion>
+		<AssemblyName>Nadako.TinkState.Model.Weaver</AssemblyName>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<EnableDefaultItems>false</EnableDefaultItems>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="../../src/TinkState-Model-Weaver/**/*.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Mono.Cecil" Version="0.11.4" />
+	</ItemGroup>
+
+</Project>
