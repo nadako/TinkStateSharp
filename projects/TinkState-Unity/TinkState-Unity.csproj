@@ -1,25 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <LangVersion>9.0</LangVersion>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<LangVersion>9.0</LangVersion>
+		<AssemblyName>Nadako.TinkState.Unity</AssemblyName>
+	</PropertyGroup>
 
 	<PropertyGroup>
-    <EnableDefaultItems>false</EnableDefaultItems>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Include="../../src/TinkState-Unity/Runtime/**/*.cs"/>
-  </ItemGroup>
+		<EnableDefaultItems>false</EnableDefaultItems>
+	</PropertyGroup>
 
 	<ItemGroup>
-    <Reference Include="UnityEngine">
-      <HintPath>../../unity-dlls/UnityEngine.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+		<Compile Include="../../src/TinkState-Unity/Runtime/**/*.cs"/>
+	</ItemGroup>
 
 	<ItemGroup>
-    <ProjectReference Include="../TinkState/TinkState.csproj" />
-  </ItemGroup>
+		<Reference Include="UnityEngine">
+			<HintPath>../../unity-dlls/UnityEngine.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="../TinkState/TinkState.csproj"/>
+	</ItemGroup>
 </Project>
