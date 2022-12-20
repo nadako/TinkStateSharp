@@ -70,10 +70,43 @@ namespace TinkState.Internal
 		readonly IEqualityComparer<T> comparer;
 		readonly Computation<T> computation;
 		bool isSubscribedTo;
-		List<Subscription> subscriptions;
 		readonly Dictionary<DispatchingObservable, Subscription> dependencies = new Dictionary<DispatchingObservable, Subscription>();
 		Status status;
 		T last;
+
+		#region subscription linking
+		Subscription subscriptionsHead;
+		Subscription subscriptionsTail;
+
+		// TODO: do we want to pool subscription objects (maybe only for IL2CPP or something, needs research)?
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		void AddSubscription(Subscription sub)
+		{
+			if (subscriptionsHead == null)
+			{
+				subscriptionsHead = subscriptionsTail = sub;
+			}
+			else
+			{
+				subscriptionsTail.Next = sub;
+				sub.Prev = subscriptionsTail;
+				subscriptionsTail = sub;
+			}
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		Subscription RemoveSubscription(Subscription sub)
+		{
+			if (sub == subscriptionsHead) subscriptionsHead = sub.Next;
+			if (sub == subscriptionsTail) subscriptionsTail = sub.Prev;
+			if (sub.Prev != null) sub.Prev.Next = sub.Next;
+			if (sub.Next != null) sub.Next.Prev = sub.Prev;
+			var next = sub.Next;
+			sub.Next = sub.Prev = null;
+			return next;
+		}
+		#endregion
 
 		public AutoObservable(Computation<T> computation, IEqualityComparer<T> comparer)
 		{
@@ -126,14 +159,18 @@ namespace TinkState.Internal
 				{
 					// check if any subscriptions has changed and only recompute if so
 					var valid = true;
-					foreach (var s in subscriptions)
 					{
-						if (s.HasChanged())
+						var s = subscriptionsHead;
+						while (s != null)
 						{
-							valid = false;
-							break;
-							// we break early so leftover subscriptions aren't updated by their HasChanged,
-							// however it's okay since they will be updated when we reuse a subscription if it's still needed
+							if (s.HasChanged())
+							{
+								valid = false;
+								break;
+								// we break early so leftover subscriptions aren't updated by their HasChanged,
+								// however it's okay since they will be updated when we reuse a subscription if it's still needed
+							}
+							s = s.Next;
 						}
 					}
 					if (valid)
@@ -155,14 +192,12 @@ namespace TinkState.Internal
 
 			// mark current subscriptions as unused so we can later figure out which ones are still used
 			// and which ones are not and remove the ones that aren't
-			var prevSubs = subscriptions;
-			if (prevSubs != null)
+			var s = subscriptionsHead;
+			while (s != null)
 			{
-				foreach (var s in prevSubs) s.Used = false;
+				s.Used = false;
+				s = s.Next;
 			}
-
-			// make a new subscription list to fill with subscriptions that will pop up during computation
-			subscriptions = new List<Subscription>(); // TODO: can we avoid new list somehow?
 
 			// compute the value (will subscribe to tracked observables)
 			last = AutoObservable.ComputeFor(this, computation);
@@ -175,21 +210,25 @@ namespace TinkState.Internal
 			}
 
 			// disconnect subscriptions that are now unused and remove them from dependencies
-			if (prevSubs != null)
+			s = subscriptionsHead;
+			while (s != null)
 			{
-				foreach (var s in prevSubs)
+				if (!s.Used)
 				{
-					if (!s.Used)
-					{
-						dependencies.Remove(s.Source);
-						if (isSubscribedTo) s.Disconnect();
-					}
+					var source = s.GetSource();
+					dependencies.Remove(source);
+					if (isSubscribedTo) source.Unsubscribe(this);
+					s = RemoveSubscription(s);
+				}
+				else
+				{
+					s = s.Next;
 				}
 			}
 
 			// if there are no subscriptions at all, we can dispose, meaning this observable can never trigger anymore
 			// and will serve as constant value holder
-			if (subscriptions.Count == 0 && !computation.IsPending()) Dispose();
+			if (subscriptionsHead == null && !computation.IsPending()) Dispose();
 		}
 
 		bool IsValid()
@@ -202,11 +241,12 @@ namespace TinkState.Internal
 
 		bool SubscriptionsValid()
 		{
-			foreach (var s in subscriptions)
+			var s = subscriptionsHead;
+			while (s != null)
 			{
 				if (!s.IsValid()) return false;
+				s = s.Next;
 			}
-
 			return true;
 		}
 
@@ -219,14 +259,15 @@ namespace TinkState.Internal
 		{
 			computation.Wakeup();
 			isSubscribedTo = true;
-			if (subscriptions != null)
+
+			// activate subscriptions as we now want to be notified of tracked observable changes
+			var s = subscriptionsHead;
+			while (s != null)
 			{
-				// activate subscriptions as we now want to be notified of tracked observable changes
-				foreach (var s in subscriptions)
-				{
-					s.Connect();
-				}
+				s.GetSource().Subscribe(this);
+				s = s.Next;
 			}
+
 			GetCurrentValue(true);
 			GetRevision();
 		}
@@ -239,18 +280,22 @@ namespace TinkState.Internal
 				// source observables and when they notify us, we fire ourselves which updates the revision
 				return revision;
 			}
-			if (subscriptions == null)
+
+			if (status == Status.Fresh)
 			{
 				// it's the first ever call, calculate value which will also initialize subscriptions
-				GetCurrentValue();
+				GetCurrentValue(true);
 			}
+
 			// if our revision is smaller than any of source revisions, update our revision
-			foreach (var s in subscriptions)
+			var s = subscriptionsHead;
+			while (s != null)
 			{
-				if (s.Source.GetRevision() > revision)
+				if (s.GetSource().GetRevision() > revision)
 				{
 					return revision = Revision.New();
 				}
+				s = s.Next;
 			}
 			return revision;
 		}
@@ -259,12 +304,12 @@ namespace TinkState.Internal
 		{
 			computation.Sleep();
 			isSubscribedTo = false;
-			if (subscriptions != null)
+
+			var s = subscriptionsHead;
+			while (s != null)
 			{
-				foreach (var s in subscriptions)
-				{
-					s.Disconnect();
-				}
+				s.GetSource().Unsubscribe(this);
+				s = s.Next;
 			}
 		}
 
@@ -273,9 +318,10 @@ namespace TinkState.Internal
 			if (!dependencies.TryGetValue(source, out var v))
 			{
 				// not yet tracking - create a subscription and add a dependency
-				var sub = new Subscription<R>(source, isSubscribedTo, this);
+				var sub = new Subscription<R>(source);
+				if (isSubscribedTo) source.Subscribe(this);
 				dependencies[source] = sub;
-				subscriptions.Add(sub);
+				AddSubscription(sub);
 				return sub.Last;
 			}
 			else
@@ -284,9 +330,8 @@ namespace TinkState.Internal
 				var sub = (Subscription<R>)v;
 				if (!sub.Used)
 				{
-					// if marked as unused (happens during computation), mark as used and add to subscriptions
+					// if marked as unused (happens during computation), mark as used again so it doesn't get removed after computation
 					sub.Reuse();
-					subscriptions.Add(sub);
 					return sub.Last;
 				}
 				else
@@ -320,45 +365,48 @@ namespace TinkState.Internal
 		{
 			last = value;
 			Fire();
-			if (subscriptions.Count == 0) Dispose();
+			if (subscriptionsHead == null) Dispose();
 		}
 	}
 
-	interface Subscription
+	abstract class Subscription
 	{
-		DispatchingObservable Source { get; }
-		bool Used { get; set; }
-		bool IsValid();
-		bool HasChanged();
-		void Connect();
-		void Disconnect();
+		public Subscription Prev;
+		public Subscription Next;
+
+		public bool Used;
+
+		public abstract DispatchingObservable GetSource();
+		public abstract bool IsValid();
+		public abstract bool HasChanged();
 	}
 
-	class Subscription<T> : Subscription
+	sealed class Subscription<T> : Subscription
 	{
-		public DispatchingObservable Source => source;
-		public bool Used { get; set; }
 		public T Last;
 
-		readonly Observer owner;
 		readonly DispatchingObservable<T> source;
 		long lastRevision;
 
-		public Subscription(DispatchingObservable<T> source, bool needsConnecting, Observer owner)
+		public Subscription(DispatchingObservable<T> source)
 		{
 			this.source = source;
 			lastRevision = source.GetRevision();
-			this.owner = owner;
-			if (needsConnecting) Connect();
 			Last = source.GetCurrentValue();
+			Used = true;
 		}
 
-		public bool IsValid()
+		public override DispatchingObservable GetSource()
+		{
+			return source;
+		}
+
+		public override bool IsValid()
 		{
 			return source.GetRevision() == lastRevision;
 		}
 
-		public bool HasChanged()
+		public override bool HasChanged()
 		{
 			var nextRevision = source.GetRevision();
 			if (nextRevision == lastRevision) return false;
@@ -366,16 +414,6 @@ namespace TinkState.Internal
 			var before = Last;
 			Last = source.GetCurrentValue();
 			return !source.GetComparer().Equals(Last, before);
-		}
-
-		public void Connect()
-		{
-			source.Subscribe(owner);
-		}
-
-		public void Disconnect()
-		{
-			source.Unsubscribe(owner);
 		}
 
 		public void Reuse()
