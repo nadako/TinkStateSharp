@@ -1,18 +1,21 @@
 {
-	"name": "me.nadako.tinkstate",
-	"version": "0.1.0",
-	"displayName": "TinkStateSharp for Unity",
-	"description": "Reactive State Handling",
-	"unity": "2021.3",
-	"author": {
-		"name": "Dan Korostelev",
-		"email": "nadako@gmail.com"
-	},
-	"license": "Unlicense",
-	"keywords": [
-		"react",
-		"reactive",
-		"observable",
-		"state"
-	]
+  "name": "me.nadako.tinkstate",
+  "version": "0.1.0",
+  "displayName": "TinkStateSharp for Unity",
+  "description": "Reactive State Handling",
+  "unity": "2021.3",
+  "author": {
+	"name": "Dan Korostelev",
+	"email": "nadako@gmail.com"
+  },
+  "dependencies": {
+	"com.unity.nuget.mono-cecil": "1.11.4"
+  },
+  "license": "Unlicense",
+  "keywords": [
+	"react",
+	"reactive",
+	"observable",
+	"state"
+  ]
 }
