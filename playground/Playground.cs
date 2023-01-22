@@ -5,31 +5,16 @@ using TinkState;
 
 class Playground
 {
-    static async Task Main()
+    static void Main()
     {
-        var stateA = Observable.State("hello");
-        var stateB = Observable.State("world");
+	    var dict = Observable.Dictionary<string, int>();
+	    dict.Changes.Bind(change =>
+	    {
+		    Debug.WriteLine($"Got change: {change.Kind} {change.OldValue} {change.NewValue}");
+	    });
 
-        var o = Observable.Auto(async () =>
-        {
-            Console.WriteLine("computing");
-            var a = stateA.Value;
-            await Task.Delay(1000);
-            var b = stateB.Value;
-            return a + " " + b;
-        });
-
-        o.Bind(result => Console.WriteLine(result.Status switch
-        {
-            AsyncComputeStatus.Loading => "Loading...",
-            AsyncComputeStatus.Done => "Done: " + result.Result,
-            AsyncComputeStatus.Failed => "Failed: " + result.Exception,
-        }));
-
-        await Task.Delay(1500);
-
-        stateB.Value = "Dan";
-
-        Process.GetCurrentProcess().WaitForExit();
+	    dict["hi"] = 32;
+	    dict["hi"] = 42;
+	    dict.Remove("hi");
     }
 }

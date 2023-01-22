@@ -13,5 +13,29 @@ namespace TinkState
 	/// <typeparam name="TValue">The type of values in the dictionary.</typeparam>
 	public interface ObservableDictionary<TKey, TValue> : IDictionary<TKey, TValue>
 	{
+		Stream<ObservableDictionaryChange<TKey,TValue>> Changes { get; }
+	}
+
+	public enum ObservableDictionaryChangeKind
+	{
+		Add,
+		Remove,
+		Replace
+	}
+
+	public class ObservableDictionaryChange<TKey,TValue>
+	{
+		public readonly ObservableDictionaryChangeKind Kind;
+		public readonly TKey Key;
+		public readonly TValue OldValue;
+		public readonly TValue NewValue;
+
+		public ObservableDictionaryChange(ObservableDictionaryChangeKind kind, TKey key, TValue oldValue, TValue newValue)
+		{
+			Kind = kind;
+			Key = key;
+			OldValue = oldValue;
+			NewValue = newValue;
+		}
 	}
 }

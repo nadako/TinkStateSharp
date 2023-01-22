@@ -210,6 +210,11 @@ namespace TinkState
 			return new Internal.ObservableDictionary<TKey, TValue>();
 		}
 
+		public static Stream<T> Stream<T>()
+		{
+			return new Internal.Stream<T>();
+		}
+
 		// TODO: Dictionary with initial value
 
 		/// <summary>
