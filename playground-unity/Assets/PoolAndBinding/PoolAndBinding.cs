@@ -34,7 +34,11 @@ public class PoolAndBinding : MonoBehaviour
 		addButton.onClick.AddListener(() =>
 		{
 			var itemId = nextId++;
-			var model = Observable.Auto(() => $"{itemId} - {globalInt.Value}");
+			var model = Observable.Auto(() =>
+			{
+				Debug.Log($"Computing text for {itemId}");
+				return $"{itemId} - {globalInt.Value}";
+			});
 			var item = itemPool.Get();
 			item.name = "item-" + itemId;
 			items.Add(item);
