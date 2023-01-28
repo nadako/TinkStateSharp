@@ -98,6 +98,8 @@ namespace TinkState
 			GetHelper(gameObject).RunOnActive(run);
 		}
 
+		// TODO: add an overload for function that returns multiple IDisposables? or maybe add CompositeDisposable
+
 		/// <summary>
 		/// Dispose and clear any functions previously registered with <see cref="RunOnActive"/> for this game object.
 		/// </summary>
