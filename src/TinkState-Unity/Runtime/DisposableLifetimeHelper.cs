@@ -44,6 +44,12 @@ namespace TinkState
 			disposables.Add(disposable);
 		}
 
+		public void DisposeOnDestroy(IDisposable[] disposablesToAdd)
+		{
+			if (disposables == null) disposables = new List<IDisposable>(disposablesToAdd);
+			else disposables.AddRange(disposablesToAdd);
+		}
+
 		void OnEnable()
 		{
 			if (onActiveRuns == null) return;
@@ -127,6 +133,25 @@ namespace TinkState
 				return;
 			}
 			GetHelper(gameObject).DisposeOnDestroy(disposable);
+		}
+
+		/// <summary>
+		/// Dispose given <paramref name="disposablesToAdd"/> when the game object is destroyed.
+		/// If the game object is already destroyed, <paramref name="disposablesToAdd"/> will be disposed immediately.
+		/// </summary>
+		/// <remarks>
+		/// This is a convenience method for attaching multiple disposables with a single <c>DisposeOnDestroy</c> call.
+		/// </remarks>
+		/// <param name="gameObject">Game object to attach to</param>
+		/// <param name="disposablesToAdd">Disposables to attach</param>
+		public static void DisposeOnDestroy(this GameObject gameObject, params IDisposable[] disposablesToAdd)
+		{
+			if (gameObject == null) // already destroyed
+			{
+				foreach (var disposable in disposablesToAdd) disposable.Dispose();
+				return;
+			}
+			GetHelper(gameObject).DisposeOnDestroy(disposablesToAdd);
 		}
 
 		static DisposableLifetimeHelper GetHelper(GameObject gameObject)
