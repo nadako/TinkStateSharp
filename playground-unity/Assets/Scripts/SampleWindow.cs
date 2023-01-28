@@ -4,7 +4,6 @@ using System.Linq;
 using TinkState;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Pool;
 using UnityEngine.UI;
 
 public class SampleWindow : MonoBehaviour
@@ -22,11 +21,11 @@ public class SampleWindow : MonoBehaviour
 			addInput.text = "";
 		});
 
-		this.DisposeOnDestroy(model.SearchString.Bind(searchInput.SetTextWithoutNotify));
+		gameObject.DisposeOnDestroy(model.SearchString.Bind(searchInput.SetTextWithoutNotify));
 		searchInput.onSubmit.AddListener(model.Search);
 		searchInput.onDeselect.AddListener(_ => searchInput.SetTextWithoutNotify(model.SearchString.Value));
 
-		this.DisposeOnDestroy(model.DisplayedItems.Bind(list.DisplayItems));
+		gameObject.DisposeOnDestroy(model.DisplayedItems.Bind(list.DisplayItems));
 
 		pagination.Init(model.Pagination);
 
