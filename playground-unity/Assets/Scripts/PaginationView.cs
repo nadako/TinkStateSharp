@@ -13,13 +13,13 @@ public class PaginationView : MonoBehaviour
 	public void Init(PaginationModel model)
     {
 		var pageIndicatorText = Observable.Auto(() => (model.CurrentPageIndex.Value + 1) + " / " + model.NumPages.Value);
-		this.DisposeOnDestroy(pageIndicatorText.Bind(text => label.text = text));
+		gameObject.DisposeOnDestroy(pageIndicatorText.Bind(text => label.text = text));
 
 		previousButton.onClick.AddListener(model.GoToPrevious);
-		this.DisposeOnDestroy(model.HasPrevious.Bind(value => previousButton.interactable = value));
+		gameObject.DisposeOnDestroy(model.HasPrevious.Bind(value => previousButton.interactable = value));
 
 		nextButton.onClick.AddListener(model.GoToNext);
-		this.DisposeOnDestroy(model.HasNext.Bind(value => nextButton.interactable = value));
+		gameObject.DisposeOnDestroy(model.HasNext.Bind(value => nextButton.interactable = value));
 	}
 }
 
