@@ -12,7 +12,7 @@ public class PoolAndBinding_Item : MonoBehaviour
         {
 	        return model.Bind(text =>
 	        {
-		        Debug.Log($"Changing value (go={gameObject.name}) to: text", gameObject);
+		        Debug.Log($"Setting label for {gameObject.name} to: {text}", gameObject);
 		        label.text = text;
 	        });
         });
