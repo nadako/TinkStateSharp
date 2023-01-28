@@ -4,37 +4,38 @@ using UnityEngine;
 
 namespace TinkState
 {
+	/// <summary>
+	/// Run-time component for Unity game objects to manage <see cref="IDisposable"/> objects added with <see cref="DisposableLifetimeHelperExt"/> methods.
+	/// </summary>
 	[DisallowMultipleComponent]
-	public class DisposableLifetimeHelper : MonoBehaviour
+	class DisposableLifetimeHelper : MonoBehaviour
 	{
-		public delegate IDisposable WhenEnabledDelegate();
-
-		struct WhenEnabled
+		struct OnActiveRun
 		{
-			public WhenEnabledDelegate wakeup;
-			public IDisposable current;
+			public Func<IDisposable> Run;
+			public IDisposable Current;
 		}
 
 		List<IDisposable> disposables;
-		List<WhenEnabled> whenEnabled;
+		List<OnActiveRun> onActiveRuns;
 
-		public void RunWhenEnabled(WhenEnabledDelegate wakeup)
+		public void RunOnActive(Func<IDisposable> run)
 		{
-			if (whenEnabled == null) whenEnabled = new List<WhenEnabled>(1);
+			if (onActiveRuns == null) onActiveRuns = new List<OnActiveRun>(1);
 
-			var current = gameObject.activeInHierarchy ? wakeup() : null;
-			whenEnabled.Add(new WhenEnabled { wakeup = wakeup, current = current });
+			var current = gameObject.activeInHierarchy ? run() : null;
+			onActiveRuns.Add(new OnActiveRun { Run = run, Current = current });
 		}
 
-		public void ClearWhenEnabledRuns()
+		public void ClearOnActiveRuns()
 		{
-			if (whenEnabled == null) return;
+			if (onActiveRuns == null) return;
 
-			foreach (var entry in whenEnabled)
+			foreach (var entry in onActiveRuns)
 			{
-				entry.current?.Dispose();
+				entry.Current?.Dispose();
 			}
-			whenEnabled.Clear();
+			onActiveRuns.Clear();
 		}
 
 		public void DisposeOnDestroy(IDisposable disposable)
@@ -45,24 +46,24 @@ namespace TinkState
 
 		void OnEnable()
 		{
-			if (whenEnabled == null) return;
+			if (onActiveRuns == null) return;
 
-			var currentCount = whenEnabled.Count;
+			var currentCount = onActiveRuns.Count;
 			for (var i = 0; i < currentCount; i++)
 			{
-				var wakeup = whenEnabled[i].wakeup;
-				var current = wakeup();
-				whenEnabled[i] = new WhenEnabled {wakeup = wakeup, current = current};
+				var run = onActiveRuns[i].Run;
+				var current = run();
+				onActiveRuns[i] = new OnActiveRun {Run = run, Current = current};
 			}
 		}
 
 		void OnDisable()
 		{
-			if (whenEnabled == null) return;
+			if (onActiveRuns == null) return;
 
-			foreach (var entry in whenEnabled)
+			foreach (var entry in onActiveRuns)
 			{
-				entry.current?.Dispose();
+				entry.Current?.Dispose();
 			}
 		}
 
@@ -74,21 +75,48 @@ namespace TinkState
 		}
 	}
 
+	/// <summary>
+	/// Static extensions for attaching <see cref="IDisposable"/> lifetime to Unity game objects.
+	/// </summary>
 	public static class DisposableLifetimeHelperExt
 	{
 		// TODO: have better names for these...
-		public static void ClearWhenEnabledRuns(this GameObject gameObject)
+		/// <summary>
+		/// Run given function when the game object becomes active. If the game object is already active,
+		/// the function will be run immediately. The returned <see cref="IDisposable"/> will be automatically
+		/// disposed when the game object becomes inactive (or destroyed).
+		/// </summary>
+		/// <remarks>
+		/// This can be used to automatically bind and unbind from <see cref="Observable{T}"/> states for
+		/// game objects that are designed to be activated and deactivated multiple times (e.g. when pooling).
+		/// </remarks>
+		/// <param name="gameObject">Game object to attach to</param>
+		/// <param name="run">Function to call on game object activation</param>
+		public static void RunOnActive(this GameObject gameObject, Func<IDisposable> run)
 		{
 			if (gameObject == null) return; // already destroyed
-			GetHelper(gameObject).ClearWhenEnabledRuns();
+			GetHelper(gameObject).RunOnActive(run);
 		}
 
-		public static void RunWhenEnabled(this GameObject gameObject, DisposableLifetimeHelper.WhenEnabledDelegate wakeup)
+		/// <summary>
+		/// Dispose and clear any functions previously registered with <see cref="RunOnActive"/> for this game object.
+		/// </summary>
+		/// <remarks>
+		/// This is useful for pooled game objects. Call this before returning the object to pool to dispose its current bindings.
+		/// </remarks>
+		/// <param name="gameObject">Game object to dispose runs for</param>
+		public static void ClearOnActiveRuns(this GameObject gameObject)
 		{
 			if (gameObject == null) return; // already destroyed
-			GetHelper(gameObject).RunWhenEnabled(wakeup);
+			GetHelper(gameObject).ClearOnActiveRuns();
 		}
 
+		/// <summary>
+		/// Dispose given <paramref name="disposable"/> when the game object is destroyed.
+		/// If the game object is already destroyed, <paramref name="disposable"/> will be disposed immediately.
+		/// </summary>
+		/// <param name="gameObject">Game object to attach to</param>
+		/// <param name="disposable">Disposable to attach</param>
 		public static void DisposeOnDestroy(this GameObject gameObject, IDisposable disposable)
 		{
 			if (gameObject == null) // already destroyed
