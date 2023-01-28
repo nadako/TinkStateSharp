@@ -8,7 +8,7 @@ public class PoolAndBinding_Item : MonoBehaviour
 
     public void Init(Observable<string> model)
     {
-        gameObject.RunWhenEnabled(() =>
+        gameObject.RunOnActive(() =>
         {
 	        return model.Bind(text =>
 	        {
@@ -25,7 +25,7 @@ public class PoolAndBinding_Item : MonoBehaviour
 
     public void OnPoolRelease()
     {
-	    gameObject.ClearWhenEnabledRuns();
+	    gameObject.ClearOnActiveRuns();
 	    gameObject.SetActive(false);
     }
 }
