@@ -91,7 +91,7 @@ namespace TinkState
 	/// </summary>
 	public static class DisposableLifetimeHelperExt
 	{
-		// TODO: have better names for these...
+		// TODO: maybe have better names for these?
 		/// <summary>
 		/// Run given function when the game object becomes active. If the game object is already active,
 		/// the function will be run immediately. The returned <see cref="IDisposable"/> will be automatically

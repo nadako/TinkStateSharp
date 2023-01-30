@@ -14,6 +14,10 @@ As described in the [Binding Batching](binding-batching.md) article, bindings ar
 
 To support that in the Unity engine, the library contains an implementation of a batching `Scheduler` that hooks into Unity's player loop.
 
+## Binding Lifetime
+
+Unity support also includes a number of helper static extensions to simplify managing lifetime of bindings attached to Unity game objects. See [Binding Lifetime](unity-lifetime-helper.md) section for more information.
+
 ## Examples
 
 The library repository contains the [`playground-unity`](https://github.com/nadako/TinkStateSharp/tree/master/playground-unity) folder with the Unity project that contains some usage examples.
@@ -22,4 +26,4 @@ This project is also used for running automated tests in the Unity environment t
 
 ## TODO
 
-> At some point the library will also include standard extensions to simplify bindings to/from uGUI and UI Toolkit as well as some tools to make sure bindings are disposed together with the game object.
+> At some point the library will also include standard extensions to simplify bindings to/from uGUI and UI Toolkit.
