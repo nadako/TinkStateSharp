@@ -24,6 +24,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Reference Include="UnityEngine">
+			<HintPath>../../unity-dlls/UnityEngine.dll</HintPath>
+		</Reference>
 		<Reference Include="UnityEngine.TestRunner">
 			<HintPath>../../unity-dlls/UnityEngine.TestRunner.dll</HintPath>
 		</Reference>
