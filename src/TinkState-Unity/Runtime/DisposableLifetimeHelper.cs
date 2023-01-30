@@ -50,6 +50,13 @@ namespace TinkState
 			else disposables.AddRange(disposablesToAdd);
 		}
 
+		public void ClearOnDestroyDisposes()
+		{
+			if (disposables == null) return;
+			foreach (var disposable in disposables) disposable.Dispose();
+			disposables = null;
+		}
+
 		void OnEnable()
 		{
 			if (onActiveRuns == null) return;
@@ -75,9 +82,7 @@ namespace TinkState
 
 		void OnDestroy()
 		{
-			if (disposables == null) return;
-			foreach (var disposable in disposables) disposable.Dispose();
-			disposables = null;
+			ClearOnDestroyDisposes();
 		}
 	}
 
@@ -123,6 +128,10 @@ namespace TinkState
 		/// Dispose given <paramref name="disposable"/> when the game object is destroyed.
 		/// If the game object is already destroyed, <paramref name="disposable"/> will be disposed immediately.
 		/// </summary>
+		/// <remarks>
+		/// Keep in mind, that <c>OnDestroy</c> is not called for inactive objects. See <see cref="RunOnActive"/> for
+		/// a more reliable way to manage lifetime for bindings attached to game objects.
+		/// </remarks>
 		/// <param name="gameObject">Game object to attach to</param>
 		/// <param name="disposable">Disposable to attach</param>
 		public static void DisposeOnDestroy(this GameObject gameObject, IDisposable disposable)
@@ -152,6 +161,16 @@ namespace TinkState
 				return;
 			}
 			GetHelper(gameObject).DisposeOnDestroy(disposablesToAdd);
+		}
+
+		/// <summary>
+		/// Dispose all currently registered disposables added with <see cref="DisposeOnDestroy(GameObject,IDisposable)"/>.
+		/// </summary>
+		/// <param name="gameObject"></param>
+		public static void ClearOnDestroyDisposes(this GameObject gameObject)
+		{
+			if (gameObject == null) return; // already destroyed
+			GetHelper(gameObject).ClearOnDestroyDisposes();
 		}
 
 		static DisposableLifetimeHelper GetHelper(GameObject gameObject)
