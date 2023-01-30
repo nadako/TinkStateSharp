@@ -76,11 +76,13 @@
 <h2 id="binding-batching">Binding Batching</h2>
 <p>As described in the <a href="binding-batching.html">Binding Batching</a> article, bindings are designed to be triggered in a batch once per frame.</p>
 <p>To support that in the Unity engine, the library contains an implementation of a batching <code>Scheduler</code> that hooks into Unity&#39;s player loop.</p>
+<h2 id="binding-lifetime">Binding Lifetime</h2>
+<p>Unity support also includes a number of helper static extensions to simplify managing lifetime of bindings attached to Unity game objects. See <a href="unity-lifetime-helper.html">Binding Lifetime</a> section for more information.</p>
 <h2 id="examples">Examples</h2>
 <p>The library repository contains the <a href="https://github.com/nadako/TinkStateSharp/tree/master/playground-unity"><code>playground-unity</code></a> folder with the Unity project that contains some usage examples.</p>
 <p>This project is also used for running automated tests in the Unity environment to make sure everything works correctly.</p>
 <h2 id="todo">TODO</h2>
-<blockquote><p>At some point the library will also include standard extensions to simplify bindings to/from uGUI and UI Toolkit as well as some tools to make sure bindings are disposed together with the game object.</p>
+<blockquote><p>At some point the library will also include standard extensions to simplify bindings to/from uGUI and UI Toolkit.</p>
 </blockquote>
 </article>
           </div>

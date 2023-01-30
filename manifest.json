@@ -333,7 +333,19 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "4QwB1qcgFTUxv4lGjzB2cwImuWyujellAtxaohnWvIU="
+          "hash": "eeZahQC+lTEwTkmLs7T3TLrDI8bf/CnsV3TbIm4Mt6Q="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/unity-lifetime-helper.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/unity-lifetime-helper.html",
+          "hash": "/LPGizIwGzLyjtqkOL/I6X5Jfj9RUDjibXRHpPEBalU="
         }
       },
       "is_incremental": false,
@@ -345,7 +357,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/unity.html",
-          "hash": "LAW5JCaTrhgzlU7bZD095dTvw6L+ixwdc7xx4rOvEes="
+          "hash": "pOJH2KkNpG7s6IcMMsN/S7hJhTuFC3Tu7fWtTxhj730="
         }
       },
       "is_incremental": false,
@@ -390,7 +402,7 @@
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 17,
+          "total_file_count": 18,
           "skipped_file_count": 0
         },
         "ManagedReferenceDocumentProcessor": {

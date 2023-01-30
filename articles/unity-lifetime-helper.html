@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Binding Lifetime | TinkState </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Binding Lifetime | TinkState ">
+    <meta name="generator" content="docfx 2.59.4.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h2 id="binding-lifetime">Binding Lifetime</h2>
+
+<p>It is very important to dispose bindings to observables when they are no longer needed for two main reasons:</p>
+<ul>
+<li>bindings hold reference to their handlers, and thus to everything that handler is accessing, and not disposing it in a timely manner can lead to memory leaks</li>
+<li>invoking a binding callback that tries to access a destroyed Unity object will lead to errors</li>
+</ul>
+<p>This means that we need to store references to binding <code>IDisposable</code> objects and dispose them on <code>OnDestroy</code> (or <code>OnDisable</code> callbacks). Simple enough, however it can get a bit tedious and boilerplate-y to do this manually, which leads to mistakes and ultimately to issues described above.</p>
+<p>So, Tinkerbell provides a set of helper extension methods to make this easier.</p>
+<h2 id="disposeondestroy">DisposeOnDestroy</h2>
+<p>The simplest way to make your binding (or any <code>IDisposable</code>) getting disposed when a game object is destroyed is the <code>DisposeOnDestroy</code> helper method. It does just that: when a game object receives the <code>OnDestroy</code> message, dispose given disposable.</p>
+<pre><code class="lang-csharp">public void Init(Observable&lt;int&gt; health)
+{
+    var binding = health.Bind(OnHealthChanged);
+    gameObject.DisposeOnDestroy(binding);
+}
+</code></pre><p><strong>NOTE:</strong> This works well in many cases, however you should be aware of the caveats of using <code>OnDestroy</code> in Unity: this method will NOT be invoked if the object is inactive. So you have to be very careful with managing the life cycle of your actual game objects when using this method.</p>
+<p>There is a sister extension method <code>ClearOnDestroyDisposes</code> that you can manually call to dispose all currently registered disposables.</p>
+<h2 id="runonactive">RunOnActive</h2>
+<p>A different approach is to only create bindings when the game object actually becomes active, and then dispose those bindings when it becomes inactive again (which also happens when the object is destroyed). The <code>RunOnActive</code> method provides some help to implement this pattern. Let&#39;s rewrite the previous example using it:</p>
+<pre><code class="lang-csharp">public void Init(Observable&lt;int&gt; health)
+{
+    gameObject.RunOnActive(() =&gt;
+    {
+        var binding = health.Bind(OnHealthChanged);
+        return binding;
+    });
+}
+</code></pre><p>The given callback will be automatically invoked once the game object becomes active (or immediately, if the game object is already active). The callback must return an <code>IDisposable</code> that will be automatically disposed once the game object becomes inactive or destroyed.</p>
+<p>Using this pattern, if the game object switches between being active and inactive multiple times, the bindings will be automatically created and disposed correspondingly, which can be useful for avoiding unnecessary processing for invisible objects.</p>
+<p>There is a sister extension method <code>ClearOnActiveRuns</code> that you can manually call to dispose all currently registered on-active run callbacks.</p>
+<h2 id="game-object-pooling">Game Object Pooling</h2>
+<p>The methods described above play well with object pooling. Depending on your pool design you can use either <code>RunOnActive</code> or <code>DisposeOnDestroy</code> in the initialization method of your pooled objects, just don&#39;t forget to call the corresponding <code>ClearOnActiveRuns</code> or <code>ClearOnDestroyDisposes</code> methods when you return the object into the pool, since you don&#39;t want to have lingering bindings from the previous usage of the pooled object.</p>
+<p>Here&#39;s an example:</p>
+<pre><code class="lang-csharp">public class PooledItem : MonoBehaviour
+{
+    public void Init(Observable&lt;string&gt; data)
+    {
+        gameObject.DisposeOnDestroy(data.Bind(...));
+    }
+
+    public void OnPoolGet()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void OnPoolRelease()
+    {
+        gameObject.ClearOnDestroyDisposes();
+        gameObject.SetActive(false);
+    }
+}
+</code></pre><pre><code class="lang-csharp">var itemPool = new ObjectPool&lt;PooledItem&gt;(
+    () =&gt; Instantiate(itemPrefab, itemContainer),
+    item =&gt; item.OnPoolGet(),
+    item =&gt; item.OnPoolRelease(),
+    item =&gt; Destroy(item.gameObject)
+);
+
+itemPool.Get().Init(myData);
+</code></pre></article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
