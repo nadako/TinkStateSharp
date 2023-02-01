@@ -7,6 +7,13 @@ An uncomplicated library for dealing with mutable state in a nice reactive way.
 
 [Documentation](https://nadako.github.io/TinkStateSharp/).
 
+Features:
+ - Lightweight and generic observable state primitives
+ - Efficient binding mechanism with support for per-frame batching
+ - Computed states with automatic update propagation
+ - Asynchronously computed states with async/await
+ - Out-of-the-box support for Unity with convenience helpers
+
 ## Quick Peek
 
 Here's a "hello world" teaser in Unity (source code below).
