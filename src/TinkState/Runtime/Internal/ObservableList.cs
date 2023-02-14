@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace TinkState.Internal
 {
-	class ObservableList<T> : Dispatcher, TinkState.ObservableList<T>, DispatchingObservable<ObservableList<T>>
+	partial class ObservableList<T> : Dispatcher, TinkState.ObservableList<T>, DispatchingObservable<ObservableList<T>>
 	{
 		readonly List<T> entries;
 		bool valid = false;
@@ -67,6 +68,11 @@ namespace TinkState.Internal
 			entries.CopyTo(array, arrayIndex);
 		}
 
+		public Observable<IReadOnlyList<T>> Observe()
+		{
+			return this;
+		}
+
 		public IEnumerator<T> GetEnumerator()
 		{
 			Calculate();
@@ -110,7 +116,7 @@ namespace TinkState.Internal
 		void Calculate()
 		{
 			valid = true;
-			AutoObservable.Track(this);
+			AutoObservable.Track<ObservableList<T>>(this);
 		}
 
 		void Invalidate()

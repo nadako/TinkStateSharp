@@ -136,6 +136,41 @@ namespace Test
 			});
 		}
 
+		[Test]
+		public void TestObserve()
+		{
+			var list = Observable.List<int>();
+			list.Add(1);
+			list.Add(2);
+			list.Add(3);
+			var observable = list.Observe();
+			Assert.That(string.Join(",", observable.Value), Is.EqualTo("1,2,3"));
+			list.Add(4);
+			Assert.That(string.Join(",", observable.Value), Is.EqualTo("1,2,3,4"));
+			list.Remove(2);
+			Assert.That(string.Join(",", observable.Value), Is.EqualTo("1,3,4"));
+
+			var bindingCalls = 0;
+			var expectedValue = "1,3,4";
+			var binding = observable.Bind(list =>
+			{
+				bindingCalls++;
+				Assert.That(string.Join(",", list), Is.EqualTo(expectedValue));
+			});
+			Assert.That(bindingCalls, Is.EqualTo(1));
+
+			expectedValue = "1,2,3,4";
+			list.Insert(1, 2);
+			Assert.That(bindingCalls, Is.EqualTo(2));
+
+			binding.Dispose();
+			list.Insert(0, 0);
+			Assert.That(bindingCalls, Is.EqualTo(2));
+
+			var mapped = observable.Map(list => string.Join(",", list));
+			Assert.That(mapped.Value, Is.EqualTo("0,1,2,3,4"));
+		}
+
 		void Helper<R>(Func<R> compute, R initialExpectedValue, Action<Action<R, Action>> tests)
 		{
 			var auto = Observable.Auto(compute);
