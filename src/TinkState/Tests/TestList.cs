@@ -169,6 +169,11 @@ namespace Test
 
 			var mapped = observable.Map(list => string.Join(",", list));
 			Assert.That(mapped.Value, Is.EqualTo("0,1,2,3,4"));
+
+			var auto = Observable.Auto(() => string.Join(",", observable.Value));
+			Assert.That(auto.Value, Is.EqualTo("0,1,2,3,4"));
+			list.Remove(4);
+			Assert.That(auto.Value, Is.EqualTo("0,1,2,3"));
 		}
 
 		void Helper<R>(Func<R> compute, R initialExpectedValue, Action<Action<R, Action>> tests)
