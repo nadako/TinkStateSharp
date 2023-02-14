@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TinkState.Internal
 {
-	class ObservableDictionary<TKey, TValue> : Dispatcher, TinkState.ObservableDictionary<TKey, TValue>, DispatchingObservable<ObservableDictionary<TKey, TValue>>
+	partial class ObservableDictionary<TKey, TValue> : Dispatcher, TinkState.ObservableDictionary<TKey, TValue>, DispatchingObservable<ObservableDictionary<TKey, TValue>>
 	{
 		readonly Dictionary<TKey, TValue> entries;
 		bool valid;
@@ -92,6 +92,11 @@ namespace TinkState.Internal
 			((ICollection<KeyValuePair<TKey, TValue>>)entries).CopyTo(array, arrayIndex);
 		}
 
+		public Observable<IReadOnlyDictionary<TKey, TValue>> Observe()
+		{
+			return this;
+		}
+
 		public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
 		{
 			Calculate();
@@ -148,7 +153,7 @@ namespace TinkState.Internal
 		void Calculate()
 		{
 			valid = true;
-			AutoObservable.Track(this);
+			AutoObservable.Track<ObservableDictionary<TKey, TValue>>(this);
 		}
 
 		void Invalidate()

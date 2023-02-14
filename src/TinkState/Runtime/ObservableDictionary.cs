@@ -13,5 +13,15 @@ namespace TinkState
 	/// <typeparam name="TValue">The type of values in the dictionary.</typeparam>
 	public interface ObservableDictionary<TKey, TValue> : IDictionary<TKey, TValue>
 	{
+		/// <summary>
+		/// Return an <see cref="Observable{T}"/> object that represent a read-only version of this dictionary.
+		/// It will trigger its bindings and tracking auto-observables every time the list is changed.
+		/// </summary>
+		/// <remarks>
+		/// The value of the returned observable is a read-only interface to the internal storage of this dictionary,
+		/// meaning that further access to its items will not be tracked by auto-observables and its contents might change over time.
+		/// </remarks>
+		/// <returns>An observable for tracking all list changes.</returns>
+		public Observable<IReadOnlyDictionary<TKey, TValue>> Observe();
 	}
 }
