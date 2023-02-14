@@ -179,6 +179,48 @@ namespace Test
 			});
 		}
 
+		[Test]
+		public void TestObserve()
+		{
+			var dict = Observable.Dictionary<int, string>();
+			dict[1] = "a";
+			dict[2] = "b";
+
+			string s(IReadOnlyDictionary<int, string> d)
+			{
+				var items = d.OrderBy(kvp => kvp.Key).Select(p => p.Key + "-" + p.Value);
+				return string.Join(",", items);
+			}
+
+			var observable = dict.Observe();
+			Assert.That(s(observable.Value), Is.EqualTo("1-a,2-b"));
+
+			var bindingCalls = 0;
+			var expectedValue = "1-a,2-b";
+			var binding = observable.Bind(d =>
+			{
+				bindingCalls++;
+				Assert.That(s(d), Is.EqualTo(expectedValue));
+			});
+			Assert.That(bindingCalls, Is.EqualTo(1));
+
+			expectedValue = "1-a,2-b,3-c";
+			dict[3] = "c";
+			Assert.That(bindingCalls, Is.EqualTo(2));
+
+			binding.Dispose();
+			dict[0] = "!";
+			Assert.That(bindingCalls, Is.EqualTo(2));
+
+			var mapped = observable.Map(s);
+			Assert.That(mapped.Value, Is.EqualTo("0-!,1-a,2-b,3-c"));
+
+			var auto = Observable.Auto(() => s(observable.Value));
+			Assert.That(auto.Value, Is.EqualTo("0-!,1-a,2-b,3-c"));
+			dict.Remove(2);
+			Assert.That(auto.Value, Is.EqualTo("0-!,1-a,3-c"));
+		}
+
 		void Helper<R>(Func<R> compute, R initialExpectedValue, Action<Action<R, Action>> tests)
 		{
 			var auto = Observable.Auto(compute);
