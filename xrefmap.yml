@@ -345,6 +345,23 @@ references:
   fullName.vb: TinkState.ObservableDictionary(Of TKey, TValue)
   nameWithType: ObservableDictionary<TKey, TValue>
   nameWithType.vb: ObservableDictionary(Of TKey, TValue)
+- uid: TinkState.ObservableDictionary`2.Observe
+  name: Observe()
+  href: api/TinkState.ObservableDictionary-2.html#TinkState_ObservableDictionary_2_Observe
+  commentId: M:TinkState.ObservableDictionary`2.Observe
+  fullName: TinkState.ObservableDictionary<TKey, TValue>.Observe()
+  fullName.vb: TinkState.ObservableDictionary(Of TKey, TValue).Observe()
+  nameWithType: ObservableDictionary<TKey, TValue>.Observe()
+  nameWithType.vb: ObservableDictionary(Of TKey, TValue).Observe()
+- uid: TinkState.ObservableDictionary`2.Observe*
+  name: Observe
+  href: api/TinkState.ObservableDictionary-2.html#TinkState_ObservableDictionary_2_Observe_
+  commentId: Overload:TinkState.ObservableDictionary`2.Observe
+  isSpec: "True"
+  fullName: TinkState.ObservableDictionary<TKey, TValue>.Observe
+  fullName.vb: TinkState.ObservableDictionary(Of TKey, TValue).Observe
+  nameWithType: ObservableDictionary<TKey, TValue>.Observe
+  nameWithType.vb: ObservableDictionary(Of TKey, TValue).Observe
 - uid: TinkState.ObservableList`1
   name: ObservableList<T>
   href: api/TinkState.ObservableList-1.html
@@ -354,6 +371,23 @@ references:
   fullName.vb: TinkState.ObservableList(Of T)
   nameWithType: ObservableList<T>
   nameWithType.vb: ObservableList(Of T)
+- uid: TinkState.ObservableList`1.Observe
+  name: Observe()
+  href: api/TinkState.ObservableList-1.html#TinkState_ObservableList_1_Observe
+  commentId: M:TinkState.ObservableList`1.Observe
+  fullName: TinkState.ObservableList<T>.Observe()
+  fullName.vb: TinkState.ObservableList(Of T).Observe()
+  nameWithType: ObservableList<T>.Observe()
+  nameWithType.vb: ObservableList(Of T).Observe()
+- uid: TinkState.ObservableList`1.Observe*
+  name: Observe
+  href: api/TinkState.ObservableList-1.html#TinkState_ObservableList_1_Observe_
+  commentId: Overload:TinkState.ObservableList`1.Observe
+  isSpec: "True"
+  fullName: TinkState.ObservableList<T>.Observe
+  fullName.vb: TinkState.ObservableList(Of T).Observe
+  nameWithType: ObservableList<T>.Observe
+  nameWithType.vb: ObservableList(Of T).Observe
 - uid: TinkState.Schedulable
   name: Schedulable
   href: api/TinkState.Schedulable.html
