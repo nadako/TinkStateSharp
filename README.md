@@ -13,6 +13,7 @@ Features:
  - Computed states with automatic update propagation
  - Asynchronously computed states with async/await
  - Out-of-the-box support for Unity with convenience helpers
+ - Experimental support for Godot!
 
 ## Quick Peek
 
