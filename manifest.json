@@ -293,6 +293,18 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "articles/godot.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/godot.html",
+          "hash": "3AEsZ8Z/U3vO8gYhtRWA9URQzzO7XClnin0Cucyze5o="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "articles/intro.md",
       "output": {
         ".html": {
@@ -333,7 +345,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "eeZahQC+lTEwTkmLs7T3TLrDI8bf/CnsV3TbIm4Mt6Q="
+          "hash": "rTsawEsaPOMaWWoWwBvepRz0zE2WhMVlqB1/aLRreEo="
         }
       },
       "is_incremental": false,
@@ -402,7 +414,7 @@
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 18,
+          "total_file_count": 19,
           "skipped_file_count": 0
         },
         "ManagedReferenceDocumentProcessor": {
