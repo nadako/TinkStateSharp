@@ -30,6 +30,7 @@ namespace TinkState
         static readonly UnityBatchScheduler Instance = new UnityBatchScheduler();
 
         List<Schedulable> queue = new List<Schedulable>();
+        List<Schedulable> nextQueue = new List<Schedulable>();
         bool scheduled;
 
         UnityBatchScheduler() { }
@@ -45,9 +46,13 @@ namespace TinkState
             var end = GetTimeStamp() + maxSeconds;
             do
             {
-                var old = queue;
-                queue = new List<Schedulable>();
-                foreach (var o in old) o.Run();
+                // to handle the unfortunate case where a binding invocation schedules another one
+                // we have two queues and swap between them to avoid allocating a new list every time
+                var currentQueue = queue;
+                queue = nextQueue;
+                foreach (var o in currentQueue) o.Run();
+                currentQueue.Clear();
+                nextQueue = currentQueue;
             }
             while (queue.Count > 0 && GetTimeStamp() < end);
 
