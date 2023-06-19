@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace TinkState.Internal
 {
-	class NeverEqualityComparer<T> : IEqualityComparer<T>
+	public class NeverEqualityComparer<T> : IEqualityComparer<T>
 	{
 		public static readonly NeverEqualityComparer<T> Instance = new NeverEqualityComparer<T>();
 

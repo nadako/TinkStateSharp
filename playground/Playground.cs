@@ -2,34 +2,34 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using TinkState;
+using TinkState.Internal;
+
+class MutableObject
+{
+	public string Field = "initial";
+}
 
 class Playground
 {
-    static async Task Main()
+    static void Main()
     {
-        var stateA = Observable.State("hello");
-        var stateB = Observable.State("world");
 
-        var o = Observable.Auto(async () =>
-        {
-            Console.WriteLine("computing");
-            var a = stateA.Value;
-            await Task.Delay(1000);
-            var b = stateB.Value;
-            return a + " " + b;
-        });
+	    var mutableObject = new MutableObject();
+	    var state = Observable.State(mutableObject, NeverEqualityComparer<MutableObject>.Instance);
 
-        o.Bind(result => Console.WriteLine(result.Status switch
-        {
-            AsyncComputeStatus.Loading => "Loading...",
-            AsyncComputeStatus.Done => "Done: " + result.Result,
-            AsyncComputeStatus.Failed => "Failed: " + result.Exception,
-        }));
+	    void Mutate(string newValue)
+	    {
+		    mutableObject.Field = newValue;
+		    state.ForceInvalidate();
+	    }
 
-        await Task.Delay(1500);
+	    var auto = Observable.Auto(() => state.Value.Field.ToUpperInvariant());
 
-        stateB.Value = "Dan";
+	    state.Bind(o => Console.WriteLine("Field value: " + o.Field));
+	    auto.Bind(value => Console.WriteLine("Field value: " + value));
 
-        Process.GetCurrentProcess().WaitForExit();
+	    Mutate("hello");
+
+        // Process.GetCurrentProcess().WaitForExit();
     }
 }

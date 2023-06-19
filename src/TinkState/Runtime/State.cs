@@ -14,5 +14,8 @@
 		/// </remarks>
 		/// <value>Current value of this observable object.</value>
 		new T Value { get; set; }
+
+		// TODO: better name
+		void ForceInvalidate();
 	}
 }

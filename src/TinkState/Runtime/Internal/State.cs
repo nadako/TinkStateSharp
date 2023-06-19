@@ -30,6 +30,11 @@ namespace TinkState.Internal
 			}
 		}
 
+		public void ForceInvalidate()
+		{
+			Fire();
+		}
+
 		public IDisposable Bind(Action<T> callback, IEqualityComparer<T> comparer = null, Scheduler scheduler = null)
 		{
 			return new Binding<T>(this, callback, comparer, scheduler);
