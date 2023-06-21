@@ -5,31 +5,29 @@ using TinkState;
 
 class Playground
 {
-    static async Task Main()
+	class MutableObject
+	{
+		public string Field = "initial";
+	}
+
+    static void Main()
     {
-        var stateA = Observable.State("hello");
-        var stateB = Observable.State("world");
+	    var mutableObject = new MutableObject();
 
-        var o = Observable.Auto(async () =>
-        {
-            Console.WriteLine("computing");
-            var a = stateA.Value;
-            await Task.Delay(1000);
-            var b = stateB.Value;
-            return a + " " + b;
-        });
+	    var mutableObjectSource = Observable.Manual(mutableObject);
 
-        o.Bind(result => Console.WriteLine(result.Status switch
-        {
-            AsyncComputeStatus.Loading => "Loading...",
-            AsyncComputeStatus.Done => "Done: " + result.Result,
-            AsyncComputeStatus.Failed => "Failed: " + result.Exception,
-        }));
+	    void Mutate(string newFieldValue)
+	    {
+		    mutableObject.Field = newFieldValue;
+		    mutableObjectSource.Invalidate();
+	    }
 
-        await Task.Delay(1500);
+	    var mutableObjectObservable = mutableObjectSource.Observe();
+	    mutableObjectObservable.Bind(o => Console.WriteLine(o.Field));
 
-        stateB.Value = "Dan";
+	    var auto = Observable.Auto(() => mutableObjectObservable.Value.Field.ToUpperInvariant());
+	    auto.Bind(v => Console.WriteLine(v));
 
-        Process.GetCurrentProcess().WaitForExit();
+	    Mutate("Hello");
     }
 }

@@ -212,6 +212,11 @@ namespace TinkState
 
 		// TODO: Dictionary with initial value
 
+		public static ManualObservableSource<T> Manual<T>(T initialValue)
+		{
+			return new Internal.ManualObservableSource<T>(initialValue);
+		}
+
 		/// <summary>
 		/// Default scheduler used for bindings.
 		/// </summary>
