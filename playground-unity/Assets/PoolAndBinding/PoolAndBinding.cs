@@ -26,10 +26,10 @@ public class PoolAndBinding : MonoBehaviour
 		items = new List<PoolAndBinding_Item>();
 	}
 
-    void Start()
-    {
-	    var globalInt = Observable.State(1);
-	    var nextId = 1;
+	void Start()
+	{
+		var globalInt = Observable.State(1);
+		var nextId = 1;
 
 		addButton.onClick.AddListener(() =>
 		{
@@ -55,5 +55,5 @@ public class PoolAndBinding : MonoBehaviour
 		});
 
 		increaseButton.onClick.AddListener(() => globalInt.Value++);
-    }
+	}
 }

@@ -11,7 +11,7 @@ public class PaginationView : MonoBehaviour
 	[SerializeField] Button nextButton;
 
 	public void Init(PaginationModel model)
-    {
+	{
 		var pageIndicatorText = Observable.Auto(() => (model.CurrentPageIndex.Value + 1) + " / " + model.NumPages.Value);
 		gameObject.DisposeOnDestroy(pageIndicatorText.Bind(text => label.text = text));
 
