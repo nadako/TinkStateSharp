@@ -7,14 +7,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: playground-unity/Library
-          key: playground-unity-Library
+          key: playground-unity-Library-${{ hashFiles('playground-unity/Assets/**', 'playground-unity/Packages/**', 'playground-unity/ProjectSettings/**') }}
+          restore-keys: |
+            playground-unity-Library-
 
-      - uses: game-ci/unity-test-runner@v2
+      - uses: game-ci/unity-test-runner@v4
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
