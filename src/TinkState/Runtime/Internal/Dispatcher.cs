@@ -94,6 +94,7 @@ namespace TinkState.Internal
 		{
 			if (!observers.Contains(observer))
 			{
+				ObservableTracker.TrackSubscription(this, observer);
 				observers.Add(observer);
 				return true;
 			}
@@ -102,7 +103,13 @@ namespace TinkState.Internal
 
 		bool RemoveObserver(Observer observer)
 		{
-			return observers.Remove(observer); // we should probably throw on false
+			if (observers.Remove(observer))
+			{
+				ObservableTracker.UntrackSubscription(this, observer);
+				return true;
+			}
+
+			return false; // we should probably throw on false
 		}
 
 		protected void Dispose()

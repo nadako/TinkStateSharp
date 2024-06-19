@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<LangVersion>9.0</LangVersion>
+		<AssemblyName>Nadako.TinkState.Unity.Editor</AssemblyName>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<EnableDefaultItems>false</EnableDefaultItems>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="../../src/TinkState-Unity/Editor/**/*.cs"/>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="UnityEngine">
+			<HintPath>../../unity-dlls/UnityEngine.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEditor">
+			<HintPath>../../unity-dlls/UnityEditor.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="../TinkState/TinkState.csproj"/>
+	</ItemGroup>
+</Project>
