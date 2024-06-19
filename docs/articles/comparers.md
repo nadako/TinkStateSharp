@@ -1,4 +1,4 @@
-## Custom Comparers
+# Custom Comparers
 
 Observables are smart enough not to trigger bindings and recalculations when the value hasn't actually changed. This is handled on two levels:
 

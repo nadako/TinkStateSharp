@@ -1,4 +1,4 @@
-## Unity Specifics
+# Unity Specifics
 
 While the base library itself is very generic and does not have any dependencies, one of the main motivations for its creation was to assist Unity developers with handling their models and view models. So this library also integrates with Unity out-of-the-box.
 

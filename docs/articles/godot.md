@@ -1,4 +1,4 @@
-## Godot Specifics
+# Godot Specifics
 
 > **NOTE**: Godot support is currently fairly barebones and to be considered experimental. It seems to work pretty well, but it requires some amount of manual setup before using.
 

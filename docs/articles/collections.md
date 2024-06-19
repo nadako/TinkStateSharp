@@ -1,4 +1,4 @@
-## Observable Collections
+# Observable Collections
 
 In addition to single-value observables, there are also a number of observable collections, such as `ObservableList` and `ObservableDictionary`.
 

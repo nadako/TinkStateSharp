@@ -1,4 +1,4 @@
-## Binding batching
+# Binding batching
 
 The binding mechanism is designed to support *batching*. This means that the binding callbacks are not executed directly when an observable value is changed, instead they are scheduled for execution all together in a batch once per *frame*.
 

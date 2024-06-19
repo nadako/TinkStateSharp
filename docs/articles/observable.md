@@ -1,4 +1,4 @@
-## Observable
+# Observable
 
 The core type of this library is `Observable<T>`. It represents observable data and its definition is pretty straightforward:
 

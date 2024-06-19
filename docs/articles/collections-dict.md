@@ -1,3 +1,3 @@
-## Observable Dictionary
+# Observable Dictionary
 
 > TODO: document

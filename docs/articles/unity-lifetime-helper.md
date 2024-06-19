@@ -1,4 +1,4 @@
-## Binding Lifetime
+# Unity Binding Lifetime
 
 It is very important to dispose bindings to observables when they are no longer needed for two main reasons:
 

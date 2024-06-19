@@ -1,4 +1,4 @@
-## Asynchronous Auto-Observable
+# Asynchronous Auto-Observable
 
 In addition to normal [`auto-observables`](auto.md), it is also possible to create auto-observables using `async` computation functions. Auto-observable will take care of starting and awaiting asynchronous computation while tracking observable access at their every execution step.
 

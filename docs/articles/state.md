@@ -1,4 +1,4 @@
-## State
+# State
 
 One important variation of `Observable<T>` is `State<T>`, which is a mutable observable, meaning you can also set the value:
 

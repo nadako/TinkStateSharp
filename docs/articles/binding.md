@@ -1,4 +1,4 @@
-## Bindings
+# Bindings
 
 We briefly mentioned the `Bind` method in the [`Observable`](observable.md) article, which allows for subscribing to `Observable<T>` value changes to bind your code to it.
 

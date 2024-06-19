@@ -1,4 +1,4 @@
-## Observable List
+# Observable List
 
 `ObservableList<T>` is an observable wrapper around the standard `List<T>`, providing the same API for managing the collection.
 

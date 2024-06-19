@@ -1,4 +1,4 @@
-## Auto-Observable
+# Auto-Observable
 
 Auto-observables are the main way to derive observable data from a number of *source* observables by providing a *computation* function.
 

@@ -1,4 +1,4 @@
-## Auto-Runs
+# Auto-Runs
 
 Sometimes we simply want to run some code that depends on observable values and have it automatically re-invoked in case any of the used values is changed. We could use an [auto-observable](auto.md) with some dummy value for that, however if there's no need for an actual value it can get a bit awkward.
 

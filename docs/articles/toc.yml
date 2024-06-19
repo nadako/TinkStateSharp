@@ -41,8 +41,8 @@
     - name: Dictionary
       href: collections-dict.md
 
-- name: Best Practices & Cautions
-  href: best-practices.md
+- name: Remarks & Advices
+  href: remarks.md
 
 - name: Unity Specifics
   href: unity.md

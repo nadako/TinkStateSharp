@@ -1,4 +1,4 @@
-## Constant Observable
+# Constant Observable
 
 The most simple and lightweight kind of observable is the  *const* observable for values that never change.
 
