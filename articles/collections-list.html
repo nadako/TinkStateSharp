@@ -69,9 +69,37 @@
             <article class="content wrap" id="_content" data-uid="">
 <h2 id="observable-list">Observable List</h2>
 
-<blockquote><p>TODO: document</p>
-</blockquote>
-</article>
+<p><code>ObservableList&lt;T&gt;</code> is an observable wrapper around the standard <code>List&lt;T&gt;</code>, providing the same API for managing the collection.</p>
+<p>In addition to the standard list method, it provides the <a class="xref" href="../api/TinkState.ObservableList-1.html#TinkState_ObservableList_1_Observe"><code>Observe</code></a> method to expose itself
+as a read-only observable so one can bind to it and react to its changes.</p>
+<pre><code class="lang-csharp">interface ObservableList&lt;T&gt; : IList&lt;T&gt;
+{
+    Observable&lt;IReadOnlyList&lt;T&gt;&gt; Observe();
+}
+</code></pre><p>Like most of observables, <code>ObservableList&lt;T&gt;</code> can be created by a static function in the <code>Observable</code> helper class:</p>
+<pre><code class="lang-csharp">static class Observable
+{
+    static ObservableList&lt;T&gt; List&lt;T&gt;();
+}
+</code></pre><p>Adding and removing elements will naturally trigger its bindings and propagate through auto-observables.</p>
+<h2 id="example">Example</h2>
+<pre><code class="lang-csharp">var list = Observable.List&lt;int&gt;();
+list.Add(1);
+list.Add(2);
+
+var auto = Observable.Auto(() =&gt; list.Sum());
+Console.WriteLine(auto.Value); // 3
+
+// initial binding prints 1, 2
+list.Observe().Bind(readOnlyList =&gt;
+{
+    foreach (var item in readOnlyList) Console.WriteLine(item);
+});
+
+list.Add(3); // binding prints 1, 2, 3
+
+Console.WriteLine(auto.Value); // 6
+</code></pre></article>
           </div>
           
           <div class="hidden-sm col-md-2" role="complementary">

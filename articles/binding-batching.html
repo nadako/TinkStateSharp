@@ -70,8 +70,8 @@
 <h2 id="binding-batching">Binding batching</h2>
 
 <p>The binding mechanism is designed to support <em>batching</em>. This means that the binding callbacks are not executed directly when an observable value is changed, instead they are scheduled for execution all together in a batch once per <em>frame</em>.</p>
-<p>This makes a lot of sense for updating views: after the business-logic is done with updating observable data, the bindings for changed values are executed in a batch before the next UI redraw happens.</p>
-<p>This approach has a nice effect that a binding is only invoked once per changed observable, even if you actually set values multiple times during frame. Even more so, if the final value is unchanged after all assignments and/or recomputations - the binding will not be invoked at all!</p>
+<p>The separation of binding execution makes a lot of sense for updating views: after the business-logic is done with updating observable data, the bindings for changed values are executed in a batch before the next UI redraw happens. It can also have a positive effect on application stability, because, binding callback side-effects, including exceptions, will not interfere with the business-logic that changes the data.</p>
+<p>Another nice effect is that a binding is only invoked once per changed observable, even if you actually set values multiple times during frame. Even more so, if the final value is unchanged after all assignments and/or recomputations - the binding will not be invoked at all.</p>
 <p>This is a good optimization and is what we want in most cases, however sometimes we want to make our bindings executed directly. Luckily we can control this by providing the <code>scheduler</code> argument to the <code>Bind</code> method and using <code>Scheduler.Direct</code> instance:</p>
 <pre><code class="lang-cs">var playerName = Observable.State(&quot;Dan&quot;);
 
