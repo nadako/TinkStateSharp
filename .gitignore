@@ -2,3 +2,4 @@
 /.idea
 /coverage
 /TinkStateSharp.sln.DotSettings.user
+.DS_Store
