@@ -2,9 +2,9 @@
 
 The binding mechanism is designed to support *batching*. This means that the binding callbacks are not executed directly when an observable value is changed, instead they are scheduled for execution all together in a batch once per *frame*.
 
-This makes a lot of sense for updating views: after the business-logic is done with updating observable data, the bindings for changed values are executed in a batch before the next UI redraw happens.
+The separation of binding execution makes a lot of sense for updating views: after the business-logic is done with updating observable data, the bindings for changed values are executed in a batch before the next UI redraw happens. It can also have a positive effect on application stability, because, binding callback side-effects, including exceptions, will not interfere with the business-logic that changes the data.
 
-This approach has a nice effect that a binding is only invoked once per changed observable, even if you actually set values multiple times during frame. Even more so, if the final value is unchanged after all assignments and/or recomputations - the binding will not be invoked at all!
+Another nice effect is that a binding is only invoked once per changed observable, even if you actually set values multiple times during frame. Even more so, if the final value is unchanged after all assignments and/or recomputations - the binding will not be invoked at all.
 
 This is a good optimization and is what we want in most cases, however sometimes we want to make our bindings executed directly. Luckily we can control this by providing the `scheduler` argument to the `Bind` method and using `Scheduler.Direct` instance:
 
