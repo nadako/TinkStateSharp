@@ -165,7 +165,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/auto-async.html",
-          "hash": "Yz4qjg4SnFZl7/M78RDskfRjeguhObAGxxWsrXZQD8Y="
+          "hash": "/pDesovR40z5Y6HFdzl3VggNhu9v7uRG6ZiXFQF3wQc="
         }
       },
       "is_incremental": false,
@@ -177,7 +177,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/auto-run.html",
-          "hash": "kTlL+U+1GpSw1Dkt/gEaO85oDzEV1p09VpdoP/OhH00="
+          "hash": "FO91nC7WTH1yV4uA3tm0jjAodmeF35ObLjVoFPyO/SM="
         }
       },
       "is_incremental": false,
@@ -189,19 +189,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/auto.html",
-          "hash": "z0ghLbkM4AyjeJLcE8Xd3RS8wbPeqt78g1KskSQTisM="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "articles/best-practices.md",
-      "output": {
-        ".html": {
-          "relative_path": "articles/best-practices.html",
-          "hash": "ZhMLnYHgk15uA+KvQLH/MNy3xWeFzGB9SEEx/JEMffQ="
+          "hash": "ZK/g0fwuy71w3T9wBTliy9W/bG9TveVn75QWNTMECjw="
         }
       },
       "is_incremental": false,
@@ -213,7 +201,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/binding-batching.html",
-          "hash": "zL/0Dmd/CGJwNqoYrvLyuDF9RLu9YEBW+HZ7rSD3ciQ="
+          "hash": "six6w54AFg3oF4OlUIKFnogRhrNOKtGTBYe7D+gJyts="
         }
       },
       "is_incremental": false,
@@ -225,7 +213,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/binding.html",
-          "hash": "IuVf1Zl9//+6/m+BLGx/4z3uiZIgRU/2pxPBlv8CCJw="
+          "hash": "9coob0REyqiW3m/FeECOguhXhvkQUCvOxS8B6a2qLO4="
         }
       },
       "is_incremental": false,
@@ -237,7 +225,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/collections-dict.html",
-          "hash": "4hsSSfMeFEO4RH07JdOj8vx8VaVqEmxAWov1p6kkYk4="
+          "hash": "fXaT8/1lI35xohAA0VcBxAMvUTshFZvGuysKBOuLA10="
         }
       },
       "is_incremental": false,
@@ -249,7 +237,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/collections-list.html",
-          "hash": "Mhr9ET0KcFcNNYcykaYHzcPczPL/JVtGUxwIhKfqozM="
+          "hash": "dzfbvCEwtdkYC3EtEXTlkaxUgl9uWTXMtlNrucE49ko="
         }
       },
       "is_incremental": false,
@@ -261,7 +249,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/collections.html",
-          "hash": "6KjJtG6vz/88/TbgJ+fssvG4j+h9LHGCFQhRhd9wQiE="
+          "hash": "xGn4rJvbeRqr50nkIhxGn6+zdTxHyyjJm87KvgJAOBM="
         }
       },
       "is_incremental": false,
@@ -273,7 +261,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/comparers.html",
-          "hash": "2c5fVGoEl3gKYJ8U3LWFG6FjBmAm6zyH1efBA5Vatvc="
+          "hash": "mvGjB5Cj/A0wPLSeN4QU+QQDKlAZ1QbCBDPeVwvfHDI="
         }
       },
       "is_incremental": false,
@@ -285,7 +273,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/const.html",
-          "hash": "VbhStWzXhaJsST9EGFG7bBs7FwMA/ezDSRP1FmGpPLo="
+          "hash": "FOJ6TfVKFqlkXaCF7LBcEbBWjZtJj6or1oKUF0rg8Ho="
         }
       },
       "is_incremental": false,
@@ -297,19 +285,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/godot.html",
-          "hash": "3AEsZ8Z/U3vO8gYhtRWA9URQzzO7XClnin0Cucyze5o="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "articles/intro.md",
-      "output": {
-        ".html": {
-          "relative_path": "articles/intro.html",
-          "hash": "h8BhgxePBY1FLMCNwP0hyFy6C22AoIgznaTT3/r31nA="
+          "hash": "mXqhkfBLCgdUkbBIaWxUj5U8GCW6ZYa/0vZK+15t+io="
         }
       },
       "is_incremental": false,
@@ -321,7 +297,19 @@
       "output": {
         ".html": {
           "relative_path": "articles/observable.html",
-          "hash": "BfSC9gDgmnfeOHjUa3gujc+Uh25w57Wnb26zcN5p3xw="
+          "hash": "g6fwZ3dUr8w2ogvCF7T7NeiSo6Vf7Rc1lNryQd7wano="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/remarks.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/remarks.html",
+          "hash": "lC/CJwYavZC0dWpHkLceeYvdKr7iw2O+yAQBkkSKKOg="
         }
       },
       "is_incremental": false,
@@ -333,7 +321,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/state.html",
-          "hash": "vlzIqUcunjN42JckF4TnLlX5YnbXlFZuMXOYKLsofhU="
+          "hash": "WFFAGxTa6VpTjQsreSMNvG8mnCxC3F26W2verA/IEAo="
         }
       },
       "is_incremental": false,
@@ -345,7 +333,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "rTsawEsaPOMaWWoWwBvepRz0zE2WhMVlqB1/aLRreEo="
+          "hash": "CjPZlK/7aQMVLGK8YM5/TFb8Gspv5f7MooqyHaUHw2w="
         }
       },
       "is_incremental": false,
@@ -357,7 +345,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/unity-lifetime-helper.html",
-          "hash": "/LPGizIwGzLyjtqkOL/I6X5Jfj9RUDjibXRHpPEBalU="
+          "hash": "J8tpNbcAqAyQ9XzEtzGniKlVkf5ePCsnroFEoQCi0nQ="
         }
       },
       "is_incremental": false,
@@ -369,7 +357,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/unity.html",
-          "hash": "pOJH2KkNpG7s6IcMMsN/S7hJhTuFC3Tu7fWtTxhj730="
+          "hash": "Et9+Fm+yTHZhNhC+/6PRuTB6yIm/TBkM/5ri0fmPYR0="
         }
       },
       "is_incremental": false,
@@ -414,7 +402,7 @@
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 19,
+          "total_file_count": 18,
           "skipped_file_count": 0
         },
         "ManagedReferenceDocumentProcessor": {

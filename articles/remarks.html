@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Introduction | TinkState </title>
+    <title>Remarks &amp; Advices | TinkState </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Introduction | TinkState ">
+    <meta name="title" content="Remarks &amp; Advices | TinkState ">
     <meta name="generator" content="docfx 2.59.4.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
@@ -67,19 +67,13 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="introduction">Introduction</h1>
+<h1 id="remarks--advices">Remarks &amp; Advices</h1>
 
-<p>Managing and displaying large amounts of mutable data is probably the main problem of UI-centric programs, including a lot of modern games.</p>
-<p>We want to structure our data nicely, as well as combine, transform and cache it, and we want to make sure that changes are properly propagated and views are updated accordingly.</p>
-<p>TinkState# aims to simplify and streamline this. In essence, it provides:</p>
-<ul>
-<li>Observable data structures (meaning you can read values and subscribe to changes).</li>
-<li>Means to define derived live-computed data from those observables (meaning changes to source values automatically updates derived values).</li>
-<li>Efficient binding mechanism for your code to react to changes (e.g. update the UI).</li>
-</ul>
-<p>In other worlds, TinkState# implements reactive state handling. In terms of <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel">MVVM</a> architecture, it covers both model and viewmodel components.</p>
-<hr>
-<p>If you&#39;re considering using TinkState# in a <a href="https://unity.com/">Unity</a> project, please also check out the <a href="unity.html">Unity Specifics</a> article.</p>
+<h2 id="thread-safety">Thread-safety</h2>
+<p>This library is currently NOT thread-safe. There&#39;s no synchronization code and it uses some mutable static fields.</p>
+<h2 id="other-todo">Other (TODO)</h2>
+<blockquote><p>TODO: state updates from bindings and computations, splitting auto-observables, binding and subscription lifetimes</p>
+</blockquote>
 </article>
           </div>
           

@@ -67,7 +67,7 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
-<h2 id="binding-batching">Binding batching</h2>
+<h1 id="binding-batching">Binding batching</h1>
 
 <p>The binding mechanism is designed to support <em>batching</em>. This means that the binding callbacks are not executed directly when an observable value is changed, instead they are scheduled for execution all together in a batch once per <em>frame</em>.</p>
 <p>The separation of binding execution makes a lot of sense for updating views: after the business-logic is done with updating observable data, the bindings for changed values are executed in a batch before the next UI redraw happens. It can also have a positive effect on application stability, because, binding callback side-effects, including exceptions, will not interfere with the business-logic that changes the data.</p>
