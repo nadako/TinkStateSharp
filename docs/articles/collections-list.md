@@ -2,7 +2,7 @@
 
 `ObservableList<T>` is an observable wrapper around the standard `List<T>`, providing the same API for managing the collection.
 
-In addition to the standard list method, it provides the [`Observe`](xref:TinkState.ObservableList`1.Observe) method to expose itself
+In addition to the standard list methods, it provides the [`Observe`](xref:TinkState.ObservableList`1.Observe) method to expose itself
 as a read-only observable so one can bind to it and react to its changes.
 
 ```csharp
