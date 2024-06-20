@@ -69,9 +69,36 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="observable-dictionary">Observable Dictionary</h1>
 
-<blockquote><p>TODO: document</p>
-</blockquote>
-</article>
+<p><code>ObservableDictionary&lt;T&gt;</code> is an observable wrapper around the standard <code>Dictionary&lt;T&gt;</code>, providing the same API for managing the collection.</p>
+<p>In addition to the standard dictionary methods, it provides the <a class="xref" href="../api/TinkState.ObservableDictionary-2.html#TinkState_ObservableDictionary_2_Observe"><code>Observe</code></a> method to expose itself as a read-only observable so one can bind to it and react to its changes.</p>
+<pre><code class="lang-csharp">interface ObservableDictionary&lt;TKey, TValue&gt; : IDictionary&lt;TKey, TValue&gt;
+{
+    Observable&lt;IReadOnlyDictionary&lt;TKey, TValue&gt;&gt; Observe();
+}
+</code></pre><p>Like most of observables, <code>ObservableDictionary&lt;T&gt;</code> can be created by a static function in the <code>Observable</code> helper class:</p>
+<pre><code class="lang-csharp">static class Observable
+{
+    static ObservableDictionary&lt;TKey, TValue&gt; Dictionary&lt;TKey, TValue&gt;();
+}
+</code></pre><p>Adding and removing items will naturally trigger its bindings and propagate through auto-observables.</p>
+<h2 id="example">Example</h2>
+<pre><code class="lang-csharp">var dict = Observable.Dictionary&lt;string, int&gt;();
+dict[&quot;a&quot;] = 1;
+dict[&quot;b&quot;] = 2;
+
+var auto = Observable.Auto(() =&gt; string.Join(&quot;,&quot;, dict.Select(kvp =&gt; $&quot;{kvp.Key}:{kvp.Value}&quot;)));
+Console.WriteLine(auto.Value); // a:1,b:2
+
+// initial binding prints a:1 and b:2
+dict.Observe().Bind(readOnlyDict =&gt;
+{
+    foreach (var (key, value) in readOnlyDict) Console.WriteLine($&quot;{key}:{value}&quot;);
+});
+
+dict[&quot;c&quot;] = 3; // binding prints a:1, b:2 and c:3
+
+Console.WriteLine(auto.Value); // a:1,b:2,c:3
+</code></pre></article>
           </div>
           
           <div class="hidden-sm col-md-2" role="complementary">
