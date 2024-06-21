@@ -316,6 +316,21 @@
       "version": ""
     },
     {
+      "log_codes": [
+        "InvalidYamlHeader"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "articles/rx.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/rx.html",
+          "hash": "ah+TRu7Uh0EE8xbk+kxQzz/o3NthTF6tVmI22guH8MY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
       "type": "Conceptual",
       "source_relative_path": "articles/state.md",
       "output": {
@@ -333,7 +348,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "CjPZlK/7aQMVLGK8YM5/TFb8Gspv5f7MooqyHaUHw2w="
+          "hash": "3C132PTfHgTrNWTFNGyQIjsvsfwAQNi8A4hIO9yQD2Y="
         }
       },
       "is_incremental": false,
@@ -402,7 +417,7 @@
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 18,
+          "total_file_count": 19,
           "skipped_file_count": 0
         },
         "ManagedReferenceDocumentProcessor": {
