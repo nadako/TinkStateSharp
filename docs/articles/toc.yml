@@ -51,5 +51,7 @@
       href: unity-lifetime-helper.md
 
 - name: Godot Specifics
-  href: Godot.md
+  href: godot.md
 
+- name: Rx/R3 and TinkState#
+  href: rx.md
