@@ -179,6 +179,11 @@ namespace TinkState
 			return new Internal.State<T>(initialValue, comparer);
 		}
 
+		public static ExternalObservableSource<T> External<T>(Func<T> getter, IEqualityComparer<T> comparer = null)
+		{
+			return new Internal.ExternalObservableSource<T>(getter, comparer);
+		}
+
 		/// <summary>
 		/// Create an empty observable list.
 		/// </summary>
