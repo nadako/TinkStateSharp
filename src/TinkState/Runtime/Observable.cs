@@ -99,6 +99,11 @@ namespace TinkState
 			return new AutoObservable<T>(new SyncComputation<T>(compute), comparer);
 		}
 
+		public static Observable<T> External<T>(Func<T> getter, Action<Action> wakeup, Action sleep, IEqualityComparer<T> comparer = null)
+		{
+			return new ExternalObservable<T>(getter, wakeup, sleep, comparer);
+		}
+
 		/// <summary>
 		///     <para>
 		///     Create an observable containing data computed using given <paramref name="compute"/> function.

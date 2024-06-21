@@ -1,34 +1,45 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Timers;
 using TinkState;
 
 class Playground
 {
-	static async Task Main()
+	static void Main()
 	{
-		var stateA = Observable.State("hello");
-		var stateB = Observable.State("world");
+		var timer = new Timer(1000);
+		ElapsedEventHandler timerElapsedHandler = null;
 
-		var o = Observable.Auto(async () =>
+		var time = Observable.External(
+			() => DateTime.UtcNow,
+			invalidate =>
+			{
+				Console.WriteLine("wakeup");
+				timerElapsedHandler = (_, _) =>
+				{
+					Console.WriteLine("tick");
+					invalidate();
+				};
+				timer.Elapsed += timerElapsedHandler;
+				timer.Start();
+			},
+			() =>
+			{
+				Console.WriteLine("sleep");
+				timer.Elapsed -= timerElapsedHandler;
+				timer.Stop();
+			}
+		);
+
+		var counter = 0;
+		IDisposable binding = null;
+		binding = time.Bind(v =>
 		{
-			Console.WriteLine("computing");
-			var a = stateA.Value;
-			await Task.Delay(1000);
-			var b = stateB.Value;
-			return a + " " + b;
+			Console.WriteLine($"Current time is: {v}");
+			counter++;
+			if (counter >= 5) binding.Dispose();
 		});
-
-		o.Bind(result => Console.WriteLine(result.Status switch
-		{
-			AsyncComputeStatus.Loading => "Loading...",
-			AsyncComputeStatus.Done => "Done: " + result.Result,
-			AsyncComputeStatus.Failed => "Failed: " + result.Exception,
-		}));
-
-		await Task.Delay(1500);
-
-		stateB.Value = "Dan";
 
 		Process.GetCurrentProcess().WaitForExit();
 	}
