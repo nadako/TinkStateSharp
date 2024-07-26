@@ -11,7 +11,7 @@ namespace TinkState
 {
 	public class UnityBatchScheduler : Scheduler
 	{
-		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
 		static void Init()
 		{
 			Observable.Scheduler = Instance;
