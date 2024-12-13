@@ -7,7 +7,7 @@ namespace TinkState.Internal
 	{
 		IReadOnlyDictionary<TKey, TValue> Observable<IReadOnlyDictionary<TKey, TValue>>.Value
 		{
-			get => AutoObservable.Track<IReadOnlyDictionary<TKey, TValue>>(this);
+			get => AutoObservable.Track<ObservableDictionary<TKey, TValue>>(this).entries;
 		}
 
 		IDisposable Observable<IReadOnlyDictionary<TKey, TValue>>.Bind(Action<IReadOnlyDictionary<TKey, TValue>> callback, IEqualityComparer<IReadOnlyDictionary<TKey, TValue>> comparer, Scheduler scheduler)

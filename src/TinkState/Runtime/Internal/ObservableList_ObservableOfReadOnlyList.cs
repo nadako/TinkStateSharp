@@ -7,7 +7,7 @@ namespace TinkState.Internal
 	{
 		IReadOnlyList<T> Observable<IReadOnlyList<T>>.Value
 		{
-			get => AutoObservable.Track<IReadOnlyList<T>>(this);
+			get => AutoObservable.Track<ObservableList<T>>(this).entries;
 		}
 
 		IDisposable Observable<IReadOnlyList<T>>.Bind(Action<IReadOnlyList<T>> callback, IEqualityComparer<IReadOnlyList<T>> comparer, Scheduler scheduler)
