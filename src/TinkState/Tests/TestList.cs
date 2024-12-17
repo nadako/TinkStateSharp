@@ -176,6 +176,30 @@ namespace Test
 			Assert.That(auto.Value, Is.EqualTo("0,1,2,3"));
 		}
 
+
+		[Test]
+		public void TestObserveAndListUsedInAuto()
+		{
+			var list = Observable.List<string>();
+			list.Add("a");
+			list.Add("b");
+			var listAsObservable = list.Observe();
+
+			var auto = Observable.Auto(() =>
+			{
+				var a = string.Join(',', list);
+				var b = string.Join('.', listAsObservable.Value);
+				return $"{a}-{b}";
+			});
+
+			Assert.That(auto.Value, Is.EqualTo("a,b-a.b"));
+
+			list[0] = "A";
+			list[1] = "B";
+			list.Add("C");
+			Assert.That(auto.Value, Is.EqualTo("A,B,C-A.B.C"));
+		}
+
 		void Helper<R>(Func<R> compute, R initialExpectedValue, Action<Action<R, Action>> tests)
 		{
 			var auto = Observable.Auto(compute);

@@ -221,6 +221,36 @@ namespace Test
 			Assert.That(auto.Value, Is.EqualTo("0-!,1-a,3-c"));
 		}
 
+		[Test]
+		public void TestObserveAndDictionaryUsedInAuto()
+		{
+			var dict = Observable.Dictionary<int, string>();
+			dict[1] = "a";
+			dict[2] = "b";
+			var dictAsObservable = dict.Observe();
+
+			List<string> Sorted(IEnumerable<string> values)
+			{
+				var list = new List<string>(values);
+				list.Sort();
+				return list;
+			}
+
+			var auto = Observable.Auto(() =>
+			{
+				var a = string.Join(',', Sorted(dict.Values.ToArray()));
+				var b = string.Join('.', Sorted(dictAsObservable.Value.Values));
+				return $"{a}-{b}";
+			});
+
+			Assert.That(auto.Value, Is.EqualTo("a,b-a.b"));
+
+			dict[1] = "A";
+			dict[2] = "B";
+			dict[3] = "C";
+			Assert.That(auto.Value, Is.EqualTo("A,B,C-A.B.C"));
+		}
+
 		void Helper<R>(Func<R> compute, R initialExpectedValue, Action<Action<R, Action>> tests)
 		{
 			var auto = Observable.Auto(compute);
