@@ -7,11 +7,11 @@ public class HelloWorld : MonoBehaviour
 	[SerializeField] TMP_InputField nameInput;
 	[SerializeField] TMP_Text greetingLabel;
 
+	// define piece of mutable observable state
+	[SerializeField] SerializableState<string> name = new("World");
+
 	void Start()
 	{
-		// define piece of mutable observable state
-		var name = Observable.State("World");
-
 		// bind the state two-ways to an input field
 		name.Bind(nameInput.SetTextWithoutNotify);
 		nameInput.onValueChanged.AddListener(newValue => name.Value = newValue);
