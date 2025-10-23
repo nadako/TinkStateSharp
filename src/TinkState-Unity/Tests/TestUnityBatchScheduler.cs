@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine.TestTools;
 using TinkState;
@@ -103,5 +105,31 @@ public class TestUnityBatchScheduler
 		expectedValue = 6;
 		yield return null;
 		Assert.That(bindingCalls, Is.EqualTo(3));
+	}
+
+	[UnityTest]
+	public IEnumerator TestBindingExceptionNotStoppingProcessing()
+	{
+		var state = Observable.State(10);
+		var calls = new List<string>();
+		var binding1Called = false;
+		state.Bind(value =>
+		{
+			if (!binding1Called)
+			{
+				binding1Called = true;
+				calls.Add("a");
+			}
+			else throw new Exception("FAIL");
+		});
+		state.Bind(value =>
+		{
+			calls.Add("b");
+		});
+		Assert.That(calls, Is.EquivalentTo(new [] {"a", "b"}));
+		state.Value = 15;
+		yield return null;
+		LogAssert.Expect(LogType.Exception, "Exception: FAIL");
+		Assert.That(calls, Is.EquivalentTo(new [] {"a", "b", "b"}));
 	}
 }
