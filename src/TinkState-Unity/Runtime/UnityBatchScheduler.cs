@@ -50,7 +50,17 @@ namespace TinkState
 				// we have two queues and swap between them to avoid allocating a new list every time
 				var currentQueue = queue;
 				queue = nextQueue;
-				foreach (var o in currentQueue) o.Run();
+				foreach (var o in currentQueue)
+				{
+					try
+					{
+						o.Run();
+					}
+					catch (Exception e)
+					{
+						Debug.LogException(e);
+					}
+				}
 				currentQueue.Clear();
 				nextQueue = currentQueue;
 			}
@@ -62,7 +72,7 @@ namespace TinkState
 			}
 		}
 
-		float GetTimeStamp()
+		static float GetTimeStamp()
 		{
 			return Time.realtimeSinceStartup;
 		}
@@ -95,7 +105,7 @@ namespace TinkState
 
 		static int FindLoopSystemIndex(PlayerLoopSystem[] subSystemList, Type systemType)
 		{
-			for (int i = 0; i < subSystemList.Length; i++)
+			for (var i = 0; i < subSystemList.Length; i++)
 			{
 				if (subSystemList[i].type == systemType)
 				{
