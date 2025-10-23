@@ -70,7 +70,7 @@
 <h1 id="auto-runs">Auto-Runs</h1>
 
 <p>Sometimes we simply want to run some code that depends on observable values and have it automatically re-invoked in case any of the used values is changed. We could use an <a href="auto.html">auto-observable</a> with some dummy value for that, however if there&#39;s no need for an actual value it can get a bit awkward.</p>
-<p>For cases like this there&#39;s <a class="xref" href="../api/TinkState.Observable.html#TinkState_Observable_AutoRun_System_Action_TinkState_Scheduler_"><code>Observable.AutoRun</code></a>, a handy helper that provides a way to run some code while tracking observable access and re-run it when any of their values change, just like with auto-observable computation functions.</p>
+<p>For cases like this there&#39;s <a href="xref:TinkState.Observable.AutoRun(System.Action,TinkState.Scheduler)"><code>Observable.AutoRun</code></a>, a handy helper that provides a way to run some code while tracking observable access and re-run it when any of their values change, just like with auto-observable computation functions.</p>
 <h2 id="example">Example</h2>
 <pre><code class="lang-cs">var amount = Observable.State(1);
 var fruit = Observable.State(&quot;apple&quot;);

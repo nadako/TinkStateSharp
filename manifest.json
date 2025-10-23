@@ -4,204 +4,72 @@
   "xrefmap": "xrefmap.yml",
   "files": [
     {
-      "type": "ManagedReference",
-      "source_relative_path": "api/TinkState.AsyncComputeResult-1.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/TinkState.AsyncComputeResult-1.html",
-          "hash": "9UpX+5U/wZ2hf1Kw8Oxnh9XCQ1xgTmtmN2WsGsuLEkg="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/TinkState.AsyncComputeStatus.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/TinkState.AsyncComputeStatus.html",
-          "hash": "rADuULfPnKtofkHLWDi+IoBXl0YuuzDCgGO3O+cHjCQ="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/TinkState.AsyncComputeTask-1.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/TinkState.AsyncComputeTask-1.html",
-          "hash": "R3v4NhCCoDnnrNKEnTUj/cffFgzsz7JhRTOd70dTUM8="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/TinkState.Observable-1.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/TinkState.Observable-1.html",
-          "hash": "ri/czMzzShe3HmG4HgVA55kjKbk4fPweh/Hw+rw6VaA="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/TinkState.Observable.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/TinkState.Observable.html",
-          "hash": "WKFZS0PdOHunpmPnUklbQCVDduhYWp00JjnYJ4WVA+s="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/TinkState.ObservableDictionary-2.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/TinkState.ObservableDictionary-2.html",
-          "hash": "OwkZmOdKV9lC7NztwlIxfWxubJOnmi4Dym/lLiRH/jY="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/TinkState.ObservableList-1.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/TinkState.ObservableList-1.html",
-          "hash": "rAeaN6j2ZgdJ47D291OyCwM2NWy/zpwYjOZuEg+vCmo="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/TinkState.Schedulable.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/TinkState.Schedulable.html",
-          "hash": "39L12B4dX2+Xxg3QyNhUJzdZBk3bcd8ErejG+CR6FfE="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/TinkState.Scheduler.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/TinkState.Scheduler.html",
-          "hash": "ClAx+irUe7fkOXftcRQYegP0DpPhOOPsYc1QzwN+LeU="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/TinkState.State-1.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/TinkState.State-1.html",
-          "hash": "GhO48+B74rdJxJioXxe7n6Vn3SLuyRFPkcg6L0aTXpU="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/TinkState.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/TinkState.html",
-          "hash": "uA7lbCHT10np7mRyJvomd47qR1Qc63CqTyvqX5owfOM="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
       "type": "Conceptual",
       "source_relative_path": "api/index.md",
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "jHBfGpnLlbG2KPro7rjMxYE3XZt8aBdbpMjPW1+NiV4="
+          "hash": "eQzy/Bz4in/xs2OS4fB9BF01bWbR7VGhAk+/wggtfPU="
         }
       },
       "is_incremental": false,
       "version": ""
     },
     {
-      "type": "Toc",
-      "source_relative_path": "api/toc.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/toc.html",
-          "hash": "iw3vxqMur0wXKvfFhZg12ThlH+35w+Z8KpUPHhSObFY="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
+      "log_codes": [
+        "UidNotFound"
+      ],
       "type": "Conceptual",
       "source_relative_path": "articles/auto-async.md",
       "output": {
         ".html": {
           "relative_path": "articles/auto-async.html",
-          "hash": "/pDesovR40z5Y6HFdzl3VggNhu9v7uRG6ZiXFQF3wQc="
+          "hash": "CiV8vHxKVOGrcwQkCLEQkRVgmowXQ85RwfdrF8RnGqI="
         }
       },
       "is_incremental": false,
       "version": ""
     },
     {
+      "log_codes": [
+        "UidNotFound"
+      ],
       "type": "Conceptual",
       "source_relative_path": "articles/auto-run.md",
       "output": {
         ".html": {
           "relative_path": "articles/auto-run.html",
-          "hash": "FO91nC7WTH1yV4uA3tm0jjAodmeF35ObLjVoFPyO/SM="
+          "hash": "2LdnuYp9TyI2aUb1jAWwtGfXC2CvyhSP0LDB/HOKPZI="
         }
       },
       "is_incremental": false,
       "version": ""
     },
     {
+      "log_codes": [
+        "UidNotFound"
+      ],
       "type": "Conceptual",
       "source_relative_path": "articles/auto.md",
       "output": {
         ".html": {
           "relative_path": "articles/auto.html",
-          "hash": "ZK/g0fwuy71w3T9wBTliy9W/bG9TveVn75QWNTMECjw="
+          "hash": "OR+WWAMg7lGwbD/Ug8A8AI1A8QYLV6UMbksO3hGgCkw="
         }
       },
       "is_incremental": false,
       "version": ""
     },
     {
+      "log_codes": [
+        "UidNotFound"
+      ],
       "type": "Conceptual",
       "source_relative_path": "articles/binding-batching.md",
       "output": {
         ".html": {
           "relative_path": "articles/binding-batching.html",
-          "hash": "six6w54AFg3oF4OlUIKFnogRhrNOKtGTBYe7D+gJyts="
+          "hash": "MXgz3uZvwqD5eXIh3EIxCZtBywKBNubEmX7ipQmw7QQ="
         }
       },
       "is_incremental": false,
@@ -220,24 +88,30 @@
       "version": ""
     },
     {
+      "log_codes": [
+        "UidNotFound"
+      ],
       "type": "Conceptual",
       "source_relative_path": "articles/collections-dict.md",
       "output": {
         ".html": {
           "relative_path": "articles/collections-dict.html",
-          "hash": "TCOjlhiBDjH/IDFRJsefQmlLKpfw6n33SmIvVgBpGaU="
+          "hash": "CzKiqHafK06niuZO6z2vv/WGitsQVFc29Dt735JsWhw="
         }
       },
       "is_incremental": false,
       "version": ""
     },
     {
+      "log_codes": [
+        "UidNotFound"
+      ],
       "type": "Conceptual",
       "source_relative_path": "articles/collections-list.md",
       "output": {
         ".html": {
           "relative_path": "articles/collections-list.html",
-          "hash": "xa871ED3Q9TJJ8cnu+vUbBDSEBY5QeMpF6qUY70S3+E="
+          "hash": "+2XAmoPjZOf6J6o0lZ2QwYp4Crgqu8HjmZmXnHam16E="
         }
       },
       "is_incremental": false,
@@ -268,12 +142,15 @@
       "version": ""
     },
     {
+      "log_codes": [
+        "UidNotFound"
+      ],
       "type": "Conceptual",
       "source_relative_path": "articles/const.md",
       "output": {
         ".html": {
           "relative_path": "articles/const.html",
-          "hash": "FOJ6TfVKFqlkXaCF7LBcEbBWjZtJj6or1oKUF0rg8Ho="
+          "hash": "JGsmo4yHd8Wt+W1+YskfqPg9ama+A5lkbhk+s2Mq91s="
         }
       },
       "is_incremental": false,
@@ -292,12 +169,15 @@
       "version": ""
     },
     {
+      "log_codes": [
+        "UidNotFound"
+      ],
       "type": "Conceptual",
       "source_relative_path": "articles/observable.md",
       "output": {
         ".html": {
           "relative_path": "articles/observable.html",
-          "hash": "g6fwZ3dUr8w2ogvCF7T7NeiSo6Vf7Rc1lNryQd7wano="
+          "hash": "qCwOs9UrWOegiKd6rrNHIvo5k5BDV/VePxCkpxIkyxw="
         }
       },
       "is_incremental": false,
@@ -391,12 +271,15 @@
       "version": ""
     },
     {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
       "type": "Toc",
       "source_relative_path": "toc.yml",
       "output": {
         ".html": {
           "relative_path": "toc.html",
-          "hash": "tC7jFi7xX9Rlj45H5TKVe+YDlOa9dJLThw6EJGTRj+g="
+          "hash": "W11IweBUr/C8g2TtRmMlQcHLMC4wJ5sU2dorg5QixaM="
         }
       },
       "is_incremental": false,
@@ -418,12 +301,6 @@
           "can_incremental": false,
           "incrementalPhase": "build",
           "total_file_count": 19,
-          "skipped_file_count": 0
-        },
-        "ManagedReferenceDocumentProcessor": {
-          "can_incremental": false,
-          "incrementalPhase": "build",
-          "total_file_count": 11,
           "skipped_file_count": 0
         },
         "TocDocumentProcessor": {

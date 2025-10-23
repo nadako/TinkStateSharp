@@ -71,7 +71,7 @@
 
 <p>Auto-observables are the main way to derive observable data from a number of <em>source</em> observables by providing a <em>computation</em> function.</p>
 <p>The resulting observable will automatically subscribe (and unsubscribe) to changes of its source data, update its value and trigger its bindings.</p>
-<p>Like the others, it is created by a static function in the <a class="xref" href="../api/TinkState.Observable.html"><code>Observable</code></a> helper class:</p>
+<p>Like the others, it is created by a static function in the <a href="xref:TinkState.Observable"><code>Observable</code></a> helper class:</p>
 <pre><code class="lang-cs">static class Observable
 {
     static Observable&lt;T&gt; Auto&lt;T&gt;(Func&lt;T&gt; compute);

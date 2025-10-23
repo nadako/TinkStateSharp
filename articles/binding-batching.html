@@ -80,7 +80,7 @@ playerName.Bind(name =&gt; Console.WriteLine(name), scheduler: Scheduler.Direct)
 </code></pre><h2 id="run-time-environment-specifics">Run-time environment specifics</h2>
 <p>The scheduling mechanism obviously depends on the run-time environment the library is used in. Per-frame batching requires some kind of application loop where there&#39;s a notion of <em>frame</em> to begin with, which depends on the program.</p>
 <p>TinkState# provides a batching scheduler implementation for the <a href="https://unity.com/">Unity</a> game engine out of the box. See the <a href="unity.html">respective article</a> for more details.</p>
-<p>In any other environment, the direct scheduler will be used by default, meaning that all bindings will be executed directly. Thankfully it&#39;s pretty easy to plug in a custom scheduler. To do that, one should implement the <a class="xref" href="../api/TinkState.Scheduler.html"><code>Scheduler</code></a> interface and assign an instance of the implementation to <code>Observable.Scheduler</code> at start (before doing any bindings).</p>
+<p>In any other environment, the direct scheduler will be used by default, meaning that all bindings will be executed directly. Thankfully it&#39;s pretty easy to plug in a custom scheduler. To do that, one should implement the <a href="xref:TinkState.Scheduler"><code>Scheduler</code></a> interface and assign an instance of the implementation to <code>Observable.Scheduler</code> at start (before doing any bindings).</p>
 </article>
           </div>
           

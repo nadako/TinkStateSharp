@@ -70,7 +70,7 @@
 <h1 id="asynchronous-auto-observable">Asynchronous Auto-Observable</h1>
 
 <p>In addition to normal <a href="auto.html"><code>auto-observables</code></a>, it is also possible to create auto-observables using <code>async</code> computation functions. Auto-observable will take care of starting and awaiting asynchronous computation while tracking observable access at their every execution step.</p>
-<p>The value of such executables will be the special <a class="xref" href="../api/TinkState.AsyncComputeResult-1.html"><code>AsyncComputeResult&lt;T&gt;</code></a> structure that represents current loading state and holds the resulting value (or exception).</p>
+<p>The value of such executables will be the special <a href="xref:TinkState.AsyncComputeResult`1"><code>AsyncComputeResult&lt;T&gt;</code></a> structure that represents current loading state and holds the resulting value (or exception).</p>
 <h2 id="example">Example</h2>
 <p>Let&#39;s say we have some user asynchronous search service that returns a list of names based on given search string:</p>
 <pre><code class="lang-cs">class SearchService
@@ -112,7 +112,7 @@ Console.WriteLine(searchResults.Value.Status); // Done
 Console.WriteLine(string.Join(&quot;, &quot;, searchResults.Value.Result)); // only John and Jane Doe
 </code></pre><p>As you can see, async auto-observables work pretty much like normal ones when it comes to source tracking and recomputing their values.</p>
 <h2 id="implementation-detail">Implementation detail</h2>
-<p>Internally, async auto-observables are a bit interesting. In order to track observable access at each step of the <code>async</code> function execution (i.e. between <code>await</code>s), they rely on C# 7.0 <a href="https://github.com/dotnet/roslyn/blob/main/docs/features/task-types.md">custom async task builder</a> feature. This is why the task type for the async computation functions is required to be the special <a class="xref" href="../api/TinkState.AsyncComputeTask-1.html"><code>AsyncComputeTask&lt;T&gt;</code></a> one.</p>
+<p>Internally, async auto-observables are a bit interesting. In order to track observable access at each step of the <code>async</code> function execution (i.e. between <code>await</code>s), they rely on C# 7.0 <a href="https://github.com/dotnet/roslyn/blob/main/docs/features/task-types.md">custom async task builder</a> feature. This is why the task type for the async computation functions is required to be the special <a href="xref:TinkState.AsyncComputeTask`1"><code>AsyncComputeTask&lt;T&gt;</code></a> one.</p>
 <h2 id="cancellable-computations">Cancellable computations</h2>
 <blockquote><p>TODO: document when the feature is finalized</p>
 </blockquote>

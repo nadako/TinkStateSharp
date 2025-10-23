@@ -70,7 +70,7 @@
 <h1 id="observable-dictionary">Observable Dictionary</h1>
 
 <p><code>ObservableDictionary&lt;T&gt;</code> is an observable wrapper around the standard <code>Dictionary&lt;T&gt;</code>, providing the same API for managing the collection.</p>
-<p>In addition to the standard dictionary methods, it provides the <a class="xref" href="../api/TinkState.ObservableDictionary-2.html#TinkState_ObservableDictionary_2_Observe"><code>Observe</code></a> method to expose itself as a read-only observable so one can bind to it and react to its changes.</p>
+<p>In addition to the standard dictionary methods, it provides the <a href="xref:TinkState.ObservableDictionary`2.Observe"><code>Observe</code></a> method to expose itself as a read-only observable so one can bind to it and react to its changes.</p>
 <pre><code class="lang-csharp">interface ObservableDictionary&lt;TKey, TValue&gt; : IDictionary&lt;TKey, TValue&gt;
 {
     Observable&lt;IReadOnlyDictionary&lt;TKey, TValue&gt;&gt; Observe();
